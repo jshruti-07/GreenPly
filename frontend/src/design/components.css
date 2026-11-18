@@ -1,0 +1,309 @@
+/* PIM component styles — ported 1:1 from PIM Prototype v4.2.html (ADR-006). */
+
+/* ---------- Focus ----------
+   The prototype has no focus styles: it was a click-only mock. Without this a
+   keyboard user cannot tell where they are anywhere in the app, which fails
+   WCAG 2.4.7. :focus-visible so pointer users never see a ring (ADR-006
+   allows a11y additions that the prototype omits). */
+:focus-visible { outline: 2px solid var(--pri); outline-offset: 2px; border-radius: 6px; }
+.btn:focus-visible, .dtab:focus-visible, .chip:focus-visible { outline: 2px solid var(--pri); outline-offset: 2px; }
+
+/* ---------- Buttons ---------- */
+.btn { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 13px; border-radius: 8px; border: 1px solid var(--line2); background: var(--c0); color: var(--ink); font-size: 12.5px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all .12s; box-shadow: var(--sh1); }
+.btn:hover { border-color: var(--c5); background: var(--c1); }
+.btn:active { transform: translateY(.5px); }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn.pri { background: var(--pri); border-color: var(--pri); color: #fff; box-shadow: 0 1px 2px rgba(79, 70, 229, .4); }
+.btn.pri:hover { background: var(--pri-d); border-color: var(--pri-d); }
+.btn.grn { background: var(--grn); border-color: var(--grn); color: #fff; }
+.btn.grn:hover { background: var(--grn-d); }
+.btn.ghost { border-color: transparent; background: transparent; box-shadow: none; }
+.btn.ghost:hover { background: var(--c2); }
+.btn.sm { height: 27px; padding: 0 10px; font-size: 11.5px; gap: 5px; }
+.btn.ico { width: 32px; padding: 0; justify-content: center; }
+.btn.ico.sm { width: 27px; }
+.btn.danger { color: var(--red-d); border-color: var(--red-l); }
+.btn.danger:hover { background: var(--red-l); }
+
+/* ---------- Chips / badges ---------- */
+.chip { display: inline-flex; align-items: center; gap: 5px; height: 21px; padding: 0 8px; border-radius: 6px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.chip .bd { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
+.s-ok { background: var(--grn-l); color: var(--grn-d); }
+.s-warn { background: var(--amb-l); color: var(--amb-d); }
+.s-bad { background: var(--red-l); color: var(--red-d); }
+.s-info { background: var(--sky-l); color: var(--sky); }
+.s-pri { background: var(--pri-l); color: var(--pri-d); }
+.s-vio { background: var(--vio-l); color: var(--vio-d); }
+.s-neut { background: var(--c2); color: var(--ink2); }
+.s-tea { background: var(--tea-l); color: var(--tea); }
+.tag { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px; border: 1px solid var(--line); border-radius: 7px; background: var(--c0); font-size: 11.5px; font-weight: 500; color: var(--ink2); }
+
+/* ---------- Cards ---------- */
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r3); box-shadow: var(--sh1); }
+.card.pad { padding: 16px; }
+.card-h { display: flex; align-items: center; gap: 10px; padding: 13px 16px; border-bottom: 1px solid var(--line); }
+.card-h h3 { font-size: 13px; font-weight: 700; margin: 0; }
+.card-h .sp { margin-left: auto; }
+.card-b { padding: 16px; }
+/* A display-setting class beats the user-agent rule for [hidden], so an element
+   with both stayed visible. The General panel was rendering underneath every
+   other detail tab because of exactly this (found in the browser check,
+   2026-08-16). Keep this reset above the layout classes. */
+[hidden] { display: none !important; }
+
+.grid { display: grid; gap: 14px; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+/* ---------- Progress / quality ---------- */
+.bar { height: 6px; background: var(--c2); border-radius: 99px; overflow: hidden; }
+.bar > span { display: block; height: 100%; border-radius: 99px; background: var(--grn); }
+.bar.thin { height: 4px; }
+.cbar { display: flex; align-items: center; gap: 8px; }
+.cbar .bar { flex: 1; }
+.cbar .pc { font-size: 11px; font-weight: 700; width: 30px; text-align: right; color: var(--ink2); }
+
+/* ---------- Toolbar / inputs ---------- */
+.toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.seg { display: inline-flex; background: var(--c2); border-radius: 8px; padding: 2px; gap: 2px; }
+.seg button { height: 26px; padding: 0 11px; border: none; background: none; border-radius: 6px; font-size: 12px; font-weight: 600; color: var(--ink2); cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.seg button.on { background: var(--c0); color: var(--ink); box-shadow: var(--sh1); }
+.inp { display: flex; align-items: center; gap: 7px; height: 32px; padding: 0 10px; background: var(--c0); border: 1px solid var(--line2); border-radius: 8px; color: var(--ink3); }
+.inp input { border: none; outline: none; background: none; font-size: 12.5px; color: var(--ink); width: 100%; font-family: inherit; }
+.inp:focus-within { border-color: var(--pri); box-shadow: var(--ring); }
+select.sel, input.fld, textarea.fld { height: 32px; padding: 0 10px; background: var(--c0); border: 1px solid var(--line2); border-radius: 8px; font-size: 12.5px; color: var(--ink); outline: none; font-family: inherit; }
+textarea.fld { height: auto; padding: 8px 10px; resize: vertical; min-height: 64px; line-height: 1.5; }
+select.sel:focus, input.fld:focus, textarea.fld:focus { border-color: var(--pri); box-shadow: var(--ring); }
+.fchip { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 6px 0 10px; background: var(--pri-l); border: 1px solid var(--pri-l2); border-radius: 8px; font-size: 11.5px; font-weight: 600; color: var(--pri-d); }
+.fchip .x { width: 17px; height: 17px; border-radius: 5px; display: grid; place-items: center; cursor: pointer; }
+.fchip .x:hover { background: var(--pri-l2); }
+
+/* form grid */
+.fgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.field label { display: block; font-size: 11px; font-weight: 600; color: var(--ink2); margin-bottom: 5px; }
+.field label .req { color: var(--red); }
+.field .fld, .field .sel { width: 100%; }
+.field .hint { font-size: 10.5px; color: var(--ink3); margin-top: 4px; }
+.full { grid-column: 1 / -1; }
+
+/* ---------- Tables / data grid ---------- */
+.tablewrap { overflow: auto; border-radius: var(--r3); }
+table.dg { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12.5px; }
+table.dg th { position: sticky; top: 0; background: var(--c1); text-align: left; font-size: 11px; font-weight: 700; color: var(--ink3); padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; z-index: 2; cursor: pointer; user-select: none; }
+table.dg th .so { opacity: .35; margin-left: 3px; }
+table.dg th:hover { color: var(--ink2); }
+table.dg td { padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; white-space: nowrap; }
+table.dg.compact td { padding: 5px 12px; }
+table.dg tbody tr { cursor: pointer; }
+table.dg tbody tr:hover td { background: var(--c1); }
+table.dg tbody tr.sel td { background: var(--pri-l); }
+table.dg .ck { width: 30px; }
+.thumb { width: 34px; height: 34px; border-radius: 7px; background: var(--c2); display: grid; place-items: center; color: var(--ink3); flex: none; overflow: hidden; border: 1px solid var(--line); }
+.cellp { display: flex; align-items: center; gap: 10px; }
+.cellp .nm { font-weight: 600; color: var(--ink); }
+.cellp .sk { font-size: 11px; color: var(--ink3); font-variant-numeric: tabular-nums; }
+.chdots { display: inline-flex; gap: 3px; }
+.chdots i { width: 8px; height: 8px; border-radius: 2px; background: var(--c4); display: block; }
+.chdots i.ok { background: var(--grn); } .chdots i.warn { background: var(--amb); } .chdots i.no { background: var(--c4); }
+.ckbox { width: 16px; height: 16px; border: 1.5px solid var(--c5); border-radius: 5px; display: grid; place-items: center; cursor: pointer; background: var(--c0); }
+.ckbox.on { background: var(--pri); border-color: var(--pri); color: #fff; }
+.ckbox .ic { width: 11px; height: 11px; stroke-width: 3; opacity: 0; }
+.ckbox.on .ic { opacity: 1; }
+
+/* bulk selection bar (v4.2 .bulk) */
+.bulk { position: sticky; bottom: 14px; margin: 14px auto 0; width: max-content; display: flex; align-items: center; gap: 10px; background: var(--c10); color: #fff; padding: 8px 10px 8px 16px; border-radius: 11px; box-shadow: var(--sh3); z-index: 15; }
+.bulk b { font-weight: 700; }
+.bulk .btn { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .15); color: #fff; box-shadow: none; }
+.bulk .btn:hover { background: rgba(255, 255, 255, .2); }
+
+/* popover (column chooser, saved views) */
+.pop { position: relative; display: inline-flex; }
+.pop-panel { position: absolute; top: calc(100% + 6px); right: 0; min-width: 240px; background: var(--c0); border: 1px solid var(--line); border-radius: var(--r2); box-shadow: var(--sh3); z-index: 40; padding: 8px; }
+.pop-panel .pop-cap { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink3); padding: 6px 8px 4px; }
+.pop-row { display: flex; align-items: center; gap: 9px; padding: 7px 8px; border-radius: 7px; font-size: 12.5px; cursor: pointer; width: 100%; background: none; border: none; text-align: left; color: var(--ink); }
+.pop-row:hover { background: var(--c1); }
+.pop-row input { accent-color: var(--pri); }
+.pop-row .x { margin-left: auto; color: var(--ink3); }
+
+/* detail tabs (v4.2 .dtab) */
+.dtabs { display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--line);
+  overflow-x: auto; overflow-y: hidden; }
+.dtabs::-webkit-scrollbar:vertical { display: none; width: 0; }
+.dtabs::-webkit-scrollbar { height: 6px; }
+.dtabs::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 6px; }
+.dtabs::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 6px; }
+.dtabs::-webkit-scrollbar-thumb:hover { background: #64748b; }
+.dtabs::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+.dtab { display: flex; align-items: center; gap: 6px; padding: 9px 13px; border: none; background: none; font-size: 12.5px; font-weight: 600; color: var(--ink3); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; position: relative; top: 1px; }
+.dtab:hover { color: var(--ink2); }
+.dtab.on { color: var(--pri-d); border-bottom-color: var(--pri); }
+
+/* ---------- Drawer ---------- */
+.scrim { position: fixed; inset: 0; background: rgba(15, 20, 34, .42); backdrop-filter: blur(1px); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 60; }
+.scrim.on { opacity: 1; pointer-events: auto; }
+.drawer { position: fixed; top: 0; right: 0; height: 100vh; width: min(460px, 94vw); background: var(--c0); box-shadow: var(--sh3); transform: translateX(100%); transition: transform .24s cubic-bezier(.4, 0, .2, 1); z-index: 61; display: flex; flex-direction: column; }
+.drawer.on { transform: none; }
+.drawer-h { display: flex; align-items: center; gap: 10px; padding: 15px 18px; border-bottom: 1px solid var(--line); flex: none; }
+.drawer-h h3 { font-size: 14px; font-weight: 700; margin: 0; }
+.drawer-b { flex: 1; overflow-y: auto; padding: 18px; }
+.drawer-f { flex: none; border-top: 1px solid var(--line); padding: 13px 18px; display: flex; gap: 8px; justify-content: flex-end; }
+
+/* ---------- Toast ---------- */
+.toaster { position: fixed; right: 20px; bottom: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 90; }
+.toast { display: flex; align-items: center; gap: 10px; background: var(--c10); color: #fff; border-radius: 10px; padding: 11px 15px; box-shadow: var(--sh3); font-size: 12.5px; font-weight: 500; animation: tin .25s ease; max-width: 340px; }
+.toast .ic { color: var(--grn); }
+.toast.err .ic { color: var(--red); }
+@keyframes tin { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ---------- Alerts (allowed a11y addition, ADR-006: not in prototype,
+   which uses toasts; inline alerts needed for form-level role="alert") ---------- */
+.alert { margin-top: 12px; padding: 9px 12px; border-radius: 8px; font-size: 12px; font-weight: 500; }
+.alert.ok { background: var(--grn-l); color: var(--grn-d); }
+.alert.err { background: var(--red-l); color: var(--red-d); }
+/* warn: a certification expiring in 12 months is a scheduling prompt, not a
+   failure, so it must not carry the same weight as .err (Sprint 8). */
+.alert.warn { background: var(--amb-l); color: var(--amb-d); }
+
+/* facts list used on lookup results */
+dl.facts { margin: 12px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; }
+dl.facts dt { font-size: 10.5px; color: var(--ink3); font-weight: 600; text-transform: uppercase; letter-spacing: .03em; align-self: center; }
+dl.facts dd { margin: 0; font-weight: 600; font-size: 12.5px; }
+
+/* ---------- Workflows board (Sprint 28) ----------
+   The card is an <a> rather than a div with an onclick, so it is reachable by
+   keyboard and announces itself as a link. Same geometry as v4.2. */
+.wf-card { transition: box-shadow .12s, border-color .12s; }
+.wf-card:hover { border-color: var(--line2); box-shadow: var(--sh1); }
+.wf-card:focus-visible { outline: none; box-shadow: var(--ring); border-color: var(--pri); }
+
+/* ---------- Empty / misc ---------- */
+.empty { border: 1px dashed var(--line2); border-radius: var(--r3); padding: 40px; text-align: center; color: var(--ink3); background: var(--c1); }
+.divider { height: 1px; background: var(--line); margin: 14px 0; }
+
+/* ---------- Digital assets (Sprint 12) ----------
+   The prototype had no asset gallery; these are additions under ADR-006 and
+   follow the same tokens as the rest of the system. */
+.asset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
+.asset-card { margin: 0; border: 1px solid var(--line); border-radius: var(--r3); overflow: hidden; background: var(--c0); }
+.asset-card figcaption { padding: 9px 10px 11px; }
+.asset-card-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 5px; }
+.asset-card-name { font-size: 10.5px; color: var(--ink3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.asset-thumb { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--c2); border-bottom: 1px solid var(--line); }
+
+/* An external host we cannot reach is an expected state, not an error: the
+   record is right and the binary simply lives elsewhere. Styled as calm
+   information rather than a failure so stewards do not chase a non-problem. */
+.asset-thumb-missing { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11px; color: var(--ink3); text-align: center; padding: 8px; }
+
+/* ---------- Translation fallback marker (Sprint 16) ----------
+   Shown when a cell's text is not in the selected data language. Deliberately
+   quiet: it appears on every row of an untranslated catalogue, so anything
+   louder would read as an error state rather than as information. */
+.loc-mark { display: inline-block; margin-left: 6px; padding: 0 5px; border-radius: 5px; font-size: 10px; font-weight: 600; line-height: 16px; color: var(--amb-d); background: var(--amb-l); border: 1px solid transparent; vertical-align: middle; cursor: help; }
+.loc-mark-missing { color: var(--red-d); background: var(--red-l); }
+
+/* ---------------------------------------------------------------------------
+   Dashboard (Product Cockpit) -- ported from PIM Prototype v4.2.
+
+   Only the classes the cockpit needs and the grid did not already have. The
+   bars, cards, chips and status colours are the ones the products screen
+   already uses; reusing them is the point, because a completeness bar that
+   looks different on two screens reads as a different measurement.
+   --------------------------------------------------------------------------- */
+
+.card.kpi { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+.card.kpi .lab { font-size: 11.5px; color: var(--ink3); font-weight: 600; }
+.card.kpi .val { font-size: 26px; font-weight: 700; line-height: 1.1; }
+.card.kpi .foot { font-size: 11px; }
+
+.qrow { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 12px; }
+.qrow .d { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+
+/* ---------------------------------------------------------------------------
+   Categories (taxonomy tree) — ported from PIM Prototype v4.2.
+
+   The tree rules are v4.2's, unchanged except where the port had to become
+   real: the prototype's node is a <div onclick>, this one is a <button> inside
+   a list item, so the hover, selection and focus states hang off the button
+   rather than the row. Same appearance, keyboard-reachable.
+   --------------------------------------------------------------------------- */
+
+.tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+.tree .ch { overflow: hidden; }
+
+.tree .node {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 10px; border-radius: 7px;
+  font-size: 12.5px; position: relative;
+}
+.tree .node:hover { background: var(--c1); }
+.tree .node.on { background: var(--pri-l); color: var(--pri-d); font-weight: 600; }
+
+/* The disclosure triangle. Fixed width even when empty so labels at the same
+   depth line up whether or not the node has children — a ragged left edge
+   reads as a different level. */
+.tree .tw {
+  width: 16px; height: 16px; flex: none;
+  display: grid; place-items: center;
+  color: var(--ink3); font-size: 10px; line-height: 1;
+  background: none; border: 0; padding: 0; cursor: pointer;
+}
+.tree button.tw:hover { color: var(--ink); }
+
+.tree .node-label {
+  flex: 1; min-width: 0; text-align: left;
+  background: none; border: 0; padding: 2px 0; cursor: pointer;
+  font: inherit; color: inherit;
+  display: flex; align-items: center; gap: 6px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.tree .node-label:focus-visible,
+.tree .tw:focus-visible { outline: 2px solid var(--pri); outline-offset: 2px; border-radius: 4px; }
+
+.tree .node .cnt-pill {
+  font-size: 10px; background: var(--c2); color: var(--ink2);
+  padding: 0 6px; border-radius: 99px; font-weight: 700; flex: none;
+}
+.tree .node.on .cnt-pill { background: var(--c0); }
+
+.dmeta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 12px; }
+.dmeta .f { min-width: 0; }
+.dmeta .f label {
+  display: block; font-size: 10.5px; color: var(--ink3); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .03em; margin-bottom: 2px;
+}
+.dmeta .f b { font-weight: 600; font-size: 12.5px; }
+
+/* ---------------------------------------------------------------------------
+   Digital Assets grid — ported from PIM Prototype v4.2.
+
+   The card is a <button> here rather than a <div onclick>, so it is reachable
+   by keyboard and announces itself as activatable. Same geometry as v4.2;
+   the border, hover and focus states hang off the button.
+   --------------------------------------------------------------------------- */
+
+.assets { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 13px; }
+
+.acard {
+  border: 1px solid var(--line); border-radius: var(--r2); overflow: hidden;
+  background: var(--c0); cursor: pointer;
+  transition: box-shadow .12s, border-color .12s;
+}
+.acard:hover { box-shadow: var(--sh2); border-color: var(--c5); }
+.acard:focus-visible { outline: 2px solid var(--pri); outline-offset: 2px; }
+.acard[aria-current="true"] { border-color: var(--pri); box-shadow: 0 0 0 1px var(--pri); }
+
+.aprev {
+  height: 118px; background: var(--c2);
+  display: grid; place-items: center; color: var(--ink3); position: relative;
+}
+.aprev .ty { position: absolute; top: 7px; left: 7px; }
+
+.abody { padding: 9px 10px; }
+.abody .nm {
+  font-weight: 600; font-size: 11.5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.abody .me { font-size: 10.5px; color: var(--ink3); margin: 2px 0 0; }

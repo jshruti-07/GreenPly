@@ -1,0 +1,9 @@
+<Project>
+  <!-- Central package versions for shared/dotnet projects. MSBuild picks the
+       NEAREST Directory.Packages.props, so services/catalog keeps its own.
+       RULE: any package listed in BOTH files must use the SAME version
+       (MediatR here must match services/catalog/Directory.Packages.props). -->
+  <ItemGroup>
+    <PackageVersion Include="MediatR" Version="12.5.0" />
+  </ItemGroup>
+</Project>

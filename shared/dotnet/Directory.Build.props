@@ -1,0 +1,22 @@
+<Project>
+  <!-- shared/dotnet is OUTSIDE services/catalog, so the catalog's
+       Directory.Build.props does not apply here (MSBuild uses the nearest
+       file up the tree). Without this file Pim.SharedKernel had no
+       TargetFramework at all -> NU1201 on first restore (2026-08-12).
+       Keep in sync with services/*/Directory.Build.props. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <!-- CA1716: type name `Error` clashes with a VB reserved keyword.
+         Result/Error is this codebase's established failure pattern
+         (README hard rules); VB consumers are a non-goal. Scoped to
+         shared/dotnet only. Decision: shailesh fix loop, 2026-08-12. -->
+    <NoWarn>$(NoWarn);CA1716</NoWarn>
+  </PropertyGroup>
+</Project>

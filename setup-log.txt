@@ -1,0 +1,183 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261012141119
+Username: DESKTOP-R7I3I4N\DELL
+RunAs User: DESKTOP-R7I3I4N\DELL
+Configuration Name: 
+Machine: DESKTOP-R7I3I4N (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\DELL\AppData\Local\Programs\Antigravity IDE\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 19244
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+== Machine ==
+  OS    : Microsoft Windows NT 10.0.26200.0
+  Arch  : AMD64
+  Repo  : C:\Users\DELL\Downloads\pim-platform
+  Started: 10/12/2026 14:11:19
+
+== .NET SDK 10.0 ==
+  PASS  found 10.0.401 at C:\Program Files\dotnet\dotnet.exe
+
+== Node 22+ ==
+  PASS  found v22.23.1 at C:\nvm4w\nodejs
+
+== Docker ==
+  PASS  docker engine responding (Docker version 29.6.1, build 8900f1d)
+
+== Frontend dependencies ==
+
+  PASS  node_modules installed from lockfile
+
+== Backend restore / build / test ==
+
+
+  PASS  catalog service builds
+[testcontainers.org 00:00:21.66] Add file to tar archive: Content lengt
+h: 35 byte(s), Target file: "/tmp/059e615b-4114-4b0e-b158-efa1264dcf41/
+eiu1al5k.lcj", UID: 0, GID: 0, Mode: 0644
+[testcontainers.org 00:00:21.66] Copy tar archive to container: Content
+ length: 35 byte(s), Docker container: b9d9fdb3bd7d
+[testcontainers.org 00:00:21.67] Execute "psql --username pim_admin --d
+bname pim --file /tmp/059e615b-4114-4b0e-b158-efa1264dcf41/eiu1al5k.lcj
+" at Docker container b9d9fdb3bd7d
+[testcontainers.org 00:00:21.86] Delete Docker container b9d9fdb3bd7d
+[xUnit.net 00:00:32.86]   Finished:    Pim.Catalog.Integration.Tests
+  Pim.Catalog.Integration.Tests test net10.0 succeeded (39.3s)
+
+Test summary: total: 397, failed: 0, succeeded: 397, skipped: 0, durati
+on: 40.1s
+Build succeeded in 40.8s
+  PASS  catalog tests green (unit + integration)
+
+== Summary ==
+  PASS  .NET SDK 10
+  PASS  Node 22+
+  PASS  Docker engine
+PS>TerminatingError(Setup-Windows.ps1): "The property 'Count' cannot be found on this object. Verify that the property exists."
+C:\Users\DELL\Downloads\pim-platform\Setup-Windows.ps1 : The property 'Count' cannot be found on this object. Verify 
+that the property exists.
+At line:1 char:1
++ .\Setup-Windows.ps1
++ ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Setup-Windows.ps1], PropertyNotFoundException
+    + FullyQualifiedErrorId : PropertyNotFoundStrict,Setup-Windows.ps1
+C:\Users\DELL\Downloads\pim-platform\Setup-Windows.ps1 : The property
+'Count' cannot be found on this object. Verify that the property
+exists.
+At line:1 char:1
++ .\Setup-Windows.ps1
++ ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Setup-Windows.ps1],
+   PropertyNotFoundException
+    + FullyQualifiedErrorId : PropertyNotFoundStrict,Setup-Windows.ps
+   1
+
+]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cDELL\x5cDownloads\x5cpim-platformPS C:\Users\DELL\Downloads\pim-platform> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cDELL\x5cDownloads\x5cpim-platformPS C:\Users\DELL\Downloads\pim-platform> ]633;B
+PS>.\Run-PIM.ps1
+
+== Infra (postgres 15432, rabbitmq, redis 6380) ==
+What's next:
+    Debug this Compose error with Gordon → docker ai "help me fix this com
+pose error"
+
+FATAL: docker compose up failed.
+]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cDELL\x5cDownloads\x5cpim-platformPS C:\Users\DELL\Downloads\pim-platform> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cUsers\x5cDELL\x5cDownloads\x5cpim-platformPS C:\Users\DELL\Downloads\pim-platform> ]633;B
+PS>cd infra; docker compose down; cd ..
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cDELL\x5cDownloads\x5cpim-platformPS C:\Users\DELL\Downloads\pim-platform> ]633;B
+PS>.\Run-PIM.ps1
+
+== Infra (postgres 15432, rabbitmq, redis 6380) ==
+
+  PASS  containers up
+
+== Starting catalog API on :5100 (log: api.log) ==
+  waiting for API health
+PS>TerminatingError(Invoke-WebRequest): "The operation has timed out."
+.
+PS>TerminatingError(Invoke-WebRequest): "The operation has timed out."
+.
+PS>TerminatingError(Invoke-WebRequest): "The operation has timed out."
+.
+
+  PASS  API up (Swagger: http://localhost:5100/swagger)
+
+== Starting frontend on :5174 ==
+11:46:47 AM [vite] (client) hmr update /src/features/products/AssetsTab.tsx (x2)
+^C
+PS>TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+
+  stopping catalog API (pid 16288)
+PS>TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cDELL\x5cDownloads\x5cpim-platform\x5cfrontendPS C:\Users\DELL\Downloads\pim-platform\frontend> ]633;B
+PS>.\Run-PIM.ps1
+.\Run-PIM.ps1 : The term '.\Run-PIM.ps1' is not recognized as the name of a cmdlet, function, script file, or operable 
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ .\Run-PIM.ps1
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (.\Run-PIM.ps1:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+.\Run-PIM.ps1 : The term '.\Run-PIM.ps1' is not recognized as the name of a cmdlet, function, script file, or
+operable program. Check the spelling of the name, or if a path was included, verify that the path is correct
+and try again.
+At line:1 char:1
++ .\Run-PIM.ps1
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (.\Run-PIM.ps1:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cDELL\x5cDownloads\x5cpim-platform\x5cfrontendPS C:\Users\DELL\Downloads\pim-platform\frontend> ]633;B
+PS>cd ..
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cDELL\x5cDownloads\x5cpim-platformPS C:\Users\DELL\Downloads\pim-platform> ]633;B
+PS>.\Run-PIM.ps1
+
+== Infra (postgres 15432, rabbitmq, redis 6380) ==
+
+  PASS  containers up
+
+== Starting catalog API on :5100 (log: api.log) ==
+  waiting for API health
+PS>TerminatingError(Invoke-WebRequest): "The operation has timed out."
+.
+PS>TerminatingError(Invoke-WebRequest): "The operation has timed out."
+.
+PS>TerminatingError(Invoke-WebRequest): "The operation has timed out."
+.
+PS>TerminatingError(Invoke-WebRequest): "The operation has timed out."
+.
+PS>TerminatingError(Invoke-WebRequest): "The operation has timed out."
+.
+PS>TerminatingError(Invoke-WebRequest): "The operation has timed out."
+.
+
+  PASS  API up (Swagger: http://localhost:5100/swagger)
+
+== Starting frontend on :5174 ==
+
+  VITE v6.4.3  ready in 1102 ms
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: http://172.21.80.1:5174/
+  ➜  Network: http://172.25.208.1:5174/
+  ➜  Network: http://192.168.1.178:5174/
+  ➜  press h + enter to show help
+PS>TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+
+  stopping catalog API (pid 5460)
+PS>TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cDELL\x5cDownloads\x5cpim-platform\x5cfrontendPS C:\Users\DELL\Downloads\pim-platform\frontend> ]633;B

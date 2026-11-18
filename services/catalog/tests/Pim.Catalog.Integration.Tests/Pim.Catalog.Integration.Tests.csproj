@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="coverlet.collector" />
+    <!-- ContainerValidationTests builds the composition root the API builds.
+         Both are needed directly: ConfigurationBuilder/AddInMemoryCollection
+         and ServiceCollection/BuildServiceProvider are used by the test
+         itself, not reached through the code under test. -->
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Pim.Catalog.Infrastructure\Pim.Catalog.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Real DDL is the test fixture: schema drift breaks these tests on purpose. -->
+    <None Include="..\..\db\init\00_roles.sql" CopyToOutputDirectory="PreserveNewest" LinkBase="db" />
+    <None Include="..\..\db\init\01_catalog_schema.sql" CopyToOutputDirectory="PreserveNewest" LinkBase="db" />
+  </ItemGroup>
+</Project>

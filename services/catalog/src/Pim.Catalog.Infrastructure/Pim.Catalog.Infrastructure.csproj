@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <!-- Outbox relay (ADR-007): BackgroundService, IHealthCheck, IOptions and
+         source-generated logging are all used directly by Outbox/, so they are
+         referenced directly rather than relied on transitively.
+         Options.ConfigurationExtensions supplies the Configure<TOptions>(
+         IConfiguration) overload AddCatalogOutbox binds the section with. -->
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="RabbitMQ.Client" />
+    <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pim.Catalog.Application\Pim.Catalog.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The integration suite tests the wire contract the outbox emits, and the
+         mapper that produces it is internal on purpose: it is not part of this
+         service's API. Widening it to public for the sake of a test would make
+         a private decision look like a supported one. -->
+    <InternalsVisibleTo Include="Pim.Catalog.Integration.Tests" />
+  </ItemGroup>
+</Project>

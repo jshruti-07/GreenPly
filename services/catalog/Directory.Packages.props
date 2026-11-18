@@ -1,0 +1,58 @@
+<Project>
+  <!-- Versions validated on the first successful `dotnet restore`, 2026-08-18. -->
+  <ItemGroup>
+    <PackageVersion Include="MediatR" Version="12.5.0" />
+    <PackageVersion Include="FluentValidation" Version="12.0.0" />
+    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+    <!-- Read models only; EF Core still owns aggregate writes. Apache-2.0, so
+         it carries none of the licensing exposure ADR-003 was written about. -->
+    <PackageVersion Include="Dapper" Version="2.1.66" />
+    <!-- CSV export. Apache-2.0, so no ADR-003 licensing exposure. -->
+    <PackageVersion Include="CsvHelper" Version="33.0.1" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageVersion Include="SkiaSharp" Version="4.151.1" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="4.151.1" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+    <!-- Outbox relay (Sprint 15, ADR-007). The relay is a BackgroundService and
+         the queue-depth probe is an IHealthCheck, both of which live outside
+         the packages a plain class library already restores.
+         Both pins were inferred while offline and are now CONFIRMED: they
+         restored successfully on 2026-08-18 against api.nuget.org. -->
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.0" />
+    <!-- Options.ConfigurationExtensions is what carries
+         Configure<TOptions>(IServiceCollection, IConfiguration). Without it the
+         only visible overload takes an Action<TOptions>, and binding a section
+         does not compile — the first defect the Sprint 15 gate found
+         (2026-08-18). Kept explicit rather than transitive for the same reason
+         the other Microsoft.Extensions.* references here are. -->
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0" />
+    <!-- The broker client ADR-007 deferred. Sprint 15 could not pin this at
+         all: no NuGet in the authoring environment, and inventing a version
+         would have been worse than shipping a log-only transport. That
+         constraint is gone, so the outbox can finally deliver. -->
+    <PackageVersion Include="RabbitMQ.Client" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+    <!-- Tests -->
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageVersion Include="xunit" Version="2.9.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageVersion Include="Shouldly" Version="4.2.1" />
+    <PackageVersion Include="NSubstitute" Version="5.3.0" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.2" />
+    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.13.0" />
+    <!-- Transitive pin: Testcontainers pulls SSH.NET, and every release before
+         2026.0.0 carries GHSA-q939-rpr3-3284 / CVE-2026-48798 (arbitrary file
+         write via SCP recursive download) → NU1903. Testcontainers 4.13 is the
+         release aligned with SSH.NET 2026.0.0. -->
+    <PackageVersion Include="SSH.NET" Version="2026.0.0" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,350 @@
+
+
+########## PHASE A — preflight ##########
+date:      Tue Aug 18 14:29:44 IST 2026
+pwd:       /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform
+user:      shaileshkulkarni
+macOS:     26.5.2 arm64
+
+dotnet:    10.0.400
+node:      v20.20.2
+npm:       10.8.2
+docker:    Docker version 29.4.2, build 055a478
+git:       git version 2.50.1 (Apple Git-155)
+
+dotnet SDKs:
+10.0.400 [/usr/local/share/dotnet/sdk]
+nuget cache entries: 72
+
+docker daemon: RUNNING
+
+--- network reachability (the gate needs NuGet) ---
+  api.nuget.org      200
+  registry.npmjs.org 200
+  github.com         200
+toolchain probed
+
+
+########## PHASE B — repo hygiene ##########
+  0B	_to_delete
+removed the quarantined debris
+
+$ git fsck --full --no-progress
+dangling blob 28922b466865cc5db856f58876d2d6c7c6e5335c
+dangling blob 7b64afd83b1fd56a7da179b5afed93ca89c6ca0d
+dangling blob a0a4c16fe37b58c5c6933752354587f1745346e6
+dangling blob b176d27d50241db0070f961347a542907d7212e7
+dangling blob bba64e6e83d033f2709547dde6e619e44ad5ddbc
+dangling commit 33977470b5376f726bd884605caf862680e74e7a
+dangling blob b208d974bf67d34030723599f804572c262c3c5a
+dangling blob 0f49ac37e5e3da144057a9b864ba3e9db0919545
+dangling blob 327d3f29e855ca9bf5c9eafc5d812882b8b700b0
+dangling blob 3c2e7113a7a8aeefcca8a97aef9c2e67531800f6
+dangling blob 567ede0b9e3ae54af7b4c60656abab7fc2950c0a
+git fsck done
+
+$ git status --short
+ M README.md
+ M docs/DELIVERY_STATUS.md
+ M docs/RELEASE_NOTES.md
+ M frontend/src/App.tsx
+ M frontend/src/app/AppShell.test.tsx
+ M frontend/src/app/AppShell.tsx
+ M frontend/src/design/components.css
+ M frontend/src/design/shell.css
+ M frontend/src/features/products/ProductsGrid.test.tsx
+ M frontend/src/features/products/ProductsGrid.tsx
+ M frontend/src/features/products/productsApi.ts
+ M frontend/src/features/products/testApi.ts
+ M frontend/src/features/products/types.ts
+ M scripts/smoke-api.sh
+ M services/catalog/Directory.Packages.props
+ M services/catalog/db/init/01_catalog_schema.sql
+ M services/catalog/src/Pim.Catalog.Api/Endpoints/LookupEndpoints.cs
+ M services/catalog/src/Pim.Catalog.Api/Endpoints/ProductEndpoints.cs
+ M services/catalog/src/Pim.Catalog.Api/Program.cs
+ M services/catalog/src/Pim.Catalog.Api/appsettings.Development.json
+ M services/catalog/src/Pim.Catalog.Api/appsettings.json
+ M services/catalog/src/Pim.Catalog.Application/Attributes/AttributeContracts.cs
+ M services/catalog/src/Pim.Catalog.Application/Attributes/AttributeHandlers.cs
+ M services/catalog/src/Pim.Catalog.Application/Products/ExportProducts/ExportProductsQuery.cs
+ M services/catalog/src/Pim.Catalog.Application/Products/ExportProducts/ExportProductsQueryHandler.cs
+ M services/catalog/src/Pim.Catalog.Application/Products/ListProducts/IProductListReader.cs
+ M services/catalog/src/Pim.Catalog.Application/Products/ListProducts/ListProductsQuery.cs
+ M services/catalog/src/Pim.Catalog.Application/Products/ListProducts/ListProductsQueryHandler.cs
+ M services/catalog/src/Pim.Catalog.Application/Products/ListProducts/ProductListItemDto.cs
+ M services/catalog/src/Pim.Catalog.Infrastructure/CatalogModule.cs
+ M services/catalog/src/Pim.Catalog.Infrastructure/Persistence/CatalogDbContext.cs
+ M services/catalog/src/Pim.Catalog.Infrastructure/Pim.Catalog.Infrastructure.csproj
+ M services/catalog/src/Pim.Catalog.Infrastructure/ReadModels/ProductAttributeStore.cs
+ M services/catalog/src/Pim.Catalog.Infrastructure/ReadModels/ProductListReader.cs
+ M services/catalog/tests/Pim.Catalog.Application.Tests/Products/ListProductsQueryHandlerTests.cs
+ M services/catalog/tests/Pim.Catalog.Application.Tests/Products/ProductCsvTests.cs
+ M services/catalog/tests/Pim.Catalog.Integration.Tests/ProductListReaderTests.cs
+?? .gitattributes
+?? "Sprint 17 \342\200\224 Run Everything.command"
+?? docs/ONBOARDING.md
+?? docs/adr/ADR-007-transactional-outbox.md
+?? docs/adr/ADR-008-per-locale-completeness.md
+?? docs/adr/ADR-009-display-locale.md
+?? frontend/src/app/LocaleContext.tsx
+?? frontend/src/app/LocaleSelector.test.tsx
+?? frontend/src/app/LocaleSelector.tsx
+?? frontend/src/features/products/FallbackMark.test.tsx
+?? frontend/src/features/products/FallbackMark.tsx
+?? scripts/sprint17-verify-and-publish.sh
+?? services/catalog/src/Pim.Catalog.Application/Common/DisplayLocale.cs
+?? services/catalog/src/Pim.Catalog.Application/Common/DisplayLocaleResolver.cs
+?? services/catalog/src/Pim.Catalog.Application/Lookups/ILocaleCatalog.cs
+?? services/catalog/src/Pim.Catalog.Infrastructure/Outbox/
+?? services/catalog/src/Pim.Catalog.Infrastructure/Persistence/Configurations/OutboxMessageConfiguration.cs
+?? services/catalog/src/Pim.Catalog.Infrastructure/ReadModels/LocaleCatalog.cs
+?? services/catalog/tests/Pim.Catalog.Application.Tests/Common/
+?? services/catalog/tests/Pim.Catalog.Integration.Tests/Outbox/
+?? sprint17-log.txt
+
+
+########## PHASE C — commit Sprint 15, then Sprint 16 ##########
+
+$ git add docs/adr/ADR-007-transactional-outbox.md services/catalog/Directory.Packages.props services/catalog/db/init/01_catalog_schema.sql services/catalog/src/Pim.Catalog.Api/Program.cs services/catalog/src/Pim.Catalog.Api/appsettings.json services/catalog/src/Pim.Catalog.Api/appsettings.Development.json services/catalog/src/Pim.Catalog.Infrastructure/Outbox services/catalog/src/Pim.Catalog.Infrastructure/Persistence/CatalogDbContext.cs services/catalog/src/Pim.Catalog.Infrastructure/Persistence/Configurations/OutboxMessageConfiguration.cs services/catalog/src/Pim.Catalog.Infrastructure/Pim.Catalog.Infrastructure.csproj services/catalog/tests/Pim.Catalog.Integration.Tests/Outbox
+[main 252c62e] feat(catalog): transactional outbox (ADR-007) — unverified at commit time
+ 26 files changed, 2344 insertions(+), 7 deletions(-)
+ create mode 100644 docs/adr/ADR-007-transactional-outbox.md
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/IOutboxTransport.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/IntegrationEventContracts.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/IntegrationEventMapper.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/LoggingOutboxTransport.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/OutboxHealthCheck.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/OutboxMessage.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/OutboxMetrics.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/OutboxOptions.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/OutboxOptionsValidator.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/OutboxRelay.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/OutboxRetryPolicy.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/OutboxServiceCollectionExtensions.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Outbox/OutboxStore.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/Persistence/Configurations/OutboxMessageConfiguration.cs
+ create mode 100644 services/catalog/tests/Pim.Catalog.Integration.Tests/Outbox/IntegrationEventMapperTests.cs
+ create mode 100644 services/catalog/tests/Pim.Catalog.Integration.Tests/Outbox/OutboxOptionsValidatorTests.cs
+ create mode 100644 services/catalog/tests/Pim.Catalog.Integration.Tests/Outbox/OutboxRetryPolicyTests.cs
+ create mode 100644 services/catalog/tests/Pim.Catalog.Integration.Tests/Outbox/OutboxStoreTests.cs
+commit 1 (Sprint 15) done
+
+$ git add -A
+[main d3ffb2b] feat(catalog): display locale and language selector (ADR-009)
+ 47 files changed, 2438 insertions(+), 87 deletions(-)
+ create mode 100644 .gitattributes
+ create mode 100755 "Sprint 17 \342\200\224 Run Everything.command"
+ create mode 100644 docs/ONBOARDING.md
+ create mode 100644 docs/adr/ADR-008-per-locale-completeness.md
+ create mode 100644 docs/adr/ADR-009-display-locale.md
+ create mode 100644 frontend/src/app/LocaleContext.tsx
+ create mode 100644 frontend/src/app/LocaleSelector.test.tsx
+ create mode 100644 frontend/src/app/LocaleSelector.tsx
+ create mode 100644 frontend/src/features/products/FallbackMark.test.tsx
+ create mode 100644 frontend/src/features/products/FallbackMark.tsx
+ create mode 100755 scripts/sprint17-verify-and-publish.sh
+ create mode 100644 services/catalog/src/Pim.Catalog.Application/Common/DisplayLocale.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Application/Common/DisplayLocaleResolver.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Application/Lookups/ILocaleCatalog.cs
+ create mode 100644 services/catalog/src/Pim.Catalog.Infrastructure/ReadModels/LocaleCatalog.cs
+ create mode 100644 services/catalog/tests/Pim.Catalog.Application.Tests/Common/DisplayLocaleTests.cs
+ create mode 100644 sprint17-log.txt
+commit 2 (Sprint 16) done
+
+$ git --no-pager log --oneline -4
+d3ffb2b feat(catalog): display locale and language selector (ADR-009)
+252c62e feat(catalog): transactional outbox (ADR-007) — unverified at commit time
+7783d0a docs(sprint-14): close the stack audit; record what was decided
+aa687da refactor(export): adopt CsvHelper; move Dapper config where it is needed
+
+
+########## PHASE D — full gate (restore, build, test, DB reset, API smoke) ##########
+this is the long one — expect several minutes
+
+[1m== Toolchain ==[0m
+10.0.400
+
+[1m== Infra (docker compose) ==[0m
+--reset-db: dropping volumes so db/init scripts (schema + dev seed) re-run
+ Container infra-redis-1 Stopping 
+ Container infra-rabbitmq-1 Stopping 
+ Container infra-postgres-1 Stopping 
+ Container infra-postgres-1 Stopped 
+ Container infra-postgres-1 Removing 
+ Container infra-redis-1 Stopped 
+ Container infra-redis-1 Removing 
+ Container infra-postgres-1 Removed 
+ Container infra-redis-1 Removed 
+ Container infra-rabbitmq-1 Stopped 
+ Container infra-rabbitmq-1 Removing 
+ Container infra-rabbitmq-1 Removed 
+ Network infra_default Removing 
+ Volume infra_pim-pgdata Removing 
+ Volume infra_pim-pgdata Removed 
+ Network infra_default Removed 
+ Network infra_default Creating 
+ Network infra_default Created 
+ Volume infra_pim-pgdata Creating 
+ Volume infra_pim-pgdata Created 
+ Container infra-redis-1 Creating 
+ Container infra-postgres-1 Creating 
+ Container infra-rabbitmq-1 Creating 
+ Container infra-redis-1 Created 
+ Container infra-rabbitmq-1 Created 
+ Container infra-postgres-1 Created 
+ Container infra-rabbitmq-1 Starting 
+ Container infra-postgres-1 Starting 
+ Container infra-redis-1 Starting 
+ Container infra-redis-1 Started 
+ Container infra-postgres-1 Started 
+ Container infra-rabbitmq-1 Started 
+
+[1m== Wait for PostgreSQL healthy (max 60s) ==[0m
+
+[1m== Catalog DDL applied (schema + role exist) ==[0m
+
+[1m== Dev seed applied (16 demo products from prototype v4.2) ==[0m
+products in catalog.product: 500
+
+[1m== dotnet restore (first run WILL surface package-version issues — expected) ==[0m
+  Determining projects to restore...
+  Restored /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Application/Pim.Catalog.Application.csproj (in 1.67 sec).
+  Restored /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Domain/Pim.Catalog.Domain.csproj (in 1.67 sec).
+  Restored /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/Pim.Catalog.Application.Tests.csproj (in 1.67 sec).
+  Restored /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Domain.Tests/Pim.Catalog.Domain.Tests.csproj (in 1.67 sec).
+  Restored /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Api/Pim.Catalog.Api.csproj (in 1.67 sec).
+  Restored /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Integration.Tests/Pim.Catalog.Integration.Tests.csproj (in 1.67 sec).
+  Restored /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/Pim.Catalog.Infrastructure.csproj (in 1.67 sec).
+  1 of 8 projects are up-to-date for restore.
+
+[1m== dotnet build (warnings are errors) ==[0m
+  Pim.SharedKernel -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/shared/dotnet/Pim.SharedKernel/bin/Release/net10.0/Pim.SharedKernel.dll
+  Pim.Catalog.Domain -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Domain/bin/Release/net10.0/Pim.Catalog.Domain.dll
+  Pim.Catalog.Domain.Tests -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Domain.Tests/bin/Release/net10.0/Pim.Catalog.Domain.Tests.dll
+  Pim.Catalog.Application -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Application/bin/Release/net10.0/Pim.Catalog.Application.dll
+/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/Products/ExportProductsQueryTests.cs(16,55): error CS7036: There is no argument given that corresponds to the required parameter 'locales' of 'ExportProductsQueryHandler.ExportProductsQueryHandler(IProductListReader, ILocaleCatalog)' [/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/Pim.Catalog.Application.Tests.csproj]
+/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/Products/ExportProductsQueryTests.cs(21,60): error CS7036: There is no argument given that corresponds to the required parameter 'NameLocale' of 'ProductListItemDto.ProductListItemDto(Guid, string, string, string, string, string, int, IReadOnlyList<string>, int, string?, DateTimeOffset, IReadOnlyList<ChannelReadinessLevel>, string?, string?)' [/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/Pim.Catalog.Application.Tests.csproj]
+/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/Outbox/OutboxServiceCollectionExtensions.cs(30,43): error CS1503: Argument 2: cannot convert from 'Microsoft.Extensions.Configuration.IConfigurationSection' to 'System.Action<Pim.Catalog.Infrastructure.Outbox.OutboxOptions>' [/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/Pim.Catalog.Infrastructure.csproj]
+/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/ReadModels/LocaleCatalog.cs(22,21): error CA1001: Type 'LocaleCatalog' owns disposable field(s) '_refreshLock' but is not disposable (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/Pim.Catalog.Infrastructure.csproj]
+
+Build FAILED.
+
+/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/Products/ExportProductsQueryTests.cs(16,55): error CS7036: There is no argument given that corresponds to the required parameter 'locales' of 'ExportProductsQueryHandler.ExportProductsQueryHandler(IProductListReader, ILocaleCatalog)' [/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/Pim.Catalog.Application.Tests.csproj]
+/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/Products/ExportProductsQueryTests.cs(21,60): error CS7036: There is no argument given that corresponds to the required parameter 'NameLocale' of 'ProductListItemDto.ProductListItemDto(Guid, string, string, string, string, string, int, IReadOnlyList<string>, int, string?, DateTimeOffset, IReadOnlyList<ChannelReadinessLevel>, string?, string?)' [/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/Pim.Catalog.Application.Tests.csproj]
+/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/Outbox/OutboxServiceCollectionExtensions.cs(30,43): error CS1503: Argument 2: cannot convert from 'Microsoft.Extensions.Configuration.IConfigurationSection' to 'System.Action<Pim.Catalog.Infrastructure.Outbox.OutboxOptions>' [/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/Pim.Catalog.Infrastructure.csproj]
+/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/ReadModels/LocaleCatalog.cs(22,21): error CA1001: Type 'LocaleCatalog' owns disposable field(s) '_refreshLock' but is not disposable (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/Pim.Catalog.Infrastructure.csproj]
+    0 Warning(s)
+    4 Error(s)
+
+Time Elapsed 00:00:03.58
+Skipping tests — build failed.
+
+[1m== Frontend lint + test + build ==[0m
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+
+added 288 packages, and audited 289 packages in 3s
+
+69 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+> pim-frontend@0.1.0 lint
+> eslint src
+
+
+> pim-frontend@0.1.0 test
+> vitest --run
+
+
+ RUN  v3.2.7 /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend
+
+stderr | src/features/products/VariantsTab.test.tsx > VariantsTab > edits a variant and keeps the code immutable
+Warning: A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components
+    at input
+    at div
+    at FieldWrapper (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Field.tsx:7:25)
+    at TextField (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Field.tsx:37:22)
+    at div
+    at div
+    at form
+    at div
+    at div
+    at Drawer (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Drawer.tsx:4:19)
+    at VariantsTab (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/features/products/VariantsTab.tsx:19:24)
+    at ToastProvider (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Toast.tsx:14:26)
+
+ ✓ src/features/products/VariantsTab.test.tsx (9 tests) 649ms
+ ✓ src/features/products/PackagingTab.test.tsx (12 tests) 707ms
+ ✓ src/features/products/ProductDetailPage.test.tsx (9 tests) 654ms
+ ✓ src/features/products/ClassificationsTab.test.tsx (13 tests) 831ms
+ ✓ src/features/products/ProductDetailPage.a11y.test.tsx (10 tests) 734ms
+ ✓ src/features/products/LocalizationTab.test.tsx (14 tests) 831ms
+ ✓ src/features/products/ComplianceTab.test.tsx (15 tests) 1003ms
+ ✓ src/features/products/AssetsTab.test.tsx (21 tests) 1712ms
+   ✓ AssetsTab > sends the link request with the type left for the server to infer  313ms
+ ✓ src/features/products/gridState.test.ts (17 tests) 31ms
+ ✓ src/app/LocaleSelector.test.tsx (6 tests) 230ms
+ ✓ src/features/products/PlanningTab.test.tsx (11 tests) 462ms
+ ✓ src/features/products/ApplicationsTab.test.tsx (10 tests) 563ms
+ ✓ src/features/products/ActivityTab.test.tsx (13 tests) 756ms
+ ✓ src/features/products/RelationshipsTab.test.tsx (8 tests) 661ms
+ ✓ src/features/products/CreateProductDrawer.test.tsx (6 tests) 918ms
+   ✓ CreateProductDrawer > posts the wizard fields and reports the created product  377ms
+ ✓ src/components/ChannelDots.test.tsx (7 tests) 126ms
+ ✓ src/features/products/ProductsGrid.test.tsx (24 tests) 2668ms
+   ✓ ProductsGrid > debounces free-text search into a single request  404ms
+ ✓ src/features/products/gridPreferences.test.ts (9 tests) 10ms
+ ✓ src/components/ErrorBoundary.test.tsx (3 tests) 130ms
+ ✓ src/app/AppShell.test.tsx (4 tests) 457ms
+   ✓ AppShell > renders all five v4.2 nav groups with their items  334ms
+ ✓ src/features/products/FallbackMark.test.tsx (4 tests) 35ms
+ ✓ src/components/Table.test.tsx (4 tests) 140ms
+ ✓ src/components/Field.test.tsx (5 tests) 134ms
+ ✓ src/components/Button.test.tsx (7 tests) 122ms
+ ✓ src/components/Toast.test.tsx (3 tests) 70ms
+ ✓ src/components/Drawer.test.tsx (3 tests) 90ms
+ ✓ src/components/Chip.test.tsx (7 tests) 44ms
+ ✓ src/components/QualityBar.test.tsx (4 tests) 48ms
+ ✓ src/components/EmptyState.test.tsx (2 tests) 37ms
+
+ Test Files  29 passed (29)
+      Tests  260 passed (260)
+   Start at  14:30:04
+   Duration  5.50s (transform 997ms, setup 2.23s, collect 7.23s, tests 14.85s, environment 15.17s, prepare 2.51s)
+
+
+> pim-frontend@0.1.0 build
+> tsc -b && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 79 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:  0.27 kB
+dist/assets/index-DLFNr42Y.css   18.40 kB │ gzip:  4.56 kB
+dist/assets/index-CGUA1WfO.js   290.02 kB │ gzip: 86.40 kB
+✓ built in 542ms
+
+[1m== Summary ==[0m
+  PASS  docker compose up
+  PASS  postgres ready
+  PASS  catalog schema exists
+  PASS  catalog_svc role exists
+  PASS  dev seed present (>=16 products)
+  PASS  dotnet restore
+  PASS  frontend lint/test/build
+  FAIL  dotnet build
+
+Sprint 0 backend gate: RED — paste failing output back to Claude for the fix loop.
+
+=== verify-local.sh exit code: 1 ===
+GATE RED (exit 1) — the log has the detail
+
+
+########## SUMMARY ##########
+gate exit code: 1
+HEAD:           d3ffb2b feat(catalog): display locale and language selector (ADR-009)
+working tree:   1 changed paths

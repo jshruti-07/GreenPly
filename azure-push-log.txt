@@ -1,0 +1,18 @@
+=== Publishing to Azure DevOps: Thu Aug 20 14:44:40 IST 2026 ===
+    target: https://dev.azure.com/altzor/PIM/_git/pim-platform
+
+--- what will be published ---
+    branch:  main
+    commits: 63
+    files:   395
+    size:    9.4M
+    head:    8f9db1e docs: record the 2026-08-19 planning decisions and re-sequence what is left
+
+--- remote 'origin' already points at the target ---
+
+--- checking whether the remote is empty (git will ask you to sign in now) ---
+
+--- pushing main ---
+fatal: Authentication failed for 'https://dev.azure.com/altzor/PIM/_git/pim-platform/'
+
+PUSH FAILED — see the message above.

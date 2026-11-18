@@ -1,0 +1,20 @@
+=== backend build: Wed Aug 19 13:58:31 IST 2026 ===
+--- build ---
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:04.47
+--- domain + application tests (integration needs docker; excluded here) ---
+Test run for /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Domain.Tests/bin/Debug/net10.0/Pim.Catalog.Domain.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   187, Skipped:     0, Total:   187, Duration: 27 ms - Pim.Catalog.Domain.Tests.dll (net10.0)
+Test run for /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/bin/Debug/net10.0/Pim.Catalog.Application.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   124, Skipped:     0, Total:   124, Duration: 54 ms - Pim.Catalog.Application.Tests.dll (net10.0)
+BACKEND: OK
+
+=== exit code: 0 ===

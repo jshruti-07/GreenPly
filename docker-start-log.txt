@@ -1,0 +1,111 @@
+[1m== Docker engine ==[0m
+  [32mPASS[0m  engine already running (Docker version 29.5.3, build d1c06ef)
+
+[1m== Handing off to Setup Mac.command ==[0m
+
+[1m== Machine ==[0m
+  macOS      : 26.5.2
+  Arch       : arm64
+  Repo       : /Users/apple/Project/PIMGit/pim-platform
+  Started    : Mon Oct 12 12:46:23 IST 2026
+
+[1m== .NET SDK 10 ==[0m
+  [32mPASS[0m  found 10.0.400 at /Users/apple/.dotnet/dotnet
+
+[1m== Node 22+ ==[0m
+  [32mPASS[0m  found v22.23.2 at /opt/homebrew/bin/node, npm 10.9.8
+
+[1m== Docker ==[0m
+  [32mPASS[0m  docker engine responding (Docker version 29.5.3, build d1c06ef)
+
+[1m== Frontend dependencies ==[0m
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+
+added 288 packages, and audited 289 packages in 3s
+
+69 packages are looking for funding
+  run `npm fund` for details
+
+6 vulnerabilities (1 moderate, 3 high, 2 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+npm notice
+npm notice New major version of npm available! 10.9.8 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+  [32mPASS[0m  node_modules installed from lockfile
+
+[1m== Backend restore / build / test ==[0m
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Pim.SharedKernel -> /Users/apple/Project/PIMGit/pim-platform/shared/dotnet/Pim.SharedKernel/bin/Debug/net10.0/Pim.SharedKernel.dll
+  Pim.Catalog.Domain -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/src/Pim.Catalog.Domain/bin/Debug/net10.0/Pim.Catalog.Domain.dll
+  Pim.Catalog.Domain.Tests -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Domain.Tests/bin/Debug/net10.0/Pim.Catalog.Domain.Tests.dll
+  Pim.Catalog.Application -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/src/Pim.Catalog.Application/bin/Debug/net10.0/Pim.Catalog.Application.dll
+  Pim.Catalog.Application.Tests -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/bin/Debug/net10.0/Pim.Catalog.Application.Tests.dll
+  Pim.Catalog.Infrastructure -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/bin/Debug/net10.0/Pim.Catalog.Infrastructure.dll
+  Pim.Catalog.Integration.Tests -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Integration.Tests/bin/Debug/net10.0/Pim.Catalog.Integration.Tests.dll
+  Pim.Catalog.Api -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/src/Pim.Catalog.Api/bin/Debug/net10.0/Pim.Catalog.Api.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:07.87
+  [32mPASS[0m  catalog service builds
+Test run for /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Integration.Tests/bin/Debug/net10.0/Pim.Catalog.Integration.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Domain.Tests/bin/Debug/net10.0/Pim.Catalog.Domain.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/bin/Debug/net10.0/Pim.Catalog.Application.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   187, Skipped:     0, Total:   187, Duration: 109 ms - Pim.Catalog.Domain.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:   124, Skipped:     0, Total:   124, Duration: 204 ms - Pim.Catalog.Application.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    86, Skipped:     0, Total:    86, Duration: 9 s - Pim.Catalog.Integration.Tests.dll (net10.0)
+  [32mPASS[0m  catalog tests green (unit + integration)
+
+[1m== Summary ==[0m
+  [32mPASS[0m  .NET SDK 10
+  [32mPASS[0m  Node 22+
+  [32mPASS[0m  Docker engine
+  [32mPASS[0m  PATH recorded in ~/.zprofile (marked block)
+
+[32m[1mSetup complete.[0m Log: setup-log.txt
+
+Next: 'Run PIM.command' starts infra (postgres :15432, rabbitmq, redis :6380),
+the catalog API on :5100 (Swagger /swagger) and the frontend on :5174.
+First run also pulls the postgres/rabbitmq/redis images — allow a few minutes.
+Stopping stale catalog API (pid 17688) so this run serves the current build
+== Infra (postgres :15432, rabbitmq, redis :6380) ==
+ Container infra-redis-1 Creating 
+ Container infra-postgres-1 Running 
+ Container infra-rabbitmq-1 Creating 
+ Container infra-redis-1 Created 
+ Container infra-rabbitmq-1 Created 
+ Container infra-redis-1 Starting 
+ Container infra-rabbitmq-1 Starting 
+ Container infra-rabbitmq-1 Started 
+ Container infra-redis-1 Started 
+== Starting catalog API on :5100 (log: api.log) ==
+Waiting for API health.. — UP (Swagger: http://localhost:5100/swagger)
+== Starting frontend on :5174 (5173 is used by another project) ==
+
+> pim-frontend@0.1.0 dev
+> vite --port 5174 --strictPort
+
+
+  VITE v6.4.3  ready in 727 ms
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: http://192.168.1.177:5174/
+  ➜  press h + enter to show help

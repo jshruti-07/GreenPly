@@ -1,0 +1,70 @@
+== Ensuring infra is up ==
+ Container infra-redis-1 Running 
+ Container infra-postgres-1 Running 
+ Container infra-rabbitmq-1 Running 
+postgres: accepting TCP after 0s (db/init has finished)
+postgres: dev seed present after 0s (501 products)
+== Seeding to >= 1000 products ==
+SET
+INSERT 0 1002
+INSERT 0 2812
+INSERT 0 24802
+ANALYZE
+ANALYZE
+ANALYZE
+products now: 1503
+
+== Timings at 1503 products ==
+  PASS  first page, default sort — 13ms (budget 1500ms)
+  PASS  sort by completeness — 32ms (budget 1500ms)
+  PASS  sort by name — 12ms (budget 1500ms)
+  PASS  free-text search (broad) — 20ms (budget 1500ms)
+  PASS  free-text search (narrow) — 13ms (budget 1500ms)
+  PASS  status filter — 5ms (budget 1500ms)
+  PASS  category subtree filter — 4ms (budget 1500ms)
+  PASS  deep page (page 20) — 16ms (budget 1500ms)
+  PASS  max page size (100) — 17ms (budget 1500ms)
+  PASS  CSV export, all matching — 74ms (budget 1500ms)
+
+== Detail tab timings ==
+  PASS  detail: product — 2ms (budget 1500ms)
+  PASS  detail: attributes — 7ms (budget 1500ms)
+  PASS  detail: variants — 2ms (budget 1500ms)
+  PASS  detail: classifications — 2ms (budget 1500ms)
+  PASS  detail: compliance — 2ms (budget 1500ms)
+  PASS  detail: packaging — 2ms (budget 1500ms)
+  PASS  detail: relationships — 3ms (budget 1500ms)
+  PASS  detail: applications — 2ms (budget 1500ms)
+  PASS  detail: planning — 15ms (budget 1500ms)
+  PASS  detail: localization — 4ms (budget 1500ms)
+
+== Inflating audit_log to >= 25000 rows for the demo product ==
+  audit_log rows: 25043
+  PASS  activity: first page — 11ms (budget 1500ms)
+  PASS  activity: action filter — 10ms (budget 1500ms)
+  PASS  activity: search — 21ms (budget 1500ms)
+  PASS  activity: deep page (400) — 14ms (budget 1500ms)
+  PASS  categories: tree — 6ms (budget 1500ms)
+  PASS  categories: tree (fr-FR) — 6ms (budget 1500ms)
+  PASS  attributes: library — 31ms (budget 1500ms)
+  PASS  translations: workbench — 6ms (budget 1500ms)
+  PASS  translations: queue — 11ms (budget 1500ms)
+  PASS  translations: deep page — 13ms (budget 1500ms)
+  PASS  assets: summary — 4ms (budget 1500ms)
+  PASS  assets: library — 11ms (budget 1500ms)
+  PASS  assets: orphan filter — 3ms (budget 1500ms)
+  PASS  assets: thumb bytes — 1ms (budget 1500ms)
+  PASS  workflow: pipeline — 0ms (budget 1500ms)
+  PASS  workflow: product position — 2ms (budget 1500ms)
+  PASS  workflow: open task + trail — 2ms (budget 1500ms)
+  PASS  workflow: board — 9ms (budget 1500ms)
+  PASS  workflow: board (fr-FR) — 6ms (budget 1500ms)
+  PASS  workflow: queue — 88ms (budget 1500ms)
+  PASS  workflow: queue filtered — 20ms (budget 1500ms)
+  PASS  workflow: queue deep page — 88ms (budget 1500ms)
+  PASS  dashboard: cockpit (base locale) — 96ms (budget 1500ms)
+  PASS  dashboard: cockpit (fr-FR) — 95ms (budget 1500ms)
+
+== Summary ==
+  passed: 44   failed: 0   products: 1503
+PERF: GREEN

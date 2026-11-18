@@ -1,0 +1,211 @@
+
+[1m== Toolchain ==[0m
+10.0.400
+
+[1m== Infra (docker compose) ==[0m
+--reset-db: dropping volumes so db/init scripts (schema + dev seed) re-run
+ Container infra-postgres-1 Stopping 
+ Container infra-redis-1 Stopping 
+ Container infra-rabbitmq-1 Stopping 
+ Container infra-postgres-1 Stopped 
+ Container infra-postgres-1 Removing 
+ Container infra-postgres-1 Removed 
+ Container infra-redis-1 Stopped 
+ Container infra-redis-1 Removing 
+ Container infra-redis-1 Removed 
+ Container infra-rabbitmq-1 Stopped 
+ Container infra-rabbitmq-1 Removing 
+ Container infra-rabbitmq-1 Removed 
+ Network infra_default Removing 
+ Volume infra_pim-pgdata Removing 
+ Volume infra_pim-pgdata Removed 
+ Network infra_default Removed 
+ Network infra_default Creating 
+ Network infra_default Created 
+ Volume infra_pim-pgdata Creating 
+ Volume infra_pim-pgdata Created 
+ Container infra-redis-1 Creating 
+ Container infra-rabbitmq-1 Creating 
+ Container infra-postgres-1 Creating 
+ Container infra-redis-1 Created 
+ Container infra-rabbitmq-1 Created 
+ Container infra-postgres-1 Created 
+ Container infra-redis-1 Starting 
+ Container infra-rabbitmq-1 Starting 
+ Container infra-postgres-1 Starting 
+ Container infra-rabbitmq-1 Started 
+ Container infra-postgres-1 Started 
+ Container infra-redis-1 Started 
+
+[1m== Wait for PostgreSQL ready and db/init complete (max 180s) ==[0m
+postgres: accepting TCP after 2s (db/init has finished)
+postgres: dev seed present after 0s (500 products)
+
+[1m== Catalog DDL applied (schema + role exist) ==[0m
+
+[1m== Dev seed applied (16 demo products from prototype v4.2) ==[0m
+products in catalog.product: 500
+
+[1m== dotnet restore (first run WILL surface package-version issues — expected) ==[0m
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+
+[1m== dotnet build (warnings are errors) ==[0m
+  Pim.SharedKernel -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/shared/dotnet/Pim.SharedKernel/bin/Release/net10.0/Pim.SharedKernel.dll
+  Pim.Catalog.Domain -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Domain/bin/Release/net10.0/Pim.Catalog.Domain.dll
+  Pim.Catalog.Domain.Tests -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Domain.Tests/bin/Release/net10.0/Pim.Catalog.Domain.Tests.dll
+  Pim.Catalog.Application -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Application/bin/Release/net10.0/Pim.Catalog.Application.dll
+  Pim.Catalog.Application.Tests -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/bin/Release/net10.0/Pim.Catalog.Application.Tests.dll
+  Pim.Catalog.Infrastructure -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/bin/Release/net10.0/Pim.Catalog.Infrastructure.dll
+  Pim.Catalog.Integration.Tests -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Integration.Tests/bin/Release/net10.0/Pim.Catalog.Integration.Tests.dll
+  Pim.Catalog.Api -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Api/bin/Release/net10.0/Pim.Catalog.Api.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:04.79
+
+[1m== dotnet test ==[0m
+Test run for /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Domain.Tests/bin/Release/net10.0/Pim.Catalog.Domain.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/bin/Release/net10.0/Pim.Catalog.Application.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Integration.Tests/bin/Release/net10.0/Pim.Catalog.Integration.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   187, Skipped:     0, Total:   187, Duration: 77 ms - Pim.Catalog.Domain.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:   124, Skipped:     0, Total:   124, Duration: 125 ms - Pim.Catalog.Application.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    86, Skipped:     0, Total:    86, Duration: 7 s - Pim.Catalog.Integration.Tests.dll (net10.0)
+
+[1m== Frontend lint + test + build ==[0m
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+
+added 288 packages, and audited 289 packages in 28s
+
+69 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+> pim-frontend@0.1.0 lint
+> eslint src
+
+
+> pim-frontend@0.1.0 test
+> vitest --run
+
+
+ RUN  v3.2.7 /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend
+
+ ✓ src/features/workflow/WorkflowsPage.test.tsx (10 tests) 881ms
+ ✓ src/features/categories/CategoriesPage.test.tsx (9 tests) 895ms
+   ✓ CategoriesPage > renders the hierarchy with roots expanded and deeper levels reachable  364ms
+ ✓ src/features/products/LocalizationTab.test.tsx (14 tests) 1247ms
+   ✓ LocalizationTab > sends only the fields that were edited  395ms
+ ✓ src/features/assets/AssetLibraryPage.test.tsx (15 tests) 1261ms
+ ✓ src/features/products/ClassificationsTab.test.tsx (13 tests) 1655ms
+ ✓ src/features/products/ProductDetailPage.a11y.test.tsx (10 tests) 1535ms
+   ✓ ProductDetailPage — tablist accessibility > exposes every declared tab as a tab  323ms
+ ✓ src/features/products/ComplianceTab.test.tsx (15 tests) 1937ms
+   ✓ ComplianceTab > adds a certificate with the loaded rowVersion  360ms
+   ✓ ComplianceTab > edits a certificate against its id  318ms
+ ✓ src/features/products/AssetsTab.test.tsx (21 tests) 3018ms
+   ✓ AssetsTab > sends the link request with the type left for the server to infer  455ms
+   ✓ AssetsTab > defaults a document to DATASHEET even after the image drawer has been open  316ms
+   ✓ AssetsTab > does not carry a previously typed URL into the next open  569ms
+   ✓ AssetsTab > keeps the drawer open and shows why when the link is refused  314ms
+ ✓ src/features/attributes/AttributeLibraryPage.test.tsx (10 tests) 632ms
+ ✓ src/features/translation/TranslationPage.test.tsx (11 tests) 947ms
+ ✓ src/features/products/WorkflowTab.test.tsx (10 tests) 1205ms
+   ✓ WorkflowTab > draws one button per action the pipeline offers, using the pipeline label  423ms
+   ✓ WorkflowTab > sends the reviewer note and the claimed actor with the action  437ms
+ ✓ src/features/products/PlanningTab.test.tsx (11 tests) 766ms
+stderr | src/features/products/VariantsTab.test.tsx > VariantsTab > edits a variant and keeps the code immutable
+Warning: A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components
+    at input
+    at div
+    at FieldWrapper (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Field.tsx:7:25)
+    at TextField (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Field.tsx:37:22)
+    at div
+    at div
+    at form
+    at div
+    at div
+    at Drawer (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Drawer.tsx:4:19)
+    at VariantsTab (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/features/products/VariantsTab.tsx:19:24)
+    at ToastProvider (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Toast.tsx:14:26)
+
+ ✓ src/features/products/ProductsGrid.test.tsx (24 tests) 4585ms
+   ✓ ProductsGrid > renders rows with the v4.2 columns  378ms
+   ✓ ProductsGrid > filters by status and resets to page 1  452ms
+   ✓ ProductsGrid > debounces free-text search into a single request  539ms
+   ✓ ProductsGrid > pages forward and back, disabling controls at the boundaries  445ms
+   ✓ ProductsGrid > saves and applies a view  441ms
+ ✓ src/features/products/ProductDetailPage.test.tsx (9 tests) 1361ms
+   ✓ ProductDetailPage > shows the product in read mode  450ms
+   ✓ ProductDetailPage > saves edited fields with the loaded rowVersion  439ms
+ ✓ src/features/products/PackagingTab.test.tsx (12 tests) 1256ms
+ ✓ src/features/products/VariantsTab.test.tsx (9 tests) 1331ms
+   ✓ VariantsTab > adds a variant with the loaded rowVersion  387ms
+ ✓ src/features/products/ActivityTab.test.tsx (13 tests) 1068ms
+   ✓ ActivityTab > lists entries with their action and detail  396ms
+ ✓ src/features/dashboard/DashboardPage.test.tsx (7 tests) 394ms
+ ✓ src/features/products/gridState.test.ts (17 tests) 14ms
+ ✓ src/app/LocaleSelector.test.tsx (6 tests) 401ms
+ ✓ src/components/ChannelDots.test.tsx (7 tests) 154ms
+ ✓ src/features/products/ApplicationsTab.test.tsx (10 tests) 869ms
+   ✓ ApplicationsTab > shows every option, not only the assigned ones  327ms
+ ✓ src/features/products/RelationshipsTab.test.tsx (8 tests) 1055ms
+   ✓ RelationshipsTab > surfaces a self-reference rejection without closing the drawer  310ms
+ ✓ src/features/products/gridPreferences.test.ts (9 tests) 12ms
+ ✓ src/app/AppShell.test.tsx (4 tests) 909ms
+   ✓ AppShell > renders all five v4.2 nav groups with their items  583ms
+ ✓ src/components/ErrorBoundary.test.tsx (3 tests) 239ms
+ ✓ src/features/products/CreateProductDrawer.test.tsx (6 tests) 1534ms
+   ✓ CreateProductDrawer > posts the wizard fields and reports the created product  514ms
+   ✓ CreateProductDrawer > surfaces an RFC 7807 validation failure without closing  390ms
+ ✓ src/components/Table.test.tsx (4 tests) 238ms
+ ✓ src/features/products/FallbackMark.test.tsx (4 tests) 52ms
+ ✓ src/components/Field.test.tsx (5 tests) 511ms
+   ✓ SelectField > renders options and supports selection  339ms
+ ✓ src/components/Toast.test.tsx (3 tests) 214ms
+ ✓ src/components/Button.test.tsx (7 tests) 184ms
+ ✓ src/components/Chip.test.tsx (7 tests) 50ms
+ ✓ src/components/Drawer.test.tsx (3 tests) 183ms
+ ✓ src/components/QualityBar.test.tsx (4 tests) 104ms
+ ✓ src/components/EmptyState.test.tsx (2 tests) 101ms
+
+ Test Files  36 passed (36)
+      Tests  332 passed (332)
+   Start at  14:13:08
+   Duration  11.27s (transform 2.14s, setup 4.31s, collect 14.67s, tests 32.80s, environment 32.84s, prepare 5.23s)
+
+
+> pim-frontend@0.1.0 build
+> tsc -b && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 92 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:  0.26 kB
+dist/assets/index-BtzE1kxM.css   21.09 kB │ gzip:  5.02 kB
+dist/assets/index-Buk4iPpy.js   350.45 kB │ gzip: 99.80 kB
+✓ built in 977ms
+
+[1m== Summary ==[0m
+  PASS  docker compose up
+  PASS  postgres ready
+  PASS  catalog schema exists
+  PASS  catalog_svc role exists
+  PASS  dev seed present (>=16 products)
+  PASS  dotnet restore
+  PASS  dotnet build
+  PASS  dotnet test
+  PASS  frontend lint/test/build
+
+Sprint 0 backend gate: GREEN — scaffold accepted (per README).

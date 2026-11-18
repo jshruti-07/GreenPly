@@ -1,0 +1,12 @@
+<Project>
+  <!-- Inherit the service-level build settings, then relax rules that do not
+       apply to test code. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+  <PropertyGroup>
+    <!-- CA1707: underscores in test method names are the xUnit community
+         convention (Given_When_Then / Method_Scenario_Expectation) and are
+         mandated by .claude/rules/testing.md readability goals. Test
+         assemblies are never consumed as libraries. -->
+    <NoWarn>$(NoWarn);CA1707</NoWarn>
+  </PropertyGroup>
+</Project>

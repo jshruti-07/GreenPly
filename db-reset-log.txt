@@ -1,0 +1,26 @@
+=== DB reset: Fri Aug 21 20:04:14 IST 2026 ===
+ Container infra-redis-1 Stopping 
+ Container infra-rabbitmq-1 Stopping 
+ Container infra-postgres-1 Stopping 
+ Container infra-postgres-1 Stopped 
+ Container infra-postgres-1 Removing 
+ Container infra-postgres-1 Removed 
+ Container infra-redis-1 Stopped 
+ Container infra-redis-1 Removing 
+ Container infra-redis-1 Removed 
+ Container infra-rabbitmq-1 Stopped 
+ Container infra-rabbitmq-1 Removing 
+ Container infra-rabbitmq-1 Removed 
+ Network infra_default Removing 
+ Volume infra_pim-pgdata Removing 
+ Volume infra_pim-pgdata Removed 
+ Network infra_default Removed 
+ Network infra_default Creating 
+ Network infra_default Created 
+ Volume infra_pim-pgdata Creating 
+ Volume infra_pim-pgdata Created 
+ Container infra-postgres-1 Creating 
+ Container infra-postgres-1 Created 
+ Container infra-postgres-1 Starting 
+ Container infra-postgres-1 Started 
+--- waiting for postgres ---

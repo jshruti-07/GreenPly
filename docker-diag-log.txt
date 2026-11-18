@@ -1,0 +1,195 @@
+Docker diagnostics — Fri Aug 21 16:46:04 IST 2026
+macOS 26.5.2  arm64
+
+[1m----- CLI and daemon -----[0m
+$ docker --version
+Docker version 29.5.3, build d1c06ef
+[exit 0]
+$ docker context show
+desktop-linux
+[exit 0]
+$ docker context ls
+NAME              DESCRIPTION                               DOCKER ENDPOINT                               ERROR
+default           Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                   
+desktop-linux *   Docker Desktop                            unix:///Users/apple/.docker/run/docker.sock   
+[exit 0]
+$ docker info (10s cap)
+Client:
+ Version:    29.5.3
+ Context:    desktop-linux
+ Debug Mode: false
+ Plugins:
+  agent: Docker AI Agent Runner (Docker Inc.)
+    Version:  v1.70.0
+    Path:     /Users/apple/.docker/cli-plugins/docker-agent
+  ai: Docker AI Agent - Ask Gordon (Docker Inc.)
+    Version:  v1.24.0
+    Path:     /Users/apple/.docker/cli-plugins/docker-ai
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.34.1-desktop.1
+    Path:     /Users/apple/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v5.1.4
+    Path:     /Users/apple/.docker/cli-plugins/docker-compose
+  debug: Get a shell into any image or container (Docker Inc.)
+    Version:  0.0.47
+    Path:     /Users/apple/.docker/cli-plugins/docker-debug
+  desktop: Docker Desktop commands (Docker Inc.)
+    Version:  v0.3.0
+    Path:     /Users/apple/.docker/cli-plugins/docker-desktop
+  dhi: CLI for managing Docker Hardened Images (Docker Inc.)
+    Version:  v0.0.4
+    Path:     /Users/apple/.docker/cli-plugins/docker-dhi
+  extension: Manages Docker extensions (Docker Inc.)
+    Version:  v0.2.31
+    Path:     /Users/apple/.docker/cli-plugins/docker-extension
+  init: Creates Docker-related starter files for your project (Docker Inc.)
+    Version:  v1.4.0
+    Path:     /Users/apple/.docker/cli-plugins/docker-init
+  mcp: Docker MCP Plugin (Docker Inc.)
+    Version:  v0.42.2
+    Path:     /Users/apple/.docker/cli-plugins/docker-mcp
+  model: Docker Model Runner (Docker Inc.)
+    Version:  v1.2.1
+    Path:     /Users/apple/.docker/cli-plugins/docker-model
+  offload: Docker Offload (Docker Inc.)
+    Version:  v0.6.3
+/Users/apple/Project/PIMGit/pim-platform/Diagnose Docker.command: line 40: 16783 Terminated: 15          ( sleep 10; kill "$info_pid" 2> /dev/null )
+
+[1m----- Docker processes -----[0m
+$ pgrep -afl -i docker
+532 /Library/PrivilegedHelperTools/com.docker.vmnetd
+16770 /bin/bash /Users/apple/Project/PIMGit/pim-platform/Diagnose Docker.command
+16772 tee docker-diag-log.txt
+
+[1m----- Sockets -----[0m
+  absent         : /var/run/docker.sock
+  absent         : /Users/apple/.docker/run/docker.sock
+  absent         : /Users/apple/.docker/desktop/docker.sock
+  absent         : /Users/apple/.docker/desktop/docker-cli.sock
+
+[1m----- Disk space (Docker's VM disk lives on the data volume) -----[0m
+$ df -h /
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s3s1   460Gi    12Gi   332Gi     4%    459k  3.5G    0%   /
+[exit 0]
+$ df -h /System/Volumes/Data
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1   460Gi   106Gi   332Gi    25%    1.0M  3.5G    0%   /System/Volumes/Data
+[exit 0]
+
+[1m----- Docker Desktop application state -----[0m
+  data dir: /Users/apple/Library/Containers/com.docker.docker/Data
+344M	/Users/apple/Library/Containers/com.docker.docker/Data
+  settings file: /Users/apple/Library/Group Containers/group.com.docker/settings-store.json
+  VM disk: 315M at /Users/apple/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
+
+[1m----- Docker Desktop host log (last 60 lines) -----[0m
+  file: /Users/apple/Library/Containers/com.docker.docker/Data/log/host/docker-desktop.log
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:20.885921000Z][docker-desktop.ipc] 48775d83-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:20.886392000Z][docker-desktop.ipc] 5d5775c1-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:24.141254000Z][docker-desktop.ipc] 2de20e80-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:24.141476000Z][docker-desktop.ipc] 67cb680d-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:27.384159000Z][docker-desktop.ipc] 40f69529-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:27.384347000Z][docker-desktop.ipc] dab27df1-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:30.665165000Z][docker-desktop.ipc] 03ee10e0-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:30.665482000Z][docker-desktop.ipc] 4816ad17-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:33.905439000Z][docker-desktop.ipc] 31359f04-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:33.905814000Z][docker-desktop.ipc] e92b11a8-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:37.160662000Z][docker-desktop.ipc] 41590d7b-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:37.161296000Z][docker-desktop.ipc] f0e264dd-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:40.388323000Z][docker-desktop.ipc] 071f0a81-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:40.388569000Z][docker-desktop.ipc] 1eec5d6e-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:43.646114000Z][docker-desktop.ipc] d0d7f4e9-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:43.646330000Z][docker-desktop.ipc] 5ac934c5-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:46.911121000Z][docker-desktop.ipc] a54a1b65-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:46.911456000Z][docker-desktop.ipc] 3a5e6100-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:50.138275000Z][docker-desktop.ipc] 76734e70-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:50.139118000Z][docker-desktop.ipc] c6577e69-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:53.399196000Z][docker-desktop.ipc] 23a58186-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:53.399373000Z][docker-desktop.ipc] e5a349a3-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:56.645868000Z][docker-desktop.ipc] 99709776-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:56.646070000Z][docker-desktop.ipc] eb95c919-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:13:59.878371000Z][docker-desktop.ipc] e6af1337-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:13:59.878749000Z][docker-desktop.ipc] 4c11f932-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:14:03.132219000Z][docker-desktop.ipc] 673e7fc3-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:14:03.132403000Z][docker-desktop.ipc] 001e5dfb-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:14:06.400898000Z][docker-desktop.ipc] 84b710b9-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:14:06.401229000Z][docker-desktop.ipc] 73fbd0f7-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:14:09.669534000Z][docker-desktop.ipc] ad517ddf-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:14:09.669806000Z][docker-desktop.ipc] f12ad0ef-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:14:12.895869000Z][docker-desktop.ipc] c7e74604-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:14:12.896239000Z][docker-desktop.ipc] b92550a9-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:14:16.147805000Z][docker-desktop.ipc] d7066bdb-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:14:16.148172000Z][docker-desktop.ipc] c1b44f1f-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:15:48.194498000Z][docker-desktop.ipc] 66d7a599-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:15:48.205627000Z][docker-desktop.ipc] aa1a5a1c-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+-------------------------------------------------------------------------------->8
+[2026-08-21T11:16:05.151791000Z][docker-desktop.ipc] b5bd65f8-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/backend.sock BackendAPI
+[2026-08-21T11:16:05.152238000Z][docker-desktop.ipc] 13cd3a5c-docker-desktop-cli -> <HOME>/Library/Containers/com.docker.docker/Data/docker-api-proxy-control.sock proxyControl
+
+[1m----- Docker Desktop backend log (last 40 lines) -----[0m
+[2026-08-21T11:15:50.331797000Z][com.docker.backend.sysevents] listening for System Config changes stopped
+[2026-08-21T11:15:50.349476000Z][com.docker.backend.state] overwriting desktop state error: engine linux/virtualization-framework failed to start: ensuring disk: cannot resize "<HOME>/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw" to 395700MiB: truncate <HOME>/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw: permission denied
+[2026-08-21T11:15:50.349772000Z][com.docker.backend.state] sending desktop state:ExitBadState
+[2026-08-21T11:15:50.350155000Z][com.docker.backend.analytics.tracker] sending event: desktopState 67ddd3c9-14f6-4169-849d-a039d9a06f05
+[2026-08-21T11:15:50.350227000Z][com.docker.backend.analytics.tracker] sending event: desktopState 67ddd3c9-14f6-4169-849d-a039d9a06f05
+[2026-08-21T11:15:50.383177000Z][com.docker.backend.electron] shutting down electron processes
+[2026-08-21T11:15:50.383425000Z][com.docker.backend.electron] killed spawned electron process 15612
+[2026-08-21T11:15:50.393920000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /update/events (4m44.524238083s): OK
+[2026-08-21T11:15:50.394501000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /kubernetes/events (4m44.524636958s): OK
+[2026-08-21T11:15:50.394020000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /license/events (4m44.524414125s): OK
+[2026-08-21T11:15:50.394406000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /features/events (4m44.52492975s): OK
+[2026-08-21T11:15:50.394045000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /versions/events (4m44.524621166s): OK
+[2026-08-21T11:15:50.394057000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /engine/events (4m44.524636667s): OK
+[2026-08-21T11:15:50.394060000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /registry/state (4m44.524494167s): OK
+[2026-08-21T11:15:50.394071000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /install/events (4m44.524284583s): OK
+[2026-08-21T11:15:50.394090000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /stats (4m39.921470708s): OK
+[2026-08-21T11:15:50.394102000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /notify/messagebox/events (4m44.524281167s): OK
+[2026-08-21T11:15:50.394115000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /volume/backup (4m39.858090875s): OK
+[2026-08-21T11:15:50.394126000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /registry/state (4m44.524303333s): OK
+[2026-08-21T11:15:50.394169000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /mutagen/file-shares/stream (4m44.524522667s): OK
+[2026-08-21T11:15:50.394266000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /pause/events (4m44.508249458s): OK
+[2026-08-21T11:15:50.394319000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /wasm/events (4m44.524529042s): OK
+[2026-08-21T11:15:50.394690000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /notify/notifications (4m44.524931584s): OK
+[2026-08-21T11:15:50.394738000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /clicontext/events (4m44.525454167s): OK
+[2026-08-21T11:15:50.397840000Z][com.docker.backend.ipc] (000e354e) a2e1048c-BackendAPI S->C Docker-Desktop/4.77.0 (Mac; arm64; GUI) GET /app/settings/events (4m44.499991667s): OK
+[2026-08-21T11:15:50.400789000Z][com.docker.backend.electron] waiting for electron to quit
+[2026-08-21T11:15:50.414192000Z][com.docker.backend.electron] electron processes have shut down
+[2026-08-21T11:15:50.414276000Z][com.docker.backend] shutting down analytics client
+[2026-08-21T11:15:50.414319000Z][com.docker.backend.analytics.marlin] processing batch of 26 records
+[2026-08-21T11:15:51.493637000Z][com.docker.backend.analytics.marlin] sent message 200 OK (1079 ms)
+[2026-08-21T11:15:51.505312000Z][com.docker.backend] shutting down vital services
+[2026-08-21T11:15:51.506111000Z][com.docker.backend.ipc] shutting down a2e1048c-BackendAPI for component BackendCMD on <HOME>/Library/Containers/com.docker.docker/Data/backend.sock on context done
+[2026-08-21T11:15:51.506125000Z][com.docker.backend.ipc] shutting down a2e1048c-BackendAPI for component BackendCMD on backend on context done
+[2026-08-21T11:15:51.506170000Z][com.docker.backend.gvisor] unable to accept vfkit connection: invalid magic length: 0/4
+[2026-08-21T11:15:51.506449000Z][com.docker.backend.socketforwarder] root context has been cancelled
+[2026-08-21T11:15:51.507033000Z][com.docker.backend.socketforward] closing virtual listener on backend
+[2026-08-21T11:15:51.507255000Z][com.docker.backend.socketforwarder] stop
+[2026-08-21T11:15:51.507388000Z][com.docker.backend.socketforward] closing virtual listener on backend
+[2026-08-21T11:15:51.507470000Z][com.docker.backend.socketforwarder] context has been cancelled
+[2026-08-21T11:15:51.507652000Z][com.docker.backend.apiproxy] closing <HOME>/.docker/run/docker.sock
+
+[1m----- Recent Docker crash reports -----[0m
+  none
+
+[1mDiagnostics complete — nothing was changed. Output: docker-diag-log.txt[0m

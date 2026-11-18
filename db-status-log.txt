@@ -1,0 +1,68 @@
+=== DB status: Sun Aug 16 19:35:31 IST 2026 ===
+--- containers ---
+postgres	running	Up 6 minutes (healthy)
+
+--- can we connect? ---
+/var/run/postgresql:5432 - accepting connections
+
+--- row counts ---
+          t           | count 
+----------------------+-------
+ asset                |  2128
+ asset_link           |  2128
+ attribute            |    32
+ attribute_option     |   283
+ attribute_value      | 12896
+ product              |   500
+ product_relationship |     6
+ product_tr           |  1000
+ sku                  |  3625
+ taxonomy_node        |    80
+(10 rows)
+
+
+--- full-text search health (Sprint 14) ---
+ null_vectors | empty_vectors | products 
+--------------+---------------+----------
+            0 |             0 |      500
+(1 row)
+
+            product_code            | vector_len 
+------------------------------------+------------
+ AB-ALCINA-BORDER-DECOR-24-3-X-43-8 |        284
+ AB-ALCINA-FLOOR-WALL-T-30-X-60-CM  |        540
+ AB-ALCINA-FLOOR-WALL-T-60-X-60-CM  |        535
+(3 rows)
+
+  a German stem must match an inflected form:
+ hits_for_abdeckplatte 
+-----------------------
+                     1
+(1 row)
+
+
+--- sample products ---
+            product_code             |                     name                     
+-------------------------------------+----------------------------------------------
+ AB-ALCINA-BORDER-DECOR-24-3-X-43-8  | Alcina Bordüre - Dekor Sola "24,3 x 43,8 cm"
+ AB-ALCINA-FLOOR-WALL-T-30-X-60-CM   | Alcina Boden-/Wandfliese 30 x 60 cm
+ AB-ALCINA-FLOOR-WALL-T-60-X-60-CM   | Alcina Boden-/Wandfliese 60 x 60 cm
+ AB-ALCINA-MOSAIC-5-X-5-CM           | Alcina Mosaik 5 x 5 cm
+ AB-ALCINA-SKIRTING-7-X-60-CM        | Alcina Sockel 7 x 60 cm
+ AB-AMANO-MOSAIC-2-5-X-2-5-CM        | Amano Mosaik "2,5 x 2,5 cm"
+ AB-AREA-PRO-COVE-SKIRTIN-10-X-10-CM | Area Pro Hohlkehlsockel 10 x 10 cm
+ AB-AREA-PRO-COVE-SKIRTIN-10-X-20-CM | Area Pro Hohlkehlsockel 10 x 20 cm
+(8 rows)
+
+
+--- any init errors in the container log? ---
+
+--- last lines of the container log ---
+postgres-1  | 2026-08-16 13:58:51.903 UTC [1] LOG:  starting PostgreSQL 17.10 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+postgres-1  | 2026-08-16 13:58:51.904 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+postgres-1  | 2026-08-16 13:58:51.904 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+postgres-1  | 2026-08-16 13:58:51.905 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres-1  | 2026-08-16 13:58:51.907 UTC [84] LOG:  database system was shut down at 2026-08-16 13:58:51 UTC
+postgres-1  | 2026-08-16 13:58:51.909 UTC [1] LOG:  database system is ready to accept connections
+postgres-1  | 2026-08-16 14:03:51.956 UTC [82] LOG:  checkpoint starting: time
+postgres-1  | 2026-08-16 14:05:23.066 UTC [82] LOG:  checkpoint complete: wrote 879 buffers (5.4%); 0 WAL file(s) added, 0 removed, 0 recycled; write=91.093 s, sync=0.011 s, total=91.111 s; sync files=95, longest=0.002 s, average=0.001 s; distance=1306 kB, estimate=1306 kB; lsn=0/2B07770, redo lsn=0/2B076E0

@@ -1,0 +1,71 @@
+/* PIM app shell — ported 1:1 from PIM Prototype v4.2.html (ADR-006). */
+
+/* ---------- App grid ---------- */
+.app { display: grid; grid-template-columns: var(--rail) 1fr; height: 100vh; overflow: hidden; transition: grid-template-columns .22s cubic-bezier(.4, 0, .2, 1); }
+.app.collapsed { grid-template-columns: var(--railc) 1fr; }
+
+/* ---------- Sidebar ---------- */
+.side { background: var(--c0); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+.brand { display: flex; align-items: center; gap: 10px; height: var(--top); padding: 0 14px; border-bottom: 1px solid var(--line); flex: none; }
+.logo { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--pri), var(--vio)); color: #fff; font-weight: 800; font-size: 13px; display: grid; place-items: center; flex: none; box-shadow: var(--sh1); letter-spacing: -.5px; }
+.brand-tx { min-width: 0; overflow: hidden; white-space: nowrap; }
+.brand-tx b { font-size: 13px; font-weight: 700; letter-spacing: -.2px; display: block; line-height: 1.1; }
+.brand-tx span { font-size: 10.5px; color: var(--ink3); }
+.navwrap { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 8px; }
+.navcap { font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink3); padding: 14px 12px 6px; white-space: nowrap; }
+.nav { display: flex; align-items: center; gap: 11px; height: 34px; padding: 0 11px; border-radius: 8px; color: var(--ink2); cursor: pointer; margin: 1px 0; position: relative; white-space: nowrap; font-weight: 500; transition: background .12s, color .12s; text-decoration: none; width: 100%; background: none; border: none; font-size: 13px; text-align: left; }
+.nav:hover { background: var(--c1); color: var(--ink); }
+.nav.active { background: var(--pri-l); color: var(--pri-d); font-weight: 600; }
+.nav.active::before { content: ""; position: absolute; left: -8px; top: 7px; bottom: 7px; width: 3px; border-radius: 0 3px 3px 0; background: var(--pri); }
+.nav .lbl { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+.nav .cnt { font-size: 10.5px; font-weight: 700; background: var(--c2); color: var(--ink2); padding: 1px 7px; border-radius: 999px; flex: none; }
+.nav.active .cnt { background: var(--pri-l2); color: var(--pri-d); }
+.app.collapsed .navcap { text-align: center; font-size: 0; padding: 12px 0 4px; }
+.app.collapsed .navcap::after { content: "·"; font-size: 12px; color: var(--c5); }
+.app.collapsed .nav { justify-content: center; padding: 0; }
+.app.collapsed .nav .lbl, .app.collapsed .nav .cnt, .app.collapsed .brand-tx { display: none; }
+.app.collapsed .nav:hover::after { content: attr(data-tip); position: absolute; left: calc(100% + 10px); top: 50%; transform: translateY(-50%); background: var(--c10); color: #fff; padding: 5px 9px; border-radius: 6px; font-size: 11.5px; font-weight: 600; white-space: nowrap; z-index: 200; box-shadow: var(--sh2); pointer-events: none; }
+.side-foot { flex: none; border-top: 1px solid var(--line); padding: 8px; }
+.collapse-btn { display: flex; align-items: center; gap: 11px; height: 34px; padding: 0 11px; border-radius: 8px; color: var(--ink3); cursor: pointer; width: 100%; background: none; border: none; font-weight: 500; font-size: 13px; }
+.collapse-btn:hover { background: var(--c1); color: var(--ink2); }
+.app.collapsed .collapse-btn { justify-content: center; padding: 0; }
+.app.collapsed .collapse-btn .lbl { display: none; }
+.app.collapsed .collapse-btn .ic { transform: rotate(180deg); }
+
+/* ---------- Main + topbar ---------- */
+.main { display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+.top { height: var(--top); flex: none; background: rgba(255, 255, 255, .82); backdrop-filter: saturate(1.4) blur(8px); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 14px; padding: 0 18px; z-index: 20; }
+.crumb { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--ink3); min-width: 0; }
+.crumb b { color: var(--ink); font-weight: 600; }
+.crumb .sep { color: var(--c5); }
+.searchtrig { margin-left: auto; display: flex; align-items: center; gap: 9px; height: 32px; padding: 0 11px; min-width: 230px; background: var(--c1); border: 1px solid var(--line); border-radius: 8px; color: var(--ink3); cursor: pointer; font-size: 12.5px; transition: border-color .12s; }
+.searchtrig:hover { border-color: var(--c5); background: var(--c0); }
+.searchtrig .kbd { margin-left: auto; font-size: 10.5px; font-weight: 700; color: var(--ink3); background: var(--c0); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; }
+.topbtn { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; color: var(--ink2); cursor: pointer; background: none; border: 1px solid transparent; position: relative; }
+.topbtn:hover { background: var(--c1); border-color: var(--line); }
+.topbtn .dot { position: absolute; top: 6px; right: 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--red); border: 1.5px solid var(--c0); }
+/* Data-language selector. Sits between the search trigger and the avatar; the
+   search trigger owns the `margin-left: auto` that pushes this group right. */
+.locale-picker { display: flex; align-items: center; gap: 7px; flex: none; }
+.locale-label { font-size: 10.5px; font-weight: 600; color: var(--ink3); text-transform: uppercase; letter-spacing: .3px; white-space: nowrap; }
+.locale-select { height: 32px; padding: 0 8px; background: var(--c1); border: 1px solid var(--line); border-radius: 8px; color: var(--ink); font-size: 12.5px; font-family: inherit; cursor: pointer; transition: border-color .12s; }
+.locale-select:hover { border-color: var(--c5); background: var(--c0); }
+.locale-select:focus-visible { outline: none; box-shadow: var(--ring); border-color: var(--pri); }
+
+/* Below this width the label is the first thing worth losing — the control
+   still reads as a language picker from its contents. */
+@media (max-width: 1100px) { .locale-label { display: none; } }
+
+.me { display: flex; align-items: center; gap: 8px; padding-left: 4px; cursor: pointer; }
+.av { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, #0d9488, #0284c7); color: #fff; font-weight: 700; font-size: 11px; display: grid; place-items: center; }
+.me-tx { line-height: 1.15; }
+.me-tx b { font-size: 12px; font-weight: 600; }
+.me-tx span { font-size: 10.5px; color: var(--ink3); }
+
+/* ---------- Canvas ---------- */
+.canvas { flex: 1; overflow-y: auto; overflow-x: hidden; position: relative; }
+.pad { padding: 18px 22px 60px; }
+.phead { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+.phead h1 { font-size: 19px; font-weight: 700; letter-spacing: -.3px; margin: 0; }
+.phead p { margin: 3px 0 0; color: var(--ink3); font-size: 12.5px; max-width: 640px; }
+.phead .sp { margin-left: auto; display: flex; gap: 8px; align-items: center; flex: none; }

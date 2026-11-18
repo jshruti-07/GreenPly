@@ -1,0 +1,185 @@
+
+# PIM platform CI.
+#
+# Ported from pipelines/azure-pipelines.yml in Sprint 18. That pipeline was
+# authored in Sprint 0 and never ran once, because the Azure DevOps org it
+# needed was never provisioned — R-2 stayed open for eighteen sprints on that
+# alone. GitHub Actions needs no org to be created, so the blocker is gone.
+#
+# What this must catch, stated plainly, because Sprint 17 is the argument for
+# its existence. Six defects reached a commit unnoticed there:
+#   - four would not compile              -> `build` catches these in ~1 minute
+#   - one failed every row of a read model -> `test` catches it, via Postgres
+#   - one stopped the API starting at all  -> only `smoke` catches it
+# So this workflow does not stop at build-and-test. The smoke job starts the
+# real API against a real database, because that is the only thing that finds
+# the last class.
+#
+# The paths filter mirrors the Azure version: catalog builds when it or shared
+# code changes, frontend when it does. Unlike the Azure version this uses
+# GitHub's native `paths` on the workflow triggers plus per-job filtering, so
+# there is no bespoke diffing step to get wrong.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  # A second push to the same branch makes the first run's answer irrelevant.
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    name: Detect changed paths
+    runs-on: ubuntu-latest
+    outputs:
+      catalog: ${{ steps.filter.outputs.catalog }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          # On a push to main this action reports every path as changed, which
+          # is the behaviour we want: a merge should rebuild everything rather
+          # than trust a diff.
+          filters: |
+            catalog:
+              - 'services/catalog/**'
+              - 'shared/**'
+              - '.github/workflows/**'
+            frontend:
+              - 'frontend/**'
+              - '.github/workflows/**'
+
+  catalog:
+    name: Catalog service
+    needs: changes
+    if: needs.changes.outputs.catalog == 'true'
+    runs-on: ubuntu-latest
+
+    # The integration suite uses Testcontainers, which needs a Docker daemon —
+    # present on ubuntu-latest. This service container is for the smoke job's
+    # sibling below; the unit/integration run here does not use it.
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: services/catalog/global.json
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('services/catalog/Directory.Packages.props') }}
+          restore-keys: nuget-${{ runner.os }}-
+
+      - name: Restore
+        run: dotnet restore services/catalog/Pim.Catalog.sln
+
+      # Warnings are errors in this repo (Directory.Build.props). Three of
+      # Sprint 17's six defects were analyser or nullability errors, so this
+      # step alone would have paid for the workflow.
+      - name: Build
+        run: dotnet build services/catalog/Pim.Catalog.sln -c Release --no-restore
+
+      - name: Test
+        run: >
+          dotnet test services/catalog/Pim.Catalog.sln -c Release --no-build
+          --logger "trx;LogFileName=results.trx"
+          --results-directory ${{ runner.temp }}/TestResults
+
+      - name: Publish test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-test-results
+          path: ${{ runner.temp }}/TestResults
+          if-no-files-found: warn
+
+  frontend:
+    name: Frontend
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test -- --run
+
+      - name: Build
+        run: npm run build
+
+  smoke:
+    name: API smoke
+    needs: [changes, catalog]
+    if: needs.changes.outputs.catalog == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    # No `services:` block on purpose. smoke-api.sh already brings up
+    # infra/docker-compose.yml and starts the API itself, and a runner that
+    # provisioned Postgres a second way would be testing a different topology
+    # from the one the dev Mac tests. The value of this job is that it runs the
+    # SAME script; duplicating its setup here is how the two quietly diverge.
+    #
+    # ubuntu-latest supplies everything the script reaches for: docker and
+    # compose, node (jsonq), curl and lsof.
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: services/catalog/global.json
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('services/catalog/Directory.Packages.props') }}
+          restore-keys: nuget-${{ runner.os }}-
+
+      # Brings up Postgres/RabbitMQ/Redis, applies db/init in filename order,
+      # starts the API, then asserts against live HTTP. This is the only stage
+      # that would have caught Sprint 17's worst defect — an unregistered DI
+      # dependency that stopped the API starting at all, invisible to every one
+      # of the 342 unit tests because those construct handlers directly.
+      - name: API smoke
+        run: ./scripts/smoke-api.sh
+
+      - name: API log on failure
+        if: failure()
+        run: tail -200 api.log || true

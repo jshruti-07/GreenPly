@@ -1,0 +1,44 @@
+/* PIM design tokens — extracted 1:1 from PIM Prototype v4.2.html (ADR-006).
+   Token names intentionally match the prototype so styles diff directly. */
+:root {
+  /* neutrals */
+  --c0: #ffffff; --c1: #f7f8fa; --c2: #f1f3f7; --c3: #e7eaf0; --c4: #dadfe8;
+  --c5: #c2c9d6; --c6: #8b95a7; --c7: #5b6577; --c8: #3a4255; --c9: #1e2535; --c10: #0f1422;
+  /* brand + accents */
+  --pri: #4f46e5; --pri-d: #4338ca; --pri-l: #eef0fe; --pri-l2: #e0e3fb;
+  --sky: #0284c7; --sky-l: #e0f2fe;
+  --grn: #16a34a; --grn-l: #dcfce7; --grn-d: #15803d;
+  --amb: #d97706; --amb-l: #fef3c7; --amb-d: #b45309;
+  --red: #dc2626; --red-l: #fee2e2; --red-d: #b91c1c;
+  --vio: #7c3aed; --vio-l: #ede9fe; --vio-d: #6d28d9;
+  --tea: #0d9488; --tea-l: #ccfbf1;
+  --pnk: #db2777; --pnk-l: #fce7f3;
+  /* semantics */
+  --bg: var(--c1); --panel: var(--c0); --line: var(--c3); --line2: var(--c4);
+  --ink: var(--c9); --ink2: var(--c7); --ink3: var(--c6);
+  --rail: 248px; --railc: 64px; --top: 56px;
+  --r1: 6px; --r2: 9px; --r3: 13px; --r4: 18px;
+  --sh1: 0 1px 2px rgba(16, 22, 40, .06), 0 1px 1px rgba(16, 22, 40, .04);
+  --sh2: 0 4px 14px rgba(16, 22, 40, .08), 0 1px 3px rgba(16, 22, 40, .05);
+  --sh3: 0 18px 50px rgba(16, 22, 40, .16), 0 4px 12px rgba(16, 22, 40, .08);
+  --ring: 0 0 0 3px rgba(79, 70, 229, .18);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px; line-height: 1.45; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+::selection { background: var(--pri-l2); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--c4); border-radius: 8px; border: 2px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--c5); }
+button { font-family: inherit; }
+svg { display: block; }
+.ic { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.7; fill: none; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.ic.sm { width: 15px; height: 15px; }
+.ic.xs { width: 13px; height: 13px; }
+.muted { color: var(--ink3); } .mut2 { color: var(--ink2); }
+.num { font-variant-numeric: tabular-nums; }

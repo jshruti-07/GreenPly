@@ -1,0 +1,46 @@
+# Local development dependencies only. Not for production use.
+# One PostgreSQL cluster, schema-per-service (ADR-005): each service's
+# db/init scripts create its own schema + role.
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: pim
+      POSTGRES_USER: pim_admin
+      POSTGRES_PASSWORD: pim_admin_local_dev
+    ports:
+      # Host 15432: defaults 5432 AND 5433 are both taken by other local
+      # projects on shailesh's Mac (verified 2026-08-12), so PIM parks well
+      # outside the postgres default range. In-container port stays 5432.
+      - "15432:5432"
+    volumes:
+      - pim-pgdata:/var/lib/postgresql/data
+      - ./initdb.sh:/docker-entrypoint-initdb.d/00-init.sh:ro
+      - ../services/catalog/db/init:/pim-init/catalog:ro
+      # Future services mount their own init dirs alongside:
+      # - ../services/asset/db/init:/pim-init/asset:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pim_admin -d pim"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: pim
+      RABBITMQ_DEFAULT_PASS: pim_local_dev
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      # Host 6380: default 6379 is taken by another local project's Redis
+      # (verified on shailesh's Mac 2026-08-12). Nothing consumes Redis yet;
+      # when it's wired up, clients must use localhost:6380.
+            - "16380:6379"
+
+volumes:
+  pim-pgdata:

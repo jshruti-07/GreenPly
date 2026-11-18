@@ -1,0 +1,175 @@
+=== frontend check: Fri Aug 21 17:57:38 IST 2026 ===
+--- lint ---
+
+> pim-frontend@0.1.0 lint
+> eslint src
+
+--- test ---
+
+> pim-frontend@0.1.0 test
+> vitest --run
+
+
+ RUN  v3.2.7 /Users/apple/Project/PIMGit/pim-platform/frontend
+
+ ✓ src/features/workflow/WorkflowsPage.test.tsx (10 tests) 1709ms
+   ✓ WorkflowsPage > draws one column per configured step, in pipeline order  339ms
+   ✓ WorkflowsPage > switches to the list and asks the queue endpoint for it  453ms
+ ✓ src/features/categories/CategoriesPage.test.tsx (9 tests) 1846ms
+   ✓ CategoriesPage > renders the hierarchy with roots expanded and deeper levels reachable  655ms
+ ✓ src/features/products/LocalizationTab.test.tsx (14 tests) 2675ms
+   ✓ LocalizationTab > sends only the fields that were edited  719ms
+ ✓ src/features/assets/AssetLibraryPage.test.tsx (15 tests) 2998ms
+   ✓ AssetLibraryPage > surfaces the two figures no per-product screen can answer  357ms
+   ✓ AssetLibraryPage > shows BIM and CAD as first-class types with their own counts  381ms
+   ✓ AssetLibraryPage > says a re-uploaded file was already in the library rather than looking inert  343ms
+ ✓ src/features/products/ComplianceTab.test.tsx (15 tests) 4152ms
+   ✓ ComplianceTab > lists certificates with authority and dates  693ms
+   ✓ ComplianceTab > adds a certificate with the loaded rowVersion  750ms
+   ✓ ComplianceTab > offers withdraw and supersede when editing, but never "expired"  317ms
+   ✓ ComplianceTab > edits a certificate against its id  551ms
+   ✓ ComplianceTab > surfaces a duplicate certificate number without closing the drawer  386ms
+ ✓ src/features/products/AssetsTab.test.tsx (21 tests) 5856ms
+   ✓ AssetsTab > splits assets by whether they can be shown as a picture  376ms
+   ✓ AssetsTab > promotes an asset to primary through the link, not the asset  310ms
+   ✓ AssetsTab > sends the link request with the type left for the server to infer  863ms
+   ✓ AssetsTab > defaults a document to DATASHEET even after the image drawer has been open  942ms
+   ✓ AssetsTab > does not carry a previously typed URL into the next open  700ms
+   ✓ AssetsTab > keeps the drawer open and shows why when the link is refused  518ms
+ ✓ src/features/products/ClassificationsTab.test.tsx (13 tests) 3547ms
+   ✓ ClassificationsTab > lists each standard with its assigned class  461ms
+   ✓ ClassificationsTab > does not offer feature editing for a scheme with no features  501ms
+   ✓ ClassificationsTab > assigns a class with the loaded rowVersion  592ms
+   ✓ ClassificationsTab > sends null when the mapping is cleared  428ms
+   ✓ ClassificationsTab > saves every feature, sending null for the ones left blank  320ms
+   ✓ ClassificationsTab > surfaces a rejected feature value without closing the drawer  364ms
+ ✓ src/features/products/ProductDetailPage.a11y.test.tsx (10 tests) 3140ms
+   ✓ ProductDetailPage — tablist accessibility > exposes every declared tab as a tab  858ms
+   ✓ ProductDetailPage — tablist accessibility > wraps from the last tab to the first  332ms
+   ✓ ProductDetailPage — tablist accessibility > jumps to the first and last tab with Home and End  357ms
+   ✓ ProductDetailPage — tablist accessibility > keeps exactly one tab selected as the panel changes  439ms
+ ✓ src/features/translation/TranslationPage.test.tsx (11 tests) 2663ms
+   ✓ TranslationPage > breaks each language down instead of showing only a percentage  582ms
+   ✓ TranslationPage > defaults the target to the first non-base language from the payload  388ms
+   ✓ TranslationPage > sends the chosen filter to the API and resets to page 1  320ms
+   ✓ TranslationPage > pages only when there is more than one page  356ms
+ ✓ src/features/attributes/AttributeLibraryPage.test.tsx (10 tests) 2033ms
+   ✓ AttributeLibraryPage > lists every attribute with its group and type  408ms
+   ✓ AttributeLibraryPage > filters by group, by type and by search together  471ms
+   ✓ AttributeLibraryPage > opens the detail panel and names the languages with no label  306ms
+ ✓ src/features/products/ProductDetailPage.test.tsx (9 tests) 2903ms
+   ✓ ProductDetailPage > shows the product in read mode  725ms
+   ✓ ProductDetailPage > saves edited fields with the loaded rowVersion  978ms
+   ✓ ProductDetailPage > surfaces a concurrency conflict without losing the form  320ms
+   ✓ ProductDetailPage > cancels an edit without saving  315ms
+ ✓ src/features/products/ProductsGrid.test.tsx (24 tests) 11344ms
+   ✓ ProductsGrid > renders rows with the v4.2 columns  968ms
+   ✓ ProductsGrid > sorts server-side and toggles direction on repeat clicks  735ms
+   ✓ ProductsGrid > filters by status and resets to page 1  825ms
+   ✓ ProductsGrid > filters by category using the lookup endpoint  627ms
+   ✓ ProductsGrid > debounces free-text search into a single request  932ms
+   ✓ ProductsGrid > pages forward and back, disabling controls at the boundaries  608ms
+   ✓ ProductsGrid > changes page size  325ms
+   ✓ ProductsGrid > toggles row density  576ms
+   ✓ ProductsGrid > offers to clear filters when a filtered search returns nothing  412ms
+   ✓ ProductsGrid > select-all covers the page and clears again  669ms
+   ✓ ProductsGrid > exports only the selected codes  567ms
+   ✓ ProductsGrid > hides a column via the column chooser  522ms
+   ✓ ProductsGrid > keeps the Product column non-hideable  324ms
+   ✓ ProductsGrid > saves and applies a view  1357ms
+ ✓ src/features/products/WorkflowTab.test.tsx (10 tests) 2706ms
+   ✓ WorkflowTab > draws one button per action the pipeline offers, using the pipeline label  573ms
+   ✓ WorkflowTab > sends the reviewer note and the claimed actor with the action  1264ms
+stderr | src/features/products/VariantsTab.test.tsx > VariantsTab > edits a variant and keeps the code immutable
+Warning: A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components
+    at input
+    at div
+    at FieldWrapper (/Users/apple/Project/PIMGit/pim-platform/frontend/src/components/Field.tsx:7:25)
+    at TextField (/Users/apple/Project/PIMGit/pim-platform/frontend/src/components/Field.tsx:37:22)
+    at div
+    at div
+    at form
+    at div
+    at div
+    at Drawer (/Users/apple/Project/PIMGit/pim-platform/frontend/src/components/Drawer.tsx:4:19)
+    at VariantsTab (/Users/apple/Project/PIMGit/pim-platform/frontend/src/features/products/VariantsTab.tsx:19:24)
+    at ToastProvider (/Users/apple/Project/PIMGit/pim-platform/frontend/src/components/Toast.tsx:14:26)
+
+ ✓ src/features/products/PlanningTab.test.tsx (11 tests) 1646ms
+   ✓ PlanningTab > shows a parameter with its unit and its code  331ms
+   ✓ PlanningTab > sends the steward to the tab that owns each value  397ms
+ ✓ src/features/dashboard/DashboardPage.test.tsx (7 tests) 1186ms
+   ✓ DashboardPage > renders every KPI the API returns rather than a fixed four  486ms
+ ✓ src/features/products/PackagingTab.test.tsx (12 tests) 3199ms
+   ✓ PackagingTab > groups packaging under its SKU, because packaging belongs to the variant  841ms
+   ✓ PackagingTab > adds a level with the loaded rowVersion and the SKU it was opened from  439ms
+   ✓ PackagingTab > only offers levels the variant does not already have  385ms
+   ✓ PackagingTab > surfaces a duplicate GTIN without closing the drawer  351ms
+ ✓ src/features/products/VariantsTab.test.tsx (9 tests) 3081ms
+   ✓ VariantsTab > lists variants with their commercial fields  728ms
+   ✓ VariantsTab > adds a variant with the loaded rowVersion  589ms
+   ✓ VariantsTab > edits a variant and keeps the code immutable  570ms
+   ✓ VariantsTab > surfaces a write conflict without closing the drawer  333ms
+   ✓ VariantsTab > surfaces a validation failure from the API  354ms
+ ✓ src/features/products/ActivityTab.test.tsx (13 tests) 2343ms
+   ✓ ActivityTab > lists entries with their action and detail  736ms
+   ✓ ActivityTab > sends the search term to the server  349ms
+ ✓ src/features/products/RelationshipsTab.test.tsx (8 tests) 2418ms
+   ✓ RelationshipsTab > shows every relationship type, including the empty ones  411ms
+   ✓ RelationshipsTab > links to the related product rather than just naming it  474ms
+   ✓ RelationshipsTab > adds a link with the type of the card it was opened from  535ms
+   ✓ RelationshipsTab > surfaces a self-reference rejection without closing the drawer  530ms
+ ✓ src/features/products/ApplicationsTab.test.tsx (10 tests) 2190ms
+   ✓ ApplicationsTab > shows every option, not only the assigned ones  566ms
+   ✓ ApplicationsTab > surfaces a write conflict and keeps the selection  304ms
+ ✓ src/features/products/gridState.test.ts (17 tests) 26ms
+ ✓ src/components/ChannelDots.test.tsx (7 tests) 463ms
+ ✓ src/app/LocaleSelector.test.tsx (6 tests) 960ms
+   ✓ LocaleSelector > offers every configured language once the list loads  540ms
+ ✓ src/components/ErrorBoundary.test.tsx (3 tests) 865ms
+   ✓ ErrorBoundary > shows a recoverable message instead of a blank screen  383ms
+ ✓ src/features/products/gridPreferences.test.ts (9 tests) 34ms
+ ✓ src/features/products/CreateProductDrawer.test.tsx (6 tests) 3243ms
+   ✓ CreateProductDrawer > renders the seven v4.2 wizard fields  420ms
+   ✓ CreateProductDrawer > posts the wizard fields and reports the created product  1367ms
+   ✓ CreateProductDrawer > allows an unassigned owner  531ms
+   ✓ CreateProductDrawer > surfaces an RFC 7807 validation failure without closing  644ms
+ ✓ src/app/AppShell.test.tsx (4 tests) 2189ms
+   ✓ AppShell > renders all five v4.2 nav groups with their items  1341ms
+   ✓ AppShell > toggles sidebar collapse  463ms
+ ✓ src/components/Table.test.tsx (4 tests) 752ms
+   ✓ Table > renders a table with rows and cells  499ms
+ ✓ src/features/products/FallbackMark.test.tsx (4 tests) 125ms
+ ✓ src/components/Field.test.tsx (5 tests) 730ms
+   ✓ SelectField > renders options and supports selection  396ms
+ ✓ src/components/Toast.test.tsx (3 tests) 604ms
+   ✓ Toast > shows a toast and auto-dismisses it  431ms
+ ✓ src/components/Button.test.tsx (7 tests) 740ms
+   ✓ Button > renders with default variant and type button  382ms
+ ✓ src/components/Chip.test.tsx (7 tests) 148ms
+ ✓ src/components/Drawer.test.tsx (3 tests) 475ms
+ ✓ src/components/QualityBar.test.tsx (4 tests) 160ms
+ ✓ src/components/EmptyState.test.tsx (2 tests) 165ms
+
+ Test Files  36 passed (36)
+      Tests  332 passed (332)
+   Start at  17:57:44
+   Duration  36.84s (transform 4.29s, setup 10.80s, collect 30.36s, tests 75.31s, environment 74.72s, prepare 13.94s)
+
+--- build ---
+
+> pim-frontend@0.1.0 build
+> tsc -b && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 92 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:  0.26 kB
+dist/assets/index-BtzE1kxM.css   21.09 kB │ gzip:  5.02 kB
+dist/assets/index-Buk4iPpy.js   350.45 kB │ gzip: 99.80 kB
+✓ built in 2.16s
+FRONTEND: OK
+
+=== exit code: 0 ===

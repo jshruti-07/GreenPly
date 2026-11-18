@@ -1,0 +1,45 @@
+Docker disk check — Fri Aug 21 16:47:39 IST 2026
+
+[1m----- Who am I -----[0m
+uid=502(apple) gid=20(staff) groups=20(staff),12(everyone),61(localaccounts),79(_appserverusr),80(admin),81(_appserveradm),701(com.apple.sharepoint.group.1),33(_appstore),98(_lpadmin),100(_lpoperator),204(_developer),250(_analyticsusers),395(com.apple.access_ftp),398(com.apple.access_screensharing),399(com.apple.access_ssh),400(com.apple.access_remote_ae)
+
+[1m----- The disk image -----[0m
+-rw-r--r--  1 root  staff  - 413873559796 21 Jun 21:14 /Users/apple/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
+
+owner=root group=staff mode=-rw-r--r-- logical_size=413873559796 bytes flags=-
+
+actual blocks used:
+315M	/Users/apple/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
+
+[1m----- ACLs on the image -----[0m
+-rw-r--r--  1 root  staff  413873559796 21 Jun 21:14 /Users/apple/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
+
+[1m----- Parent directory chain (flags + mode) -----[0m
+drwxr-xr-x@ 3 apple  staff  - 96 21 Aug 16:41 /Users/apple/Library/Containers/com.docker.docker/Data/vms/0/data
+drwxr-xr-x@ 4 apple  staff  - 128 21 Aug 16:41 /Users/apple/Library/Containers/com.docker.docker/Data/vms/0
+drwxr-xr-x@ 3 apple  staff  - 96 11 Jun 15:33 /Users/apple/Library/Containers/com.docker.docker/Data/vms
+drwxr-xr-x@ 13 apple  staff  - 416 21 Aug 16:45 /Users/apple/Library/Containers/com.docker.docker/Data
+drwxr-xr-x@ 7 apple  staff  - 224 21 Aug 16:09 /Users/apple/Library/Containers/com.docker.docker
+drwx------  685 apple  staff  - 21920 18 Aug 13:21 /Users/apple/Library/Containers
+drwx------@ 93 apple  staff  hidden 2976 10 Aug 11:32 /Users/apple/Library
+drwxr-xr-x+ 37 apple  staff  - 1184 21 Aug 16:47 /Users/apple
+drwxr-xr-x+ 37 apple  staff  - 1184 21 Aug 16:47 /Users/apple
+
+[1m----- Configured virtual disk size -----[0m
+  file: /Users/apple/Library/Group Containers/group.com.docker/settings-store.json
+
+[1m----- Free space vs requested 395700 MiB (~386 GiB) -----[0m
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1   460Gi   106Gi   332Gi    25%    1.0M  3.5G    0%   /System/Volumes/Data
+
+  requested : 395700 MiB = 386 GiB
+  available : 340179 MiB = 332 GiB
+  VERDICT   : requested size EXCEEDS free space
+
+[1m----- Volume capabilities (sparse files need APFS) -----[0m
+   File System Personality:   APFS
+   Type (Bundle):             apfs
+   Media Read-Only:           No
+   Volume Read-Only:          No
+
+[1mCheck complete — nothing was changed. Output: docker-disk-log.txt[0m

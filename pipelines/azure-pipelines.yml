@@ -1,0 +1,98 @@
+# PIM platform CI — Azure Pipelines (microservices monorepo)
+# Path-filtered jobs: each service builds only when it (or shared code) changes.
+# NOTE: authored offline; validate task versions against your Azure DevOps org.
+trigger:
+  branches:
+    include: [main]
+
+pr:
+  branches:
+    include: [main]
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  buildConfiguration: Release
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+stages:
+  - stage: Detect
+    jobs:
+      - job: Changes
+        steps:
+          - checkout: self
+            fetchDepth: 0 # full history: PR diff needs the merge base
+
+          - bash: |
+              set -euo pipefail
+              if [ "${BUILD_REASON:-}" != "PullRequest" ]; then
+                # Push to main (or manual run): always build everything.
+                # Diffing main...HEAD here would be empty and skip all jobs.
+                echo "Non-PR build (${BUILD_REASON:-unknown}) — building all stacks."
+                echo "##vso[task.setvariable variable=catalog;isOutput=true]true"
+                echo "##vso[task.setvariable variable=frontend;isOutput=true]true"
+                exit 0
+              fi
+              BASE="${SYSTEM_PULLREQUEST_TARGETBRANCHNAME:-main}"
+              git fetch origin "$BASE"
+              CHANGED=$(git diff --name-only "origin/$BASE"...HEAD || true)
+              echo "$CHANGED"
+              c=false; f=false
+              echo "$CHANGED" | grep -qE '^(services/catalog/|shared/|pipelines/)' && c=true
+              echo "$CHANGED" | grep -qE '^(frontend/|pipelines/)' && f=true
+              echo "##vso[task.setvariable variable=catalog;isOutput=true]$c"
+              echo "##vso[task.setvariable variable=frontend;isOutput=true]$f"
+            name: paths
+            displayName: Detect changed paths
+
+  - stage: Build
+    dependsOn: Detect
+    jobs:
+      - job: CatalogService
+        condition: eq(stageDependencies.Detect.Changes.outputs['paths.catalog'], 'true')
+        steps:
+          - task: UseDotNet@2
+            inputs:
+              packageType: sdk
+              useGlobalJson: true
+              workingDirectory: services/catalog
+
+          - script: dotnet restore services/catalog/Pim.Catalog.sln
+            displayName: Restore
+
+          - script: dotnet build services/catalog/Pim.Catalog.sln -c $(buildConfiguration) --no-restore
+            displayName: Build
+
+          - script: >
+              dotnet test services/catalog/Pim.Catalog.sln -c $(buildConfiguration) --no-build
+              --collect:"XPlat Code Coverage"
+              --logger trx
+              --results-directory $(Agent.TempDirectory)/TestResults
+            displayName: Test
+
+          - task: PublishTestResults@2
+            condition: succeededOrFailed()
+            inputs:
+              testResultsFormat: VSTest
+              testResultsFiles: '$(Agent.TempDirectory)/TestResults/**/*.trx'
+
+          - task: PublishCodeCoverageResults@2
+            inputs:
+              summaryFileLocation: '$(Agent.TempDirectory)/TestResults/**/coverage.cobertura.xml'
+
+      - job: Frontend
+        condition: eq(stageDependencies.Detect.Changes.outputs['paths.frontend'], 'true')
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: 22.x
+
+          - script: npm ci
+            displayName: Install
+            workingDirectory: frontend
+
+          - script: npm run lint && npm run test -- --run && npm run build
+            displayName: Lint, test, build
+            workingDirectory: frontend

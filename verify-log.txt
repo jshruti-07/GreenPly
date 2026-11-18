@@ -1,0 +1,158 @@
+=== PIM verification run: Sun Aug 16 21:50:08 IST 2026 ===
+--- toolchain ---
+dotnet: 10.0.400
+node:   v20.20.2
+npm:    10.8.2
+docker: Docker version 29.4.2, build 055a478
+docker daemon: RUNNING
+
+
+[1m== Toolchain ==[0m
+10.0.400
+
+[1m== Infra (docker compose) ==[0m
+ Container infra-redis-1 Running 
+ Container infra-rabbitmq-1 Running 
+ Container infra-postgres-1 Running 
+
+[1m== Wait for PostgreSQL healthy (max 60s) ==[0m
+
+[1m== Catalog DDL applied (schema + role exist) ==[0m
+
+[1m== Dev seed applied (16 demo products from prototype v4.2) ==[0m
+products in catalog.product: 501
+
+[1m== dotnet restore (first run WILL surface package-version issues — expected) ==[0m
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+
+[1m== dotnet build (warnings are errors) ==[0m
+  Pim.SharedKernel -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/shared/dotnet/Pim.SharedKernel/bin/Release/net10.0/Pim.SharedKernel.dll
+  Pim.Catalog.Domain -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Domain/bin/Release/net10.0/Pim.Catalog.Domain.dll
+  Pim.Catalog.Domain.Tests -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Domain.Tests/bin/Release/net10.0/Pim.Catalog.Domain.Tests.dll
+  Pim.Catalog.Application -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Application/bin/Release/net10.0/Pim.Catalog.Application.dll
+  Pim.Catalog.Application.Tests -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/bin/Release/net10.0/Pim.Catalog.Application.Tests.dll
+  Pim.Catalog.Infrastructure -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/bin/Release/net10.0/Pim.Catalog.Infrastructure.dll
+  Pim.Catalog.Integration.Tests -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Integration.Tests/bin/Release/net10.0/Pim.Catalog.Integration.Tests.dll
+  Pim.Catalog.Api -> /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/src/Pim.Catalog.Api/bin/Release/net10.0/Pim.Catalog.Api.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.09
+
+[1m== dotnet test ==[0m
+Test run for /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Domain.Tests/bin/Release/net10.0/Pim.Catalog.Domain.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/bin/Release/net10.0/Pim.Catalog.Application.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/services/catalog/tests/Pim.Catalog.Integration.Tests/bin/Release/net10.0/Pim.Catalog.Integration.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   156, Skipped:     0, Total:   156, Duration: 41 ms - Pim.Catalog.Domain.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    97, Skipped:     0, Total:    97, Duration: 88 ms - Pim.Catalog.Application.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    13, Skipped:     0, Total:    13, Duration: 564 ms - Pim.Catalog.Integration.Tests.dll (net10.0)
+
+[1m== Frontend lint + test + build ==[0m
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+
+added 288 packages, and audited 289 packages in 2s
+
+69 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+> pim-frontend@0.1.0 lint
+> eslint src
+
+
+> pim-frontend@0.1.0 test
+> vitest --run
+
+
+ RUN  v3.2.7 /Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend
+
+stderr | src/features/products/VariantsTab.test.tsx > VariantsTab > edits a variant and keeps the code immutable
+Warning: A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components
+    at input
+    at div
+    at FieldWrapper (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Field.tsx:7:25)
+    at TextField (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Field.tsx:37:22)
+    at div
+    at div
+    at form
+    at div
+    at div
+    at Drawer (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Drawer.tsx:4:19)
+    at VariantsTab (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/features/products/VariantsTab.tsx:19:24)
+    at ToastProvider (/Users/shaileshkulkarni/Documents/Claude/Projects/PIM project/pim-platform/frontend/src/components/Toast.tsx:14:26)
+
+ ✓ src/features/products/VariantsTab.test.tsx (9 tests) 708ms
+ ✓ src/features/products/PackagingTab.test.tsx (12 tests) 719ms
+ ✓ src/features/products/ProductDetailPage.test.tsx (9 tests) 625ms
+ ✓ src/features/products/ProductDetailPage.a11y.test.tsx (10 tests) 641ms
+ ✓ src/features/products/LocalizationTab.test.tsx (14 tests) 852ms
+   ✓ LocalizationTab > sends only the fields that were edited  389ms
+ ✓ src/features/products/ComplianceTab.test.tsx (15 tests) 881ms
+ ✓ src/features/products/ClassificationsTab.test.tsx (13 tests) 947ms
+ ✓ src/features/products/AssetsTab.test.tsx (21 tests) 1543ms
+ ✓ src/features/products/gridState.test.ts (17 tests) 8ms
+ ✓ src/components/ChannelDots.test.tsx (7 tests) 127ms
+ ✓ src/features/products/PlanningTab.test.tsx (11 tests) 395ms
+ ✓ src/features/products/ActivityTab.test.tsx (13 tests) 491ms
+ ✓ src/features/products/ApplicationsTab.test.tsx (10 tests) 504ms
+ ✓ src/features/products/RelationshipsTab.test.tsx (8 tests) 505ms
+ ✓ src/features/products/ProductsGrid.test.tsx (24 tests) 2387ms
+   ✓ ProductsGrid > debounces free-text search into a single request  436ms
+ ✓ src/features/products/CreateProductDrawer.test.tsx (6 tests) 910ms
+   ✓ CreateProductDrawer > posts the wizard fields and reports the created product  352ms
+ ✓ src/features/products/gridPreferences.test.ts (9 tests) 6ms
+ ✓ src/components/ErrorBoundary.test.tsx (3 tests) 167ms
+ ✓ src/app/AppShell.test.tsx (4 tests) 400ms
+ ✓ src/components/Table.test.tsx (4 tests) 143ms
+ ✓ src/components/Button.test.tsx (7 tests) 124ms
+ ✓ src/components/Field.test.tsx (5 tests) 158ms
+ ✓ src/components/Toast.test.tsx (3 tests) 119ms
+ ✓ src/components/Chip.test.tsx (7 tests) 26ms
+ ✓ src/components/QualityBar.test.tsx (4 tests) 48ms
+ ✓ src/components/Drawer.test.tsx (3 tests) 75ms
+ ✓ src/components/EmptyState.test.tsx (2 tests) 39ms
+
+ Test Files  27 passed (27)
+      Tests  250 passed (250)
+   Start at  21:50:22
+   Duration  4.46s (transform 785ms, setup 1.74s, collect 5.47s, tests 13.55s, environment 11.91s, prepare 2.15s)
+
+
+> pim-frontend@0.1.0 build
+> tsc -b && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 76 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:  0.26 kB
+dist/assets/index-B2buyWsc.css   17.49 kB │ gzip:  4.40 kB
+dist/assets/index-CIJWFKeF.js   288.12 kB │ gzip: 85.81 kB
+✓ built in 558ms
+
+[1m== Summary ==[0m
+  PASS  docker compose up
+  PASS  postgres ready
+  PASS  catalog schema exists
+  PASS  catalog_svc role exists
+  PASS  dev seed present (>=16 products)
+  PASS  dotnet restore
+  PASS  dotnet build
+  PASS  dotnet test
+  PASS  frontend lint/test/build
+
+Sprint 0 backend gate: GREEN — scaffold accepted (per README).
+
+=== exit code: 0 ===
+=== run complete: Sun Aug 16 21:50:29 IST 2026 ===

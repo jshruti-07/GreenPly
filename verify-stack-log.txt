@@ -1,0 +1,34 @@
+Stack verification — Fri Aug 21 17:56:58 IST 2026
+
+[1m== Infrastructure containers ==[0m
+infra-postgres-1	running	Up About an hour (healthy)
+infra-rabbitmq-1	running	Up About an hour
+infra-redis-1	running	Up About an hour
+  [32mPASS[0m  infra-postgres-1 running
+  [32mPASS[0m  infra-rabbitmq-1 running
+  [32mPASS[0m  infra-redis-1 running
+
+[1m== Catalog API direct (:5100) ==[0m
+  [32mPASS[0m  healthz (= 200)
+  [32mPASS[0m  swagger.json (= 200)
+  [32mPASS[0m  swagger describes paths
+
+[1m== Frontend dev server (:5174) ==[0m
+  [32mPASS[0m  index.html served (= 200)
+  [32mPASS[0m  index has module entry
+  [32mPASS[0m  vite client injected
+
+[1m== Vite proxy seam  /api -> :5100 ==[0m
+  route under test: /api/v1/attributes
+  direct :5100 -> 200     via proxy :5174 -> 200
+  [32mPASS[0m  proxy forwards /api/v1/attributes faithfully (both = 200)
+  [32mPASS[0m  proxied body is byte-identical to the direct response
+
+[1m== Outbox transport (ADR-007) ==[0m
+  /healthz body: Healthy
+  [32mPASS[0m  aggregate health Healthy — outbox is delivering externally (log-only transport would force Degraded)
+  [32mPASS[0m  RabbitMQ exchange 'catalog.events' exists — the service really connected
+
+[1m== Summary ==[0m
+  passed: 13   failed: 0
+[32m[1mSTACK: GREEN[0m

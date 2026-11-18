@@ -1,0 +1,461 @@
+[1m== Docker VM disk ownership ==[0m
+  target: /Users/apple/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
+  [32mPASS[0m  Docker Desktop is not running
+  owner: root   flags: -
+
+  renaming aside (NOT deleting):
+    from : /Users/apple/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
+    to   : /Users/apple/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw.root-owned.20260821-165019.bak
+  [32mPASS[0m  original preserved at /Users/apple/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw.root-owned.20260821-165019.bak
+  actual space it occupies: 315M
+
+[1m== Handing off to Start Docker and Run PIM.command ==[0m
+[1m== Docker engine ==[0m
+  launching /Applications/Docker.app
+  waiting for the engine (up to 180s).
+  [32mPASS[0m  engine running (Docker version 29.5.3, build d1c06ef)
+
+[1m== Handing off to Setup Mac.command ==[0m
+
+[1m== Machine ==[0m
+  macOS      : 26.5.2
+  Arch       : arm64
+  Repo       : /Users/apple/Project/PIMGit/pim-platform
+  Started    : Fri Aug 21 16:50:25 IST 2026
+
+[1m== .NET SDK 10 ==[0m
+  [32mPASS[0m  found 10.0.400 at /Users/apple/.dotnet/dotnet
+
+[1m== Node 22+ ==[0m
+  [32mPASS[0m  found v22.23.2 at /opt/homebrew/bin/node, npm 10.9.8
+
+[1m== Docker ==[0m
+  [32mPASS[0m  docker engine responding (Docker version 29.5.3, build d1c06ef)
+
+[1m== Frontend dependencies ==[0m
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+
+added 288 packages, and audited 289 packages in 2s
+
+69 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+  [32mPASS[0m  node_modules installed from lockfile
+
+[1m== Backend restore / build / test ==[0m
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Pim.SharedKernel -> /Users/apple/Project/PIMGit/pim-platform/shared/dotnet/Pim.SharedKernel/bin/Debug/net10.0/Pim.SharedKernel.dll
+  Pim.Catalog.Domain -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/src/Pim.Catalog.Domain/bin/Debug/net10.0/Pim.Catalog.Domain.dll
+  Pim.Catalog.Application -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/src/Pim.Catalog.Application/bin/Debug/net10.0/Pim.Catalog.Application.dll
+  Pim.Catalog.Domain.Tests -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Domain.Tests/bin/Debug/net10.0/Pim.Catalog.Domain.Tests.dll
+  Pim.Catalog.Infrastructure -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/src/Pim.Catalog.Infrastructure/bin/Debug/net10.0/Pim.Catalog.Infrastructure.dll
+  Pim.Catalog.Application.Tests -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/bin/Debug/net10.0/Pim.Catalog.Application.Tests.dll
+  Pim.Catalog.Integration.Tests -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Integration.Tests/bin/Debug/net10.0/Pim.Catalog.Integration.Tests.dll
+  Pim.Catalog.Api -> /Users/apple/Project/PIMGit/pim-platform/services/catalog/src/Pim.Catalog.Api/bin/Debug/net10.0/Pim.Catalog.Api.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.16
+  [32mPASS[0m  catalog service builds
+Test run for /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Domain.Tests/bin/Debug/net10.0/Pim.Catalog.Domain.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Application.Tests/bin/Debug/net10.0/Pim.Catalog.Application.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/apple/Project/PIMGit/pim-platform/services/catalog/tests/Pim.Catalog.Integration.Tests/bin/Debug/net10.0/Pim.Catalog.Integration.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   187, Skipped:     0, Total:   187, Duration: 75 ms - Pim.Catalog.Domain.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:   124, Skipped:     0, Total:   124, Duration: 159 ms - Pim.Catalog.Application.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    86, Skipped:     0, Total:    86, Duration: 39 s - Pim.Catalog.Integration.Tests.dll (net10.0)
+  [32mPASS[0m  catalog tests green (unit + integration)
+
+[1m== Summary ==[0m
+  [32mPASS[0m  .NET SDK 10
+  [32mPASS[0m  Node 22+
+  [32mPASS[0m  Docker engine
+  [32mPASS[0m  PATH recorded in ~/.zprofile (marked block)
+
+[32m[1mSetup complete.[0m Log: setup-log.txt
+
+Next: 'Run PIM.command' starts infra (postgres :15432, rabbitmq, redis :6380),
+the catalog API on :5100 (Swagger /swagger) and the frontend on :5174.
+First run also pulls the postgres/rabbitmq/redis images — allow a few minutes.
+== Infra (postgres :15432, rabbitmq, redis :6380) ==
+ Image rabbitmq:4-management-alpine Pulling 
+ Image redis:7-alpine Pulling 
+ 14a4754c352f Pulling fs layer 0B
+ d5861f27663e Pulling fs layer 0B
+ 410f1ec71568 Pulling fs layer 0B
+ eb77db7df758 Pulling fs layer 0B
+ 7983c00aca71 Pulling fs layer 0B
+ 7f5ee86d385c Pulling fs layer 0B
+ 2d4c4f881f4a Pulling fs layer 0B
+ 76f6cb0e25b1 Pulling fs layer 0B
+ 2d1414e5a0a3 Pulling fs layer 0B
+ 8c3c99e3d27b Pulling fs layer 0B
+ 0c159c15db72 Pulling fs layer 0B
+ 2d4c4f881f4a Waiting 0B
+ 76f6cb0e25b1 Waiting 0B
+ 2d1414e5a0a3 Waiting 0B
+ 8c3c99e3d27b Waiting 0B
+ 0c159c15db72 Waiting 0B
+ eb77db7df758 Waiting 0B
+ 7983c00aca71 Waiting 0B
+ 7f5ee86d385c Waiting 0B
+ 2dd7199cff98 Pulling fs layer 0B
+ f771ad69e7ef Pulling fs layer 0B
+ 1720d483913a Pulling fs layer 0B
+ 9ca61e94b8b4 Pulling fs layer 0B
+ 0959c9ac2be7 Pulling fs layer 0B
+ 4f4fb700ef54 Pulling fs layer 0B
+ 2ead3bb52b36 Pulling fs layer 0B
+ 2dd7199cff98 Waiting 0B
+ f771ad69e7ef Waiting 0B
+ 1720d483913a Waiting 0B
+ 9ca61e94b8b4 Waiting 0B
+ 0959c9ac2be7 Waiting 0B
+ 4f4fb700ef54 Waiting 0B
+ 2ead3bb52b36 Waiting 0B
+ d5861f27663e Downloading 407.8kB
+ 410f1ec71568 Downloading 106.3kB
+ d5861f27663e Downloading 824.6kB
+ 410f1ec71568 Downloading 213kB
+ 410f1ec71568 Downloading 628.7kB
+ d5861f27663e Downloading 2.465MB
+ 410f1ec71568 Downloading 942.1kB
+ d5861f27663e Downloading 3.284MB
+ d5861f27663e Downloading 4.102MB
+ 410f1ec71568 Downloading 1.274MB
+ 14a4754c352f Downloading 48.51kB
+ d5861f27663e Downloading 5.331MB
+ 410f1ec71568 Downloading 1.729MB
+ 14a4754c352f Downloading 196kB
+ 410f1ec71568 Downloading 1.844MB
+ d5861f27663e Downloading 6.148MB
+ 410f1ec71568 Downloading 2.302MB
+ 14a4754c352f Downloading 490.9kB
+ d5861f27663e Downloading 7.369MB
+ 14a4754c352f Downloading 736.6kB
+ d5861f27663e Downloading 7.779MB
+ 410f1ec71568 Downloading 2.532MB
+ 14a4754c352f Downloading 933.2kB
+ d5861f27663e Downloading 8.611MB
+ 410f1ec71568 Downloading 2.876MB
+ d5861f27663e Downloading 9.43MB
+ 14a4754c352f Downloading 1.228MB
+ 410f1ec71568 Downloading 3.335MB
+ 14a4754c352f Downloading 1.425MB
+ 410f1ec71568 Downloading 3.564MB
+ d5861f27663e Downloading 10.27MB
+ 14a4754c352f Downloading 1.769MB
+ 410f1ec71568 Downloading 3.908MB
+ d5861f27663e Downloading 11.09MB
+ 14a4754c352f Downloading 1.965MB
+ 410f1ec71568 Downloading 4.252MB
+ 14a4754c352f Downloading 2.211MB
+ d5861f27663e Downloading 11.91MB
+ 410f1ec71568 Downloading 4.587MB
+ d5861f27663e Downloading 12.75MB
+ 14a4754c352f Downloading 2.457MB
+ 410f1ec71568 Downloading 4.817MB
+ d5861f27663e Downloading 13.58MB
+ 14a4754c352f Downloading 2.703MB
+ 410f1ec71568 Downloading 5.39MB
+ 14a4754c352f Downloading 2.998MB
+ 410f1ec71568 Downloading 5.734MB
+ d5861f27663e Downloading 14.41MB
+ 14a4754c352f Downloading 3.194MB
+ 410f1ec71568 Downloading 5.964MB
+ d5861f27663e Downloading 15.24MB
+ 14a4754c352f Downloading 3.44MB
+ d5861f27663e Downloading 15.65MB
+ 410f1ec71568 Downloading 6.308MB
+ 14a4754c352f Downloading 3.784MB
+ d5861f27663e Downloading 16.47MB
+ 410f1ec71568 Downloading 6.881MB
+ 14a4754c352f Downloading 4.03MB
+ d5861f27663e Downloading 16.88MB
+ 14a4754c352f Verifying Checksum 0B
+ 14a4754c352f Download complete 0B
+ 14a4754c352f Extracting 65.54kB
+ 14a4754c352f Extracting 4.182MB
+ 14a4754c352f Pull complete 0B
+ 410f1ec71568 Downloading 7.455MB
+ d5861f27663e Downloading 18.12MB
+ eb77db7df758 Downloading 32.77kB
+ 410f1ec71568 Downloading 8.143MB
+ d5861f27663e Downloading 19.35MB
+ eb77db7df758 Downloading 162.6kB
+ 410f1ec71568 Downloading 8.372MB
+ d5861f27663e Downloading 20.17MB
+ eb77db7df758 Downloading 359.2kB
+ 410f1ec71568 Downloading 8.488MB
+ eb77db7df758 Downloading 555.8kB
+ 410f1ec71568 Downloading 8.942MB
+ d5861f27663e Downloading 20.98MB
+ 410f1ec71568 Downloading 9.516MB
+ d5861f27663e Downloading 22.21MB
+ eb77db7df758 Downloading 913.1kB
+ 410f1ec71568 Downloading 9.86MB
+ 410f1ec71568 Verifying Checksum 0B
+ 410f1ec71568 Download complete 0B
+ d5861f27663e Downloading 23.03MB
+ eb77db7df758 Downloading 1.275MB
+ eb77db7df758 Downloading 1.57MB
+ d5861f27663e Downloading 23.87MB
+ eb77db7df758 Downloading 1.734MB
+ d5861f27663e Downloading 24.28MB
+ eb77db7df758 Downloading 2.062MB
+ 7983c00aca71 Downloading 275.7kB
+ d5861f27663e Downloading 25.11MB
+ eb77db7df758 Downloading 2.422MB
+ eb77db7df758 Downloading 2.513MB
+ eb77db7df758 Verifying Checksum 0B
+ eb77db7df758 Download complete 0B
+ 7983c00aca71 Downloading 817.9kB
+ d5861f27663e Downloading 25.93MB
+ 7983c00aca71 Downloading 1.366MB
+ d5861f27663e Downloading 26.76MB
+ 7983c00aca71 Downloading 1.91MB
+ d5861f27663e Downloading 27.18MB
+ 7f5ee86d385c Download complete 0B
+ d5861f27663e Downloading 28.01MB
+ 7983c00aca71 Downloading 2.467MB
+ 7983c00aca71 Downloading 3.024MB
+ d5861f27663e Downloading 28.83MB
+ 2d4c4f881f4a Downloading 109B
+ 2d4c4f881f4a Verifying Checksum 0B
+ 2d4c4f881f4a Download complete 0B
+ d5861f27663e Downloading 29.24MB
+ 7983c00aca71 Downloading 3.86MB
+ 7983c00aca71 Downloading 4.417MB
+ d5861f27663e Downloading 30.06MB
+ 76f6cb0e25b1 Downloading 618B
+ 76f6cb0e25b1 Verifying Checksum 0B
+ 76f6cb0e25b1 Download complete 0B
+ 7983c00aca71 Downloading 4.965MB
+ d5861f27663e Downloading 31.29MB
+ 7983c00aca71 Downloading 5.801MB
+ 7983c00aca71 Downloading 6.63MB
+ d5861f27663e Downloading 32.13MB
+ 7983c00aca71 Downloading 6.904MB
+ 7983c00aca71 Downloading 8.015MB
+ d5861f27663e Downloading 33.37MB
+ 7983c00aca71 Downloading 8.572MB
+ d5861f27663e Downloading 33.78MB
+ 2d1414e5a0a3 Downloading 830B
+ 2d1414e5a0a3 Verifying Checksum 0B
+ 2d1414e5a0a3 Download complete 0B
+ d5861f27663e Downloading 34.61MB
+ 7983c00aca71 Downloading 9.68MB
+ d5861f27663e Downloading 35.42MB
+ 7983c00aca71 Downloading 11.06MB
+ 8c3c99e3d27b Downloading 275B
+ 8c3c99e3d27b Verifying Checksum 0B
+ 8c3c99e3d27b Download complete 0B
+ d5861f27663e Downloading 36.24MB
+ 7983c00aca71 Downloading 12.15MB
+ 7983c00aca71 Downloading 12.71MB
+ d5861f27663e Downloading 37.05MB
+ 0c159c15db72 Downloading 49.15kB
+ 7983c00aca71 Downloading 13.8MB
+ d5861f27663e Downloading 37.88MB
+ 0c159c15db72 Downloading 293.7kB
+ 7983c00aca71 Downloading 14.35MB
+ 0c159c15db72 Downloading 539.4kB
+ 7983c00aca71 Downloading 15.45MB
+ d5861f27663e Downloading 38.7MB
+ 7983c00aca71 Downloading 15.73MB
+ 0c159c15db72 Downloading 736kB
+ d5861f27663e Downloading 39.11MB
+ 7983c00aca71 Downloading 16.28MB
+ 0c159c15db72 Downloading 978.6kB
+ 7983c00aca71 Downloading 17.38MB
+ 0c159c15db72 Downloading 1.223MB
+ d5861f27663e Downloading 39.93MB
+ 0c159c15db72 Downloading 1.419MB
+ 7983c00aca71 Downloading 18.2MB
+ d5861f27663e Downloading 40.34MB
+ d5861f27663e Verifying Checksum 0B
+ d5861f27663e Download complete 0B
+ d5861f27663e Extracting 426kB
+ d5861f27663e Extracting 11.08MB
+ 0c159c15db72 Downloading 1.665MB
+ 7983c00aca71 Downloading 19.03MB
+ d5861f27663e Extracting 19.17MB
+ 0c159c15db72 Downloading 1.911MB
+ 7983c00aca71 Downloading 19.85MB
+ 2dd7199cff98 Downloading 49.15kB
+ d5861f27663e Extracting 26.84MB
+ 0c159c15db72 Downloading 2.108MB
+ 7983c00aca71 Downloading 20.39MB
+ 2dd7199cff98 Downloading 388.5kB
+ d5861f27663e Extracting 34.5MB
+ d5861f27663e Extracting 40.52MB
+ d5861f27663e Pull complete 0B
+ 410f1ec71568 Extracting 131.1kB
+ 0c159c15db72 Downloading 2.304MB
+ 2dd7199cff98 Downloading 634.7kB
+ 410f1ec71568 Extracting 5.112MB
+ 2dd7199cff98 Downloading 1.027MB
+ 7983c00aca71 Downloading 21.22MB
+ 0c159c15db72 Downloading 2.353MB
+ 410f1ec71568 Extracting 9.992MB
+ 410f1ec71568 Pull complete 0B
+ eb77db7df758 Extracting 32.77kB
+ 2dd7199cff98 Downloading 1.321MB
+ 0c159c15db72 Downloading 2.55MB
+ eb77db7df758 Extracting 1.18MB
+ 7983c00aca71 Downloading 22.32MB
+ eb77db7df758 Extracting 2.513MB
+ 0c159c15db72 Downloading 2.796MB
+ eb77db7df758 Pull complete 0B
+ 7983c00aca71 Downloading 23.15MB
+ 2dd7199cff98 Downloading 1.911MB
+ 0c159c15db72 Downloading 2.943MB
+ 7983c00aca71 Downloading 23.98MB
+ 2dd7199cff98 Downloading 2.354MB
+ 2dd7199cff98 Downloading 2.599MB
+ 7983c00aca71 Downloading 24.52MB
+ 0c159c15db72 Downloading 3.189MB
+ 2dd7199cff98 Downloading 2.894MB
+ 7983c00aca71 Downloading 25.35MB
+ 0c159c15db72 Downloading 3.484MB
+ 2dd7199cff98 Downloading 3.435MB
+ 7983c00aca71 Downloading 26.17MB
+ 0c159c15db72 Downloading 3.68MB
+ 7983c00aca71 Download complete 0B
+ 7983c00aca71 Extracting 294.9kB
+ 7983c00aca71 Extracting 11.5MB
+ 2dd7199cff98 Downloading 3.828MB
+ 0c159c15db72 Downloading 3.828MB
+ 2dd7199cff98 Verifying Checksum 0B
+ 2dd7199cff98 Download complete 0B
+ 2dd7199cff98 Extracting 65.54kB
+ 7983c00aca71 Extracting 16.52MB
+ 2dd7199cff98 Extracting 3.994MB
+ 0c159c15db72 Downloading 3.926MB
+ 2dd7199cff98 Pull complete 0B
+ f771ad69e7ef Downloading 950B
+ f771ad69e7ef Download complete 0B
+ f771ad69e7ef Extracting 950B
+ f771ad69e7ef Extracting 950B
+ 0c159c15db72 Verifying Checksum 0B
+ 0c159c15db72 Download complete 0B
+ f771ad69e7ef Pull complete 0B
+ 7983c00aca71 Extracting 21.53MB
+ 7983c00aca71 Extracting 23.59MB
+ 1720d483913a Downloading 16.38kB
+ 7983c00aca71 Extracting 26.22MB
+ 7983c00aca71 Extracting 26.22MB
+ 7983c00aca71 Pull complete 0B
+ 1720d483913a Downloading 197.2kB
+ 1720d483913a Download complete 0B
+ 7f5ee86d385c Extracting 193B
+ 7f5ee86d385c Extracting 193B
+ 1720d483913a Extracting 32.77kB
+ 7f5ee86d385c Pull complete 0B
+ 2d4c4f881f4a Extracting 109B
+ 2d4c4f881f4a Extracting 109B
+ 2d4c4f881f4a Pull complete 0B
+ 76f6cb0e25b1 Extracting 618B
+ 76f6cb0e25b1 Extracting 618B
+ 76f6cb0e25b1 Pull complete 0B
+ 2d1414e5a0a3 Extracting 830B
+ 2d1414e5a0a3 Extracting 830B
+ 1720d483913a Extracting 197.2kB
+ 2d1414e5a0a3 Pull complete 0B
+ 8c3c99e3d27b Extracting 275B
+ 8c3c99e3d27b Extracting 275B
+ 8c3c99e3d27b Pull complete 0B
+ 0c159c15db72 Extracting 65.54kB
+ 0c159c15db72 Extracting 4.142MB
+ 0c159c15db72 Pull complete 0B
+ Image rabbitmq:4-management-alpine Pulled 
+ 1720d483913a Pull complete 0B
+ 9ca61e94b8b4 Downloading 130.4kB
+ 9ca61e94b8b4 Downloading 523.6kB
+ 9ca61e94b8b4 Downloading 1.179MB
+ 4f4fb700ef54 Downloading 32B
+ 4f4fb700ef54 Verifying Checksum 0B
+ 4f4fb700ef54 Download complete 0B
+ 0959c9ac2be7 Downloading 99B
+ 0959c9ac2be7 Verifying Checksum 0B
+ 0959c9ac2be7 Download complete 0B
+ 9ca61e94b8b4 Downloading 1.703MB
+ 9ca61e94b8b4 Downloading 1.834MB
+ 2ead3bb52b36 Downloading 602B
+ 2ead3bb52b36 Verifying Checksum 0B
+ 2ead3bb52b36 Download complete 0B
+ 9ca61e94b8b4 Downloading 2.359MB
+ 9ca61e94b8b4 Downloading 2.883MB
+ 9ca61e94b8b4 Downloading 3.407MB
+ 9ca61e94b8b4 Downloading 3.932MB
+ 9ca61e94b8b4 Downloading 4.587MB
+ 9ca61e94b8b4 Downloading 5.242MB
+ 9ca61e94b8b4 Downloading 5.898MB
+ 9ca61e94b8b4 Downloading 6.553MB
+ 9ca61e94b8b4 Downloading 7.602MB
+ 9ca61e94b8b4 Downloading 8.388MB
+ 9ca61e94b8b4 Downloading 9.305MB
+ 9ca61e94b8b4 Downloading 10.35MB
+ 9ca61e94b8b4 Downloading 10.62MB
+ 9ca61e94b8b4 Downloading 11.93MB
+ 9ca61e94b8b4 Downloading 12.58MB
+ 9ca61e94b8b4 Verifying Checksum 0B
+ 9ca61e94b8b4 Download complete 0B
+ 9ca61e94b8b4 Extracting 131.1kB
+ 9ca61e94b8b4 Extracting 8.913MB
+ 9ca61e94b8b4 Extracting 12.58MB
+ 9ca61e94b8b4 Extracting 12.58MB
+ 9ca61e94b8b4 Pull complete 0B
+ 0959c9ac2be7 Extracting 99B
+ 0959c9ac2be7 Extracting 99B
+ 0959c9ac2be7 Pull complete 0B
+ 4f4fb700ef54 Extracting 32B
+ 4f4fb700ef54 Extracting 32B
+ 4f4fb700ef54 Pull complete 0B
+ 2ead3bb52b36 Extracting 602B
+ 2ead3bb52b36 Extracting 602B
+ 2ead3bb52b36 Pull complete 0B
+ Image redis:7-alpine Pulled 
+ Network infra_default Creating 
+ Network infra_default Created 
+ Volume infra_pim-pgdata Creating 
+ Volume infra_pim-pgdata Created 
+ Container infra-rabbitmq-1 Creating 
+ Container infra-redis-1 Creating 
+ Container infra-postgres-1 Creating 
+ Container infra-postgres-1 Created 
+ Container infra-rabbitmq-1 Created 
+ Container infra-redis-1 Created 
+ Container infra-postgres-1 Starting 
+ Container infra-redis-1 Starting 
+ Container infra-rabbitmq-1 Starting 
+ Container infra-postgres-1 Started 
+ Container infra-rabbitmq-1 Started 
+ Container infra-redis-1 Started 
+== Starting catalog API on :5100 (log: api.log) ==
+Waiting for API health... — UP (Swagger: http://localhost:5100/swagger)
+== Starting frontend on :5174 (5173 is used by another project) ==
+
+> pim-frontend@0.1.0 dev
+> vite --port 5174 --strictPort
+
+
+  VITE v6.4.3  ready in 660 ms
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+11:13:10 am [vite] vite.config.ts changed, restarting server...
+11:13:10 am [vite] server restarted.
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: http://192.168.1.177:5174/

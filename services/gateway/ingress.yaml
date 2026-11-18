@@ -1,0 +1,30 @@
+# Routing contract for on-prem Kubernetes (NGINX Ingress Controller).
+# NOT deployable as-is: host, TLS secret, and namespaces must match the target
+# cluster; service names must exist. Validated at deployment time.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pim-gateway
+  namespace: pim
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: pim.example.internal   # replace per environment
+      http:
+        paths:
+          - path: /api/v1/products
+            pathType: Prefix
+            backend:
+              service:
+                name: catalog-service
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pim-frontend
+                port:
+                  number: 8080
