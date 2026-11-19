@@ -1,4 +1,4 @@
-import { apiFetch } from '../../api/client';
+import { apiFetch, ApiError } from '../../api/client';
 import type {
   BrandLookup,
   ExportParams,
@@ -98,14 +98,14 @@ export async function listProducts(
   params: ProductListParams,
   signal?: AbortSignal,
 ): Promise<PagedResult<ProductListItem>> {
-  // Base list starts with complete Greenply Plywood suite
+  // Base list starts with complete Plywood suite
   let baseList: ProductListItem[] = ALL_PLYWOOD_PRODUCTS;
 
   try {
     const live = await apiFetch<PagedResult<ProductListItem>>(`${BASE}?${toQuery(params)}`, { signal });
     if (live && live.items) {
-      // Filter strictly for plywood products (GP-*)
-      const livePlywood = live.items.filter((item) => item.code.startsWith('GP-'));
+      // Filter strictly for plywood products (PG-* or legacy GP-*)
+      const livePlywood = live.items.filter((item) => item.code.startsWith('PG-') || item.code.startsWith('GP-'));
       if (livePlywood.length > 0) {
         const liveMap = new Map(livePlywood.map((p) => [p.code, p]));
         // Merge live data with our comprehensive plywood catalog
@@ -327,16 +327,34 @@ export function removeSku(
   );
 }
 
-export function listBrands(): Promise<BrandLookup[]> {
-  return apiFetch<BrandLookup[]>('/api/v1/brands');
+export async function listBrands(): Promise<BrandLookup[]> {
+  try {
+    const brands = await apiFetch<BrandLookup[]>('/api/v1/brands');
+    return (brands || []).map((b) => ({
+      ...b,
+      code: b.code.toLowerCase() === 'greenply' ? 'plygallery' : b.code,
+      name: b.name.replace(/Greenply/gi, 'Ply Gallery'),
+    }));
+  } catch {
+    return [{ id: 1, code: 'plygallery', name: 'Ply Gallery' }];
+  }
 }
 
 export async function listTaxonomyNodes(nodeType?: string): Promise<TaxonomyNodeLookup[]> {
-  if (nodeType === 'CATEGORY') {
-    return PLYWOOD_CATEGORIES;
-  }
   const suffix = nodeType ? `?nodeType=${encodeURIComponent(nodeType)}` : '';
-  return apiFetch<TaxonomyNodeLookup[]>(`/api/v1/taxonomy-nodes${suffix}`);
+  try {
+    const nodes = await apiFetch<TaxonomyNodeLookup[]>(`/api/v1/taxonomy-nodes${suffix}`);
+    if (nodes && nodes.length > 0) {
+      return nodes.map((n) => ({
+        ...n,
+        code: n.code.toLowerCase() === 'greenply' ? 'plygallery' : n.code,
+        name: n.name.replace(/Greenply/gi, 'Ply Gallery'),
+      }));
+    }
+  } catch {
+    // fallback to static plywood categories when offline
+  }
+  return nodeType === 'CATEGORY' ? PLYWOOD_CATEGORIES : [];
 }
 
 // --- Classifications (Sprint 8) --------------------------------------------
@@ -512,20 +530,23 @@ export function getProductActivity(
 // --- Digital assets and documents (Sprint 12) -------------------------------
 
 export async function getProductAssets(code: string): Promise<ProductAssets> {
-  // 1. Check if user has customized/saved assets in persistent localStorage
+  // 1. Live backend API is the single source of truth across all devices
+  try {
+    const live = await apiFetch<ProductAssets>(`${BASE}/${encodeURIComponent(code)}/assets`);
+    if (live) {
+      return enhanceLiveAssets(code, live);
+    }
+  } catch (error: unknown) {
+    // If the server rejected or errored (e.g., 500), surface it so the UI can display an alert & retry
+    if (error instanceof ApiError && error.status !== 404) {
+      throw error;
+    }
+  }
+
+  // 2. Fall back to persistent localStorage only when backend is offline or for synthetic dev
   const local = loadAssetsFromStorage(code);
   if (local) {
     return local;
-  }
-
-  // 2. Otherwise try live backend API
-  try {
-    const live = await apiFetch<ProductAssets>(`${BASE}/${encodeURIComponent(code)}/assets`);
-    if (live && (live.media.length > 0 || live.documents.length > 0)) {
-      return enhanceLiveAssets(code, live);
-    }
-  } catch {
-    // backend unavailable or product code synthetic
   }
 
   // 3. Fall back to defaults
@@ -544,7 +565,10 @@ export async function addProductAsset(
     const enhanced = enhanceLiveAssets(code, live);
     saveAssetsToStorage(code, enhanced);
     return enhanced;
-  } catch {
+  } catch (error: unknown) {
+    if (error instanceof ApiError) {
+      throw error;
+    }
     return addSyntheticAsset(code, request);
   }
 }
@@ -562,7 +586,10 @@ export async function setPrimaryAsset(
     const enhanced = enhanceLiveAssets(code, live);
     saveAssetsToStorage(code, enhanced);
     return enhanced;
-  } catch {
+  } catch (error: unknown) {
+    if (error instanceof ApiError) {
+      throw error;
+    }
     return setPrimarySyntheticAsset(code, linkId);
   }
 }
@@ -580,7 +607,10 @@ export async function removeProductAsset(
     const enhanced = enhanceLiveAssets(code, live);
     saveAssetsToStorage(code, enhanced);
     return enhanced;
-  } catch {
+  } catch (error: unknown) {
+    if (error instanceof ApiError) {
+      throw error;
+    }
     return removeSyntheticAsset(code, linkId);
   }
 }

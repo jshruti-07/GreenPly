@@ -1,4 +1,4 @@
-# PIM Platform
+# Ply Gallery
 
 Product Information Management platform — microservices on Kubernetes.
 Monorepo: .NET 10 services, React + TypeScript frontend.

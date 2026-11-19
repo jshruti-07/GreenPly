@@ -77,22 +77,68 @@ function localeQuery(locale: string | null): string {
   return locale ? `?locale=${encodeURIComponent(locale)}` : '';
 }
 
-export function fetchCategoryTree(
+function sanitizeNode(node: CategoryTreeNode): CategoryTreeNode {
+  const isGreenplyCode = node.code.toLowerCase() === 'greenply';
+  return {
+    ...node,
+    code: isGreenplyCode ? 'plygallery' : node.code,
+    name: node.name ? node.name.replace(/Greenply/gi, 'Ply Gallery') : node.name,
+    children: (node.children || []).map(sanitizeNode),
+  };
+}
+
+function sanitizeDetail(detail: CategoryDetail): CategoryDetail {
+  const isGreenplyCode = detail.code.toLowerCase() === 'greenply';
+  const isGreenplyParent = detail.parentCode?.toLowerCase() === 'greenply';
+  return {
+    ...detail,
+    code: isGreenplyCode ? 'plygallery' : detail.code,
+    name: detail.name ? detail.name.replace(/Greenply/gi, 'Ply Gallery') : detail.name,
+    parentCode: isGreenplyParent ? 'plygallery' : detail.parentCode,
+    parentName: detail.parentName ? detail.parentName.replace(/Greenply/gi, 'Ply Gallery') : detail.parentName,
+    brandName: detail.brandName ? detail.brandName.replace(/Greenply/gi, 'Ply Gallery') : 'Ply Gallery',
+    labels: (detail.labels || []).map((l) => ({
+      ...l,
+      name: l.name ? l.name.replace(/Greenply/gi, 'Ply Gallery') : l.name,
+    })),
+  };
+}
+
+export async function fetchCategoryTree(
   locale: string | null,
   signal?: AbortSignal,
 ): Promise<CategoryTreeNode[]> {
-  return apiFetch<CategoryTreeNode[]>(`/api/v1/categories/tree${localeQuery(locale)}`, { signal });
+  const tree = await apiFetch<CategoryTreeNode[]>(`/api/v1/categories/tree${localeQuery(locale)}`, { signal });
+  return (tree || []).map(sanitizeNode);
 }
 
-export function fetchCategoryDetail(
+export async function fetchCategoryDetail(
   code: string,
   locale: string | null,
   signal?: AbortSignal,
 ): Promise<CategoryDetail> {
-  return apiFetch<CategoryDetail>(
-    `/api/v1/categories/${encodeURIComponent(code)}${localeQuery(locale)}`,
-    { signal },
-  );
+  const isTargetPlyGallery = code.toLowerCase() === 'plygallery' || code.toLowerCase() === 'greenply';
+  try {
+    const detail = await apiFetch<CategoryDetail>(
+      `/api/v1/categories/${encodeURIComponent(code)}${localeQuery(locale)}`,
+      { signal },
+    );
+    return sanitizeDetail(detail);
+  } catch (err) {
+    if (isTargetPlyGallery) {
+      const fallbackCode = code.toLowerCase() === 'plygallery' ? 'greenply' : 'plygallery';
+      try {
+        const fallback = await apiFetch<CategoryDetail>(
+          `/api/v1/categories/${encodeURIComponent(fallbackCode)}${localeQuery(locale)}`,
+          { signal },
+        );
+        return sanitizeDetail(fallback);
+      } catch {
+        // rethrow original error
+      }
+    }
+    throw err;
+  }
 }
 
 /** Depth-first walk, used to find a node and to seed the expanded set. */

@@ -116,7 +116,14 @@ function renderTab(onChanged?: (rowVersion: number) => void) {
 }
 
 describe('AssetsTab', () => {
-  afterEach(() => vi.unstubAllGlobals());
+  beforeEach(() => {
+    window.localStorage?.clear();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    window.localStorage?.clear();
+  });
 
   it('splits assets by whether they can be shown as a picture', async () => {
     // Images and documents are ONE module server-side; the split is by type,

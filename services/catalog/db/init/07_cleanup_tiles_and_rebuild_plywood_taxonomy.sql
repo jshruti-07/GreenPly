@@ -15,12 +15,12 @@ SET search_path TO catalog, public;
 
 -- 1. ENSURE PLYWOOD ATTRIBUTE SET & ROOT BRAND EXIST FIRST ---------------------
 INSERT INTO brand (code, legal_entity, website, country_code, status)
-VALUES ('greenply', 'Greenply Industries Limited', 'https://www.greenply.com', 'IN', 'active')
+VALUES ('plygallery', 'Ply Gallery Industries Limited', 'https://www.plygallery.com', 'IN', 'active')
 ON CONFLICT (code) DO NOTHING;
 
 INSERT INTO brand_tr (brand_id, locale_code, name, description, tagline)
-SELECT b.id, 'en-GB', 'Greenply', 'Premier Plywood and Engineered Wood Manufacturer', 'Zero Emission E0 Plywood'
-FROM brand b WHERE b.code = 'greenply'
+SELECT b.id, 'en-GB', 'Ply Gallery', 'Premier Plywood and Engineered Wood Manufacturer', 'Zero Emission E0 Plywood'
+FROM brand b WHERE b.code = 'plygallery'
 ON CONFLICT (brand_id, locale_code) DO UPDATE SET name = EXCLUDED.name;
 
 INSERT INTO attribute_set (code, name) VALUES
@@ -29,16 +29,16 @@ ON CONFLICT (code) DO NOTHING;
 
 -- 2. ENSURE ROOT & BASE CATEGORY NODES EXIST -----------------------------------
 INSERT INTO taxonomy_node (code, node_type, parent_id, path, depth, brand_id, attribute_set_id)
-SELECT 'greenply', 'FAMILY', NULL, 'greenply'::ltree, 0, b.id, (SELECT id FROM attribute_set WHERE code = 'plywood_core')
-FROM brand b WHERE b.code = 'greenply'
+SELECT 'plygallery', 'FAMILY', NULL, 'plygallery'::ltree, 0, b.id, (SELECT id FROM attribute_set WHERE code = 'plywood_core')
+FROM brand b WHERE b.code = 'plygallery'
 ON CONFLICT (code) DO UPDATE 
 SET attribute_set_id = (SELECT id FROM attribute_set WHERE code = 'plywood_core');
 
 INSERT INTO taxonomy_node_tr (node_id, locale_code, name, description, translation_status)
 SELECT n.id, v.locale, v.name, v.descr, 'approved'
 FROM (VALUES
-  ('greenply', 'en-GB', 'Plywood & Building Panels Collection', 'All structural, decorative, and performance panel lines'),
-  ('greenply', 'de-DE', 'Sperrholz & Bauplatten Kollektion', 'Alle strukturellen, dekorativen und Hochleistungs-Plattenlinien')
+  ('plygallery', 'en-GB', 'Plywood & Building Panels Collection', 'All structural, decorative, and performance panel lines'),
+  ('plygallery', 'de-DE', 'Sperrholz & Bauplatten Kollektion', 'Alle strukturellen, dekorativen und Hochleistungs-Plattenlinien')
 ) AS v(code, locale, name, descr)
 JOIN taxonomy_node n ON n.code = v.code
 ON CONFLICT (node_id, locale_code) DO UPDATE 
@@ -46,7 +46,7 @@ SET name = EXCLUDED.name, description = EXCLUDED.description;
 
 -- Base category branches
 INSERT INTO taxonomy_node (code, node_type, parent_id, path, depth, brand_id, attribute_set_id)
-SELECT c.code, 'CATEGORY', r.id, ('greenply.' || c.code)::ltree, 1, r.brand_id, (SELECT id FROM attribute_set WHERE code = 'plywood_core')
+SELECT c.code, 'CATEGORY', r.id, ('plygallery.' || c.code)::ltree, 1, r.brand_id, (SELECT id FROM attribute_set WHERE code = 'plywood_core')
 FROM (VALUES
   ('plywood_blockboard'),
   ('flush_doors'),
@@ -54,7 +54,7 @@ FROM (VALUES
   ('pvc_wpc'),
   ('mdf_boards')
 ) AS c(code)
-CROSS JOIN (SELECT id, brand_id FROM taxonomy_node WHERE code = 'greenply') r
+CROSS JOIN (SELECT id, brand_id FROM taxonomy_node WHERE code = 'plygallery') r
 ON CONFLICT (code) DO UPDATE
 SET parent_id = EXCLUDED.parent_id,
     path = EXCLUDED.path,
@@ -109,7 +109,7 @@ DELETE FROM attribute_set WHERE code = 'tile_core';
 
 -- 5. BUILD CLEAN PLYWOOD SUBCATEGORIES UNDER PLYWOOD_BLOCKBOARD ---------------
 INSERT INTO taxonomy_node (code, node_type, parent_id, path, depth, brand_id, attribute_set_id)
-SELECT v.code, 'SUBCATEGORY', p.id, (p.path::text || '.' || v.code)::ltree, (p.depth + 1)::smallint, COALESCE(p.brand_id, (SELECT id FROM brand WHERE code = 'greenply')), (SELECT id FROM attribute_set WHERE code = 'plywood_core')
+SELECT v.code, 'SUBCATEGORY', p.id, (p.path::text || '.' || v.code)::ltree, (p.depth + 1)::smallint, COALESCE(p.brand_id, (SELECT id FROM brand WHERE code = 'plygallery')), (SELECT id FROM attribute_set WHERE code = 'plywood_core')
 FROM (VALUES
   ('club_plywood_cat'),
   ('platinum_bwp_cat'),
@@ -132,7 +132,7 @@ SET parent_id = EXCLUDED.parent_id,
 
 -- Natural Decorative Veneers subcategory under decorative_veneers
 INSERT INTO taxonomy_node (code, node_type, parent_id, path, depth, brand_id, attribute_set_id)
-SELECT 'decorative_veneers_cat', 'SUBCATEGORY', p.id, (p.path::text || '.decorative_veneers_cat')::ltree, (p.depth + 1)::smallint, COALESCE(p.brand_id, (SELECT id FROM brand WHERE code = 'greenply')), (SELECT id FROM attribute_set WHERE code = 'plywood_core')
+SELECT 'decorative_veneers_cat', 'SUBCATEGORY', p.id, (p.path::text || '.decorative_veneers_cat')::ltree, (p.depth + 1)::smallint, COALESCE(p.brand_id, (SELECT id FROM brand WHERE code = 'plygallery')), (SELECT id FROM attribute_set WHERE code = 'plywood_core')
 FROM taxonomy_node p WHERE p.code = 'decorative_veneers'
 ON CONFLICT (code) DO UPDATE
 SET parent_id = EXCLUDED.parent_id,
@@ -174,41 +174,41 @@ SET name = EXCLUDED.name, description = EXCLUDED.description, translation_status
 
 -- 7. RE-ASSIGN ALL 28 PRODUCTS TO THEIR DEDICATED CATEGORY NODES -------------
 UPDATE product SET primary_node_id = (SELECT id FROM taxonomy_node WHERE code = 'club_plywood_cat')
-WHERE product_code IN ('GP-CLUB-700', 'GP-CLUB-500', 'GP-FLEX-PLY');
+WHERE product_code IN ('PG-CLUB-700', 'PG-CLUB-500', 'PG-FLEX-PLY');
 
 UPDATE product SET primary_node_id = (SELECT id FROM taxonomy_node WHERE code = 'platinum_bwp_cat')
-WHERE product_code IN ('GP-PLAT-BWP', 'GP-FIRE-RET');
+WHERE product_code IN ('PG-PLAT-BWP', 'PG-FIRE-RET');
 
 UPDATE product SET primary_node_id = (SELECT id FROM taxonomy_node WHERE code = 'marine_710_cat')
-WHERE product_code = 'GP-710-MAR';
+WHERE product_code = 'PG-710-MAR';
 
 UPDATE product SET primary_node_id = (SELECT id FROM taxonomy_node WHERE code = 'gold_calibrated_cat')
-WHERE product_code = 'GP-GOLD-BWP';
+WHERE product_code = 'PG-GOLD-BWP';
 
 UPDATE product SET primary_node_id = (SELECT id FROM taxonomy_node WHERE code = 'commercial_mr_cat')
-WHERE product_code = 'GP-303-MR';
+WHERE product_code = 'PG-303-MR';
 
 UPDATE product SET primary_node_id = (SELECT id FROM taxonomy_node WHERE code = 'ecotec_ply_cat')
-WHERE product_code IN ('GP-ECO-PLAT', 'GP-ECO-710', 'GP-ECO-MR', 'GP-ECO-TMR');
+WHERE product_code IN ('PG-ECO-PLAT', 'PG-ECO-710', 'PG-ECO-MR', 'PG-ECO-TMR');
 
 UPDATE product SET primary_node_id = (SELECT id FROM taxonomy_node WHERE code = 'optima_utility_cat')
-WHERE product_code IN ('GP-OPTIMA-G', 'GP-BHAROSA', 'GP-JANSATHI');
+WHERE product_code IN ('PG-OPTIMA-G', 'PG-BHAROSA', 'PG-JANSATHI');
 
 UPDATE product SET primary_node_id = (SELECT id FROM taxonomy_node WHERE code = 'calibrated_core_cat')
-WHERE product_code IN ('GP-CALIB-25', 'GP-CALIB-19', 'GP-CALIB-16', 'GP-CALIB-12', 'GP-CALIB-9', 'GP-CALIB-6');
+WHERE product_code IN ('PG-CALIB-25', 'PG-CALIB-19', 'PG-CALIB-16', 'PG-CALIB-12', 'PG-CALIB-9', 'PG-CALIB-6');
 
 UPDATE product SET primary_node_id = (SELECT id FROM taxonomy_node WHERE code = 'shuttering_ply_cat')
-WHERE product_code = 'GP-SHUTTER-BWP';
+WHERE product_code = 'PG-SHUTTER-BWP';
 
 UPDATE product SET primary_node_id = (SELECT id FROM taxonomy_node WHERE code = 'blockboards_doors_cat')
-WHERE product_code IN ('GP-BLOCK-25', 'GP-BLOCK-19', 'GP-DOOR-FLUSH');
+WHERE product_code IN ('PG-BLOCK-25', 'PG-BLOCK-19', 'PG-DOOR-FLUSH');
 
 UPDATE product SET primary_node_id = (SELECT id FROM taxonomy_node WHERE code = 'decorative_veneers_cat')
-WHERE product_code IN ('GP-VENEER-TEAK', 'GP-VENEER-WALNUT', 'GP-VENEER-OAK');
+WHERE product_code IN ('PG-VENEER-TEAK', 'PG-VENEER-WALNUT', 'PG-VENEER-OAK');
 
 -- 8. ENSURE ALL PLYWOOD NODES DECLARE THE PLYWOOD ATTRIBUTE SET ---------------
 UPDATE taxonomy_node
 SET attribute_set_id = (SELECT id FROM attribute_set WHERE code = 'plywood_core')
-WHERE path <@ 'greenply';
+WHERE path <@ 'plygallery';
 
 COMMIT;

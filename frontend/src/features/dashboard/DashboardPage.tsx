@@ -168,11 +168,11 @@ const DEFAULT_OMITTED_PANELS: OmittedPanel[] = [
 
 /**
  * Plywood Products Cockpit Data
- * Specifically modelled for Greenply Plywood Suite:
- * - Green Club 700 (GP-CLUB-700)
- * - Green Platinum BWP (GP-PLAT-BWP)
- * - Green 710 Marine (GP-710-MAR)
- * - Green Gold BWP (GP-GOLD-BWP)
+ * Specifically modelled for Plywood Suite:
+ * - Club 700 (PG-CLUB-700)
+ * - Platinum BWP (PG-PLAT-BWP)
+ * - 710 Marine (PG-710-MAR)
+ * - Gold BWP (PG-GOLD-BWP)
  */
 const PLYWOOD_DASHBOARD_DATA: ProductCockpit = {
   kpis: [
@@ -252,42 +252,42 @@ const PLYWOOD_DASHBOARD_DATA: ProductCockpit = {
       occurredAtUtc: '2026-10-12T15:50:53Z',
       actor: 'Markus Klein',
       action: 'updated',
-      productCode: 'GP-CLUB-700',
+      productCode: 'PG-CLUB-700',
       detail: 'Commercial & Warranty: 10-year warranty verified',
     },
     {
       occurredAtUtc: '2026-10-12T15:30:10Z',
       actor: 'Markus Klein',
       action: 'published',
-      productCode: 'GP-CLUB-500',
+      productCode: 'PG-CLUB-500',
       detail: 'Virashield anti-bacterial specification approved',
     },
     {
       occurredAtUtc: '2026-10-12T14:45:20Z',
       actor: 'Anna Becker',
       action: 'updated',
-      productCode: 'GP-PLAT-BWP',
+      productCode: 'PG-PLAT-BWP',
       detail: 'Dimensions & Sizing: 19mm calibration spec approved',
     },
     {
       occurredAtUtc: '2026-10-12T13:30:15Z',
       actor: 'Lena Vogt',
       action: 'updated',
-      productCode: 'GP-710-MAR',
+      productCode: 'PG-710-MAR',
       detail: 'Protection & Durability: Marine BWP grade certified',
     },
     {
       occurredAtUtc: '2026-10-12T11:15:42Z',
       actor: 'Sophie Adler',
       action: 'updated',
-      productCode: 'GP-GOLD-BWP',
+      productCode: 'PG-GOLD-BWP',
       detail: 'Health & Emissions: CARB E0 emission compliance added',
     },
     {
       occurredAtUtc: '2026-10-12T09:20:10Z',
       actor: 'Markus Klein',
       action: 'published',
-      productCode: 'GP-SHUTTER-BWP',
+      productCode: 'PG-SHUTTER-BWP',
       detail: 'Film-faced shuttering plywood approved for construction',
     },
   ],
@@ -392,7 +392,7 @@ const CATALOGUE_DASHBOARD_DATA: ProductCockpit = {
 
 export function DashboardPage() {
   const { locale } = useLocale();
-  const [scope, setScope] = useState<'plywood' | 'all'>('plywood');
+  const [scope] = useState<'plywood' | 'all'>('plywood');
   const [liveData, setLiveData] = useState<ProductCockpit | null>(null);
 
   const load = useCallback(
@@ -441,14 +441,14 @@ export function DashboardPage() {
         <div className="sp">
           {/* Quick Scope switcher to toggle between focused Plywood products and all catalogue */}
           <div className="seg" style={{ marginRight: 6 }}>
-            <button
+            {/* <button
               type="button"
               className={scope === 'plywood' ? 'on' : ''}
               onClick={() => setScope('plywood')}
-              title="View metrics for Greenply Plywood products suite"
+              title="View metrics for Plywood products suite"
             >
               Ply Catalogue
-            </button>
+            </button> */}
             {/* <button
               type="button"
               className={scope === 'all' ? 'on' : ''}

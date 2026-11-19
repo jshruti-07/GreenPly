@@ -31,12 +31,12 @@ const PLYWOOD_SYSTEMS: AssemblyItem[] = [
   {
     id: 'SYS-KIT-01',
     name: 'Heavy-Duty Modular Kitchen Carcass Assembly',
-    code: 'SYS-GP-KITCHEN-BWP',
+    code: 'SYS-PG-KITCHEN-BWP',
     category: 'Cabinetry & Joinery',
     description:
-      'Zero-emission, boiling water proof (BWP) modular kitchen base and overhead cabinetry system. Engineered with Green Club 700 structural plywood to resist continuous boiling water exposure, aggressive steam, and heavy quartz countertop dead loads.',
-    primaryPlywoodProduct: 'Green Club 700 Structural Plywood',
-    primaryPlywoodCode: 'GP-CLUB-700',
+      'Zero-emission, boiling water proof (BWP) modular kitchen base and overhead cabinetry system. Engineered with Club 700 structural plywood to resist continuous boiling water exposure, aggressive steam, and heavy quartz countertop dead loads.',
+    primaryPlywoodProduct: 'Club 700 Structural Plywood',
+    primaryPlywoodCode: 'PG-CLUB-700',
     fireRating: 'IS:5509 Class 1 (45 min delay)',
     acousticRating: 'Acoustic Damping Class C',
     moistureClass: 'BWP (100% Boiling Water Proof)',
@@ -51,15 +51,15 @@ const PLYWOOD_SYSTEMS: AssemblyItem[] = [
     bom: [
       {
         item: 'Carcass Side & Base Panels',
-        productCode: 'GP-CLUB-700',
-        specification: '19 mm Green Club 700 BWP (2440 × 1220 mm), Gurjan core',
+        productCode: 'PG-CLUB-700',
+        specification: '19 mm Club 700 BWP (2440 × 1220 mm), Gurjan core',
         qty: '2.5 Sheets / Base Unit',
         role: 'Primary Structural Load-Bearing Carcass',
       },
       {
         item: 'Cabinet Back Lining',
-        productCode: 'GP-CLUB-700',
-        specification: '6 mm Green Club 700 BWP, Calibrated 4-press',
+        productCode: 'PG-CLUB-700',
+        specification: '6 mm Club 700 BWP, Calibrated 4-press',
         qty: '1 Sheet / Unit',
         role: 'Rear Moisture Seal & Squareness Stability',
       },
@@ -80,12 +80,12 @@ const PLYWOOD_SYSTEMS: AssemblyItem[] = [
   {
     id: 'SYS-PART-02',
     name: 'Fire-Retardant Acoustic Drywall Partition System',
-    code: 'SYS-GP-PARTITION-FR60',
+    code: 'SYS-PG-PARTITION-FR60',
     category: 'Architectural Wall Systems',
     description:
-      'High-performance internal commercial partition system combining Green Platinum 2X Fire Retardant Plywood facings with lightweight galvanized steel studs and rockwool cavity insulation. Designed for fire exit corridors and executive boardrooms.',
-    primaryPlywoodProduct: 'Green Platinum Fire Retardant Plywood',
-    primaryPlywoodCode: 'GP-PLAT-BWP',
+      'High-performance internal commercial partition system combining Platinum 2X Fire Retardant Plywood facings with lightweight galvanized steel studs and rockwool cavity insulation. Designed for fire exit corridors and executive boardrooms.',
+    primaryPlywoodProduct: 'Platinum Fire Retardant Plywood',
+    primaryPlywoodCode: 'PG-PLAT-BWP',
     fireRating: '60 Min Integrity & Insulation (IS:5509 / ASTM E119)',
     acousticRating: 'STC 52 dB / Rw 51 dB',
     moistureClass: 'BWP Marine Grade (Exterior / Wet Corridor)',
@@ -100,8 +100,8 @@ const PLYWOOD_SYSTEMS: AssemblyItem[] = [
     bom: [
       {
         item: 'Fire-Retardant Wall Boarding (Both Faces)',
-        productCode: 'GP-PLAT-BWP',
-        specification: '16 mm Green Platinum 2X Fire Retardant BWP (2440 × 1220 mm)',
+        productCode: 'PG-PLAT-BWP',
+        specification: '16 mm Platinum 2X Fire Retardant BWP (2440 × 1220 mm)',
         qty: '2 Sheets / m² wall',
         role: 'Dual-Face Fire Wall & Impact Facing',
       },
@@ -128,12 +128,12 @@ const PLYWOOD_SYSTEMS: AssemblyItem[] = [
   {
     id: 'SYS-DOOR-03',
     name: 'Engineered Architectural Flush Door Assembly',
-    code: 'SYS-GP-FLUSH-DOOR-IS2202',
+    code: 'SYS-PG-FLUSH-DOOR-IS2202',
     category: 'Doors & Entrances',
     description:
       'Engineered solid-core flush door assembly manufactured per BIS IS:2202 Part 1. Features seasoned hardwood timber battens, cross-bands, and calibrated face veneers for complete dimensional stability under shifting atmospheric humidity.',
-    primaryPlywoodProduct: 'Green 710 Marine Hardwood Core',
-    primaryPlywoodCode: 'GP-710-MAR',
+    primaryPlywoodProduct: '710 Marine Hardwood Core',
+    primaryPlywoodCode: 'PG-710-MAR',
     fireRating: 'IS:5509 30-Minute Resistance',
     acousticRating: 'Rw 34 dB Sound Transmission',
     moistureClass: 'BWP / Tropical Weather Tested',
@@ -154,8 +154,8 @@ const PLYWOOD_SYSTEMS: AssemblyItem[] = [
       },
       {
         item: 'Marine Grade Cross-Band Facing',
-        productCode: 'GP-710-MAR',
-        specification: '4 mm Green 710 Marine Veneer Facing per IS:710',
+        productCode: 'PG-710-MAR',
+        specification: '4 mm 710 Marine Veneer Facing per IS:710',
         qty: '2 Layers / Shutter',
         role: 'Balanced Cross-Grain Veneer Stabilizer',
       },
@@ -176,12 +176,12 @@ const PLYWOOD_SYSTEMS: AssemblyItem[] = [
   {
     id: 'SYS-CEIL-04',
     name: 'Acoustic Micro-Perforated Ceiling Panelling Grid',
-    code: 'SYS-GP-ACOUSTIC-CEILING',
+    code: 'SYS-PG-ACOUSTIC-CEILING',
     category: 'Ceilings & Acoustics',
     description:
-      'Concealed T-grid architectural acoustic wood ceiling system. Employs calibrated 12 mm Green Gold plywood panels with computer-controlled micro-perforations and acoustic tissue backing for concert halls, auditoriums, and open-plan offices.',
-    primaryPlywoodProduct: 'Green Gold Calibrated BWP Plywood',
-    primaryPlywoodCode: 'GP-GOLD-BWP',
+      'Concealed T-grid architectural acoustic wood ceiling system. Employs calibrated 12 mm Gold plywood panels with computer-controlled micro-perforations and acoustic tissue backing for concert halls, auditoriums, and open-plan offices.',
+    primaryPlywoodProduct: 'Gold Calibrated BWP Plywood',
+    primaryPlywoodCode: 'PG-GOLD-BWP',
     fireRating: 'Class 1 Fire Propagation (BS 476 Part 7)',
     acousticRating: 'NRC 0.80 / Sound Absorption Class B',
     moistureClass: 'MR / High Humidity Resistant',
@@ -196,8 +196,8 @@ const PLYWOOD_SYSTEMS: AssemblyItem[] = [
     bom: [
       {
         item: 'Micro-Perforated Acoustic Panels',
-        productCode: 'GP-GOLD-BWP',
-        specification: '12 mm Green Gold BWP Plywood (600 × 600 mm / 1200 × 600 mm)',
+        productCode: 'PG-GOLD-BWP',
+        specification: '12 mm Gold BWP Plywood (600 × 600 mm / 1200 × 600 mm)',
         qty: '2.8 Panels / m²',
         role: 'Sound Diffusing & Resonant Absorber Surface',
       },
@@ -236,7 +236,7 @@ export function SystemsPage() {
           </div>
           <p style={{ marginTop: 6, color: 'var(--ink2)', fontSize: 13 }}>
             Modular cabinetry assemblies, fire-rated partition walls, architectural door portals,
-            and acoustic ceilings configured using Greenply certified structural panels.
+            and acoustic ceilings configured using Ply Gallery certified structural panels.
           </p>
         </div>
       </div>

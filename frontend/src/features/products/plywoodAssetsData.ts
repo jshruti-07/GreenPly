@@ -16,7 +16,6 @@ import {
 export function stripGreen(str: string): string {
   if (!str) return '';
   return str
-    .replace(/Greenply[_-]?/gi, '')
     .replace(/Green[_-]/gi, '')
     .replace(/\bGreen\s+/gi, '')
     .replace(/\bGreen\b/gi, '')
@@ -101,8 +100,9 @@ export function getSyntheticPlywoodAssets(productCode: string): ProductAssets {
     return stored;
   }
 
+  const normalized = productCode.toUpperCase().replace(/^GP-/, 'PG-');
   const p = ALL_PLYWOOD_PRODUCTS.find(
-    (item) => item.code.toUpperCase() === productCode.toUpperCase(),
+    (item) => item.code.toUpperCase() === productCode.toUpperCase() || item.code.toUpperCase() === normalized,
   );
   const cleanName = p ? stripGreen(p.name) : stripGreen(productCode);
   const filePrefix = code.toLowerCase().replace(/[^a-z0-9_-]/g, '_');
@@ -278,7 +278,11 @@ export function enhanceLiveAssets(productCode: string, live: ProductAssets): Pro
 
     // Only substitute dead sample mock URLs from old demo seeds, never a user-supplied link
     let finalUrl = m.url;
-    if (!finalUrl || finalUrl.startsWith('https://assets.greenply.com/products/green_') || finalUrl === 'broken') {
+    if (
+      !finalUrl ||
+      finalUrl.startsWith('https://assets.plygallery.com/products/') ||
+      finalUrl === 'broken'
+    ) {
       finalUrl = getPlywoodImageForRole(m.role, idx, code);
     }
 
@@ -288,11 +292,11 @@ export function enhanceLiveAssets(productCode: string, live: ProductAssets): Pro
       title: cleanTitle,
       altText: cleanAlt,
       url: finalUrl,
-      isExternal: !finalUrl.startsWith('data:'),
+      isExternal: typeof m.isExternal === 'boolean' ? m.isExternal : (!finalUrl.startsWith('/') && !finalUrl.startsWith('data:')),
     };
   });
 
-  const finalMedia = cleanMedia.length > 0 ? cleanMedia : synth.media;
+  const finalMedia = Array.isArray(live.media) ? cleanMedia : synth.media;
 
   const cleanDocs = (live.documents || []).map((d) => ({
     ...d,
@@ -300,7 +304,7 @@ export function enhanceLiveAssets(productCode: string, live: ProductAssets): Pro
     title: stripGreen(d.title ?? d.fileName ?? 'Document'),
     altText: stripGreen(d.altText ?? ''),
   }));
-  const finalDocuments = cleanDocs.length > 0 ? cleanDocs : synth.documents;
+  const finalDocuments = Array.isArray(live.documents) ? cleanDocs : synth.documents;
 
   return {
     productCode: code,

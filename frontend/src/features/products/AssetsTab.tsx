@@ -7,6 +7,7 @@ import { EmptyState } from '../../components/EmptyState';
 import { SelectField, TextField } from '../../components/Field';
 import { Table, Td, Th } from '../../components/Table';
 import { useToast } from '../../components/Toast';
+import { uploadAsset } from '../assets/assetLibraryApi';
 import {
   addProductAsset,
   getProductAssets,
@@ -64,56 +65,7 @@ function formatSize(bytes: number | null): string {
   return kb < 1024 ? `${Math.round(kb)} KB` : `${(kb / 1024).toFixed(1)} MB`;
 }
 
-/**
- * Automatically downsizes and compresses client-selected image files using HTML5 Canvas.
- * Produces crisp ~40-70KB Base64 data URLs that fit easily into browser localStorage.
- */
-function compressImageFile(file: File, maxDim = 1200, quality = 0.82): Promise<string> {
-  return new Promise((resolve) => {
-    if (file.type === 'image/svg+xml' || file.size < 60000) {
-      const reader = new FileReader();
-      reader.onload = () => resolve(typeof reader.result === 'string' ? reader.result : '');
-      reader.onerror = () => resolve('');
-      reader.readAsDataURL(file);
-      return;
-    }
 
-    const img = new Image();
-    const objectUrl = URL.createObjectURL(file);
-    img.onload = () => {
-      URL.revokeObjectURL(objectUrl);
-      let { width, height } = img;
-      if (width > maxDim || height > maxDim) {
-        if (width > height) {
-          height = Math.round((height * maxDim) / width);
-          width = maxDim;
-        } else {
-          width = Math.round((width * maxDim) / height);
-          height = maxDim;
-        }
-      }
-      const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) {
-        const reader = new FileReader();
-        reader.onload = () => resolve(typeof reader.result === 'string' ? reader.result : '');
-        reader.readAsDataURL(file);
-        return;
-      }
-      ctx.drawImage(img, 0, 0, width, height);
-      resolve(canvas.toDataURL('image/jpeg', quality));
-    };
-    img.onerror = () => {
-      URL.revokeObjectURL(objectUrl);
-      const reader = new FileReader();
-      reader.onload = () => resolve(typeof reader.result === 'string' ? reader.result : '');
-      reader.readAsDataURL(file);
-    };
-    img.src = objectUrl;
-  });
-}
 
 /**
  * One image tile.
@@ -126,6 +78,18 @@ function compressImageFile(file: File, maxDim = 1200, quality = 0.82): Promise<s
 function AssetThumbnail({ asset }: { asset: ProductAsset }) {
   const [failed, setFailed] = useState(false);
 
+  if (failed) {
+    return (
+      <div
+        className="asset-thumb err"
+        role="img"
+        aria-label={`${asset.fileName ?? 'Image'} — preview unavailable`}
+      >
+        <span>Preview unavailable</span>
+      </div>
+    );
+  }
+
   const fallbackUrl = getPlywoodImageForRole(
     asset.role,
     asset.sortOrder - 1,
@@ -133,38 +97,15 @@ function AssetThumbnail({ asset }: { asset: ProductAsset }) {
   );
 
   return (
-    <div style={{ position: 'relative', width: '100%' }}>
-      <img
-        className="asset-thumb"
-        src={failed ? fallbackUrl : asset.url || fallbackUrl}
-        alt={asset.altText ?? asset.title ?? asset.fileName ?? 'Product image'}
-        loading="lazy"
-        onError={() => {
-          if (asset.url && asset.url !== fallbackUrl) {
-            setFailed(true);
-          }
-        }}
-      />
-      {failed && (
-        <span
-          title="Remote URL unreachable or blocked — showing standard visual fallback"
-          style={{
-            position: 'absolute',
-            bottom: 6,
-            right: 6,
-            fontSize: 9.5,
-            fontWeight: 600,
-            background: 'rgba(23, 23, 23, 0.75)',
-            color: '#facc15',
-            padding: '2px 5px',
-            borderRadius: 3,
-            letterSpacing: '0.02em',
-          }}
-        >
-          Fallback
-        </span>
-      )}
-    </div>
+    <img
+      className="asset-thumb"
+      src={asset.url || fallbackUrl}
+      alt={asset.altText ?? asset.title ?? asset.fileName ?? 'Product image'}
+      loading="lazy"
+      onError={() => {
+        setFailed(true);
+      }}
+    />
   );
 }
 
@@ -174,6 +115,7 @@ export function AssetsTab({ code, onChanged }: AssetsTabProps) {
   const [adding, setAdding] = useState<'media' | 'document' | null>(null);
   const [busy, setBusy] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileDataUrl, setFileDataUrl] = useState<string | null>(null);
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
 
@@ -217,6 +159,7 @@ export function AssetsTab({ code, onChanged }: AssetsTabProps) {
   function closeDrawer() {
     setAdding(null);
     setFormError(null);
+    setSelectedFile(null);
     setFileDataUrl(null);
     setUploadedFileName(null);
   }
@@ -229,20 +172,40 @@ export function AssetsTab({ code, onChanged }: AssetsTabProps) {
 
     const form = new FormData(event.currentTarget);
     const rawKey = String(form.get('storageKey') ?? '').trim();
-    const finalStorageKey = fileDataUrl || rawKey;
-
-    if (!finalStorageKey) {
-      setFormError('Please select an image file or enter a valid URL.');
-      return;
-    }
+    let finalStorageKey = rawKey;
 
     setBusy(true);
     setFormError(null);
 
     try {
+      if (selectedFile) {
+        const role = String(form.get('role') ?? (adding === 'media' ? 'GALLERY' : 'DATASHEET'));
+        const isVisual = adding === 'media' || role === 'MAIN' || role === 'GALLERY';
+        try {
+          const uploaded = await uploadAsset(selectedFile, {
+            assetType: isVisual ? 'IMAGE' : undefined,
+            title: String(form.get('title') ?? '').trim() || selectedFile.name,
+            altText: String(form.get('altText') ?? '').trim() || undefined,
+          });
+          finalStorageKey = `/api/v1/assets/${uploaded.publicId}/file`;
+        } catch (uploadErr) {
+          if (rawKey) {
+            finalStorageKey = rawKey;
+          } else {
+            throw uploadErr;
+          }
+        }
+      }
+
+      if (!finalStorageKey) {
+        setFormError('Please select an image file or enter a valid URL.');
+        setBusy(false);
+        return;
+      }
+
       const updated = await addProductAsset(code, {
         storageKey: finalStorageKey,
-        role: String(form.get('role') ?? 'GALLERY'),
+        role: String(form.get('role') ?? (adding === 'media' ? 'GALLERY' : 'DATASHEET')),
         assetType: null,
         title: String(form.get('title') ?? '').trim() || uploadedFileName || null,
         altText: String(form.get('altText') ?? '').trim() || null,
@@ -253,7 +216,13 @@ export function AssetsTab({ code, onChanged }: AssetsTabProps) {
       showToast('Asset linked');
       closeDrawer();
     } catch (error: unknown) {
-      setFormError(error instanceof ApiError ? error.message : 'Could not link the asset.');
+      setFormError(
+        error instanceof ApiError
+          ? error.message
+          : error instanceof Error
+            ? error.message
+            : 'Could not link the asset.',
+      );
     } finally {
       setBusy(false);
     }
@@ -524,13 +493,13 @@ export function AssetsTab({ code, onChanged }: AssetsTabProps) {
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={async (e) => {
+                  onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (!file) return;
+                    setSelectedFile(file);
                     setUploadedFileName(file.name);
                     try {
-                      const compressed = await compressImageFile(file);
-                      setFileDataUrl(compressed);
+                      setFileDataUrl(URL.createObjectURL(file));
                     } catch {
                       const reader = new FileReader();
                       reader.onload = () => {

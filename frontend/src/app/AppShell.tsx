@@ -25,10 +25,10 @@ export function AppShell() {
       <aside className="side">
         <div className="brand">
           <div className="logo" aria-hidden="true">
-            GP
+            PG
           </div>
           <div className="brand-tx">
-            <b>GreenPly</b>
+            <b>Ply Gallery</b>
             <span>Product Information</span>
           </div>
         </div>
@@ -69,7 +69,7 @@ export function AppShell() {
       <main className="main">
         <header className="top">
           <div className="crumb">
-            <span>GreenPly</span>
+            <span>Ply Gallery</span>
             <span className="sep">/</span>
             <b>{pageLabel}</b>
           </div>

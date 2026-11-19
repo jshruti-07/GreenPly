@@ -46,7 +46,7 @@ function makeBoard(overrides: Partial<WorkflowBoard> = {}): WorkflowBoard {
     cardsPerColumn: 12,
     columns: [
       makeColumn(),
-      makeColumn({ step: 'review', name: 'Review', sortOrder: 2, ownerRole: 'Product Manager', totalCount: 1, cards: [makeCard({ step: 'review', code: 'GP-G12-3000' })] }),
+      makeColumn({ step: 'review', name: 'Review', sortOrder: 2, ownerRole: 'Product Manager', totalCount: 1, cards: [makeCard({ step: 'review', code: 'PG-G12-3000' })] }),
       makeColumn({ step: 'approval', name: 'Approval', sortOrder: 3, ownerRole: 'Compliance Manager', totalCount: 0, cards: [] }),
       makeColumn({ step: 'published', name: 'Published', sortOrder: 4, isTerminal: true, ownerRole: null, totalCount: 2, cards: [makeCard({ step: 'published', code: 'INS-PIR-80' })] }),
     ],

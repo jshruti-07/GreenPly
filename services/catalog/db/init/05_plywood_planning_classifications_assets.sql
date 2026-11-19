@@ -1,7 +1,7 @@
 -- =============================================================================
 -- MODULE · PLYWOOD EXTENDED SEED (Planning & BIM, Classifications, Digital Assets)
 --
--- Enriches the Greenply catalogue across:
+-- Enriches the Ply Gallery catalogue across:
 --   1. Planning & BIM Parameters: MOE, MOR, screw holding load, thermal conductivity,
 --      fire delay, standard dimensions, BIM readiness flag.
 --   2. Classification Standards: ETIM 9.0 (EC002620 Plywood), UNSPSC (30103603),
@@ -68,50 +68,50 @@ ON CONFLICT (set_id, attribute_id) DO NOTHING;
 INSERT INTO attribute_value (product_id, attribute_id, value_boolean, data_state)
 SELECT p.id, a.id, true, 'approved'
 FROM product p CROSS JOIN attribute a
-WHERE p.product_code IN ('GP-CLUB-700', 'GP-PLAT-BWP', 'GP-710-MAR') AND a.code = 'bim_ready'
+WHERE p.product_code IN ('PG-CLUB-700', 'PG-PLAT-BWP', 'PG-710-MAR') AND a.code = 'bim_ready'
 ON CONFLICT DO NOTHING;
 
 INSERT INTO attribute_value (product_id, attribute_id, value_boolean, data_state)
 SELECT p.id, a.id, false, 'approved'
 FROM product p CROSS JOIN attribute a
-WHERE p.product_code = 'GP-GOLD-BWP' AND a.code = 'bim_ready'
+WHERE p.product_code = 'PG-GOLD-BWP' AND a.code = 'bim_ready'
 ON CONFLICT DO NOTHING;
 
 INSERT INTO attribute_value (product_id, attribute_id, value_number, data_state)
 SELECT p.id, a.id, v.val, 'approved'
 FROM (VALUES
-  ('GP-CLUB-700', 'mfg_length_mm',            2440.0),
-  ('GP-CLUB-700', 'mfg_width_mm',             1220.0),
-  ('GP-CLUB-700', 'mfg_thickness_mm',         19.0),
-  ('GP-CLUB-700', 'modulus_elasticity_mpa',   8500.0),
-  ('GP-CLUB-700', 'modulus_rupture_mpa',      65.0),
-  ('GP-CLUB-700', 'screw_holding_face_n',     2250.0),
-  ('GP-CLUB-700', 'screw_holding_edge_n',     1350.0),
-  ('GP-CLUB-700', 'thermal_conductivity_w_mk',0.13),
-  ('GP-PLAT-BWP', 'mfg_length_mm',            2440.0),
-  ('GP-PLAT-BWP', 'mfg_width_mm',             1220.0),
-  ('GP-PLAT-BWP', 'mfg_thickness_mm',         19.0),
-  ('GP-PLAT-BWP', 'modulus_elasticity_mpa',   7800.0),
-  ('GP-PLAT-BWP', 'modulus_rupture_mpa',      58.0),
-  ('GP-PLAT-BWP', 'screw_holding_face_n',     2100.0),
-  ('GP-PLAT-BWP', 'screw_holding_edge_n',     1250.0),
-  ('GP-PLAT-BWP', 'thermal_conductivity_w_mk',0.14),
-  ('GP-710-MAR',  'mfg_length_mm',            2440.0),
-  ('GP-710-MAR',  'mfg_width_mm',             1220.0),
-  ('GP-710-MAR',  'mfg_thickness_mm',         19.0),
-  ('GP-710-MAR',  'modulus_elasticity_mpa',   7200.0),
-  ('GP-710-MAR',  'modulus_rupture_mpa',      52.0),
-  ('GP-710-MAR',  'screw_holding_face_n',     2000.0),
-  ('GP-710-MAR',  'screw_holding_edge_n',     1200.0),
-  ('GP-710-MAR',  'thermal_conductivity_w_mk',0.14),
-  ('GP-GOLD-BWP', 'mfg_length_mm',            2440.0),
-  ('GP-GOLD-BWP', 'mfg_width_mm',             1220.0),
-  ('GP-GOLD-BWP', 'mfg_thickness_mm',         19.0),
-  ('GP-GOLD-BWP', 'modulus_elasticity_mpa',   6500.0),
-  ('GP-GOLD-BWP', 'modulus_rupture_mpa',      48.0),
-  ('GP-GOLD-BWP', 'screw_holding_face_n',     1900.0),
-  ('GP-GOLD-BWP', 'screw_holding_edge_n',     1100.0),
-  ('GP-GOLD-BWP', 'thermal_conductivity_w_mk',0.15)
+  ('PG-CLUB-700', 'mfg_length_mm',            2440.0),
+  ('PG-CLUB-700', 'mfg_width_mm',             1220.0),
+  ('PG-CLUB-700', 'mfg_thickness_mm',         19.0),
+  ('PG-CLUB-700', 'modulus_elasticity_mpa',   8500.0),
+  ('PG-CLUB-700', 'modulus_rupture_mpa',      65.0),
+  ('PG-CLUB-700', 'screw_holding_face_n',     2250.0),
+  ('PG-CLUB-700', 'screw_holding_edge_n',     1350.0),
+  ('PG-CLUB-700', 'thermal_conductivity_w_mk',0.13),
+  ('PG-PLAT-BWP', 'mfg_length_mm',            2440.0),
+  ('PG-PLAT-BWP', 'mfg_width_mm',             1220.0),
+  ('PG-PLAT-BWP', 'mfg_thickness_mm',         19.0),
+  ('PG-PLAT-BWP', 'modulus_elasticity_mpa',   7800.0),
+  ('PG-PLAT-BWP', 'modulus_rupture_mpa',      58.0),
+  ('PG-PLAT-BWP', 'screw_holding_face_n',     2100.0),
+  ('PG-PLAT-BWP', 'screw_holding_edge_n',     1250.0),
+  ('PG-PLAT-BWP', 'thermal_conductivity_w_mk',0.14),
+  ('PG-710-MAR',  'mfg_length_mm',            2440.0),
+  ('PG-710-MAR',  'mfg_width_mm',             1220.0),
+  ('PG-710-MAR',  'mfg_thickness_mm',         19.0),
+  ('PG-710-MAR',  'modulus_elasticity_mpa',   7200.0),
+  ('PG-710-MAR',  'modulus_rupture_mpa',      52.0),
+  ('PG-710-MAR',  'screw_holding_face_n',     2000.0),
+  ('PG-710-MAR',  'screw_holding_edge_n',     1200.0),
+  ('PG-710-MAR',  'thermal_conductivity_w_mk',0.14),
+  ('PG-GOLD-BWP', 'mfg_length_mm',            2440.0),
+  ('PG-GOLD-BWP', 'mfg_width_mm',             1220.0),
+  ('PG-GOLD-BWP', 'mfg_thickness_mm',         19.0),
+  ('PG-GOLD-BWP', 'modulus_elasticity_mpa',   6500.0),
+  ('PG-GOLD-BWP', 'modulus_rupture_mpa',      48.0),
+  ('PG-GOLD-BWP', 'screw_holding_face_n',     1900.0),
+  ('PG-GOLD-BWP', 'screw_holding_edge_n',     1100.0),
+  ('PG-GOLD-BWP', 'thermal_conductivity_w_mk',0.15)
 ) AS v(p_code, a_code, val)
 JOIN product p ON p.product_code = v.p_code
 JOIN attribute a ON a.code = v.a_code
@@ -157,36 +157,36 @@ CROSS JOIN (VALUES
 WHERE s.code = 'ETIM'
 ON CONFLICT (scheme_id, code) DO NOTHING;
 
--- Map Greenply products to Plywood Classification Classes
+-- Map Ply Gallery products to Plywood Classification Classes
 INSERT INTO product_classification (product_id, scheme_id, class_id, is_primary, mapped_status)
 SELECT p.id, s.id, c.id, v.is_primary, 'mapped'
 FROM (VALUES
-  ('GP-CLUB-700', 'ETIM',      'EC002620',       true),
-  ('GP-CLUB-700', 'DATANORM',  '100',            false),
-  ('GP-CLUB-700', 'BMECAT',    'T-WOOD-PLY-01',  false),
-  ('GP-CLUB-700', 'UNSPSC',    '30103603',       false),
-  ('GP-CLUB-700', 'SALESHIER', 'WOOD-PLY-STRUCT',false),
-  ('GP-CLUB-700', 'IFC',       'IfcPlate.SHEET', false),
-  ('GP-CLUB-700', 'OMNICLASS', '23-13 23 13',    false),
-  ('GP-CLUB-700', 'UNICLASS',  'Pr_25_71_92_64', false),
-  ('GP-PLAT-BWP', 'ETIM',      'EC002620',       true),
-  ('GP-PLAT-BWP', 'UNSPSC',    '30103603',       false),
-  ('GP-PLAT-BWP', 'SALESHIER', 'WOOD-PLY-STRUCT',false),
-  ('GP-PLAT-BWP', 'IFC',       'IfcPlate.SHEET', false),
-  ('GP-PLAT-BWP', 'OMNICLASS', '23-13 23 13',    false),
-  ('GP-PLAT-BWP', 'UNICLASS',  'Pr_25_71_92_64', false),
-  ('GP-710-MAR',  'ETIM',      'EC002620',       true),
-  ('GP-710-MAR',  'UNSPSC',    '30103603',       false),
-  ('GP-710-MAR',  'SALESHIER', 'WOOD-PLY-MARINE',false),
-  ('GP-710-MAR',  'IFC',       'IfcPlate.SHEET', false),
-  ('GP-710-MAR',  'OMNICLASS', '23-13 23 13',    false),
-  ('GP-710-MAR',  'UNICLASS',  'Pr_25_71_92_64', false),
-  ('GP-GOLD-BWP', 'ETIM',      'EC002620',       true),
-  ('GP-GOLD-BWP', 'UNSPSC',    '30103603',       false),
-  ('GP-GOLD-BWP', 'SALESHIER', 'WOOD-PLY-COMM',  false),
-  ('GP-GOLD-BWP', 'IFC',       'IfcPlate.SHEET', false),
-  ('GP-GOLD-BWP', 'OMNICLASS', '23-13 23 13',    false),
-  ('GP-GOLD-BWP', 'UNICLASS',  'Pr_25_71_92_64', false)
+  ('PG-CLUB-700', 'ETIM',      'EC002620',       true),
+  ('PG-CLUB-700', 'DATANORM',  '100',            false),
+  ('PG-CLUB-700', 'BMECAT',    'T-WOOD-PLY-01',  false),
+  ('PG-CLUB-700', 'UNSPSC',    '30103603',       false),
+  ('PG-CLUB-700', 'SALESHIER', 'WOOD-PLY-STRUCT',false),
+  ('PG-CLUB-700', 'IFC',       'IfcPlate.SHEET', false),
+  ('PG-CLUB-700', 'OMNICLASS', '23-13 23 13',    false),
+  ('PG-CLUB-700', 'UNICLASS',  'Pr_25_71_92_64', false),
+  ('PG-PLAT-BWP', 'ETIM',      'EC002620',       true),
+  ('PG-PLAT-BWP', 'UNSPSC',    '30103603',       false),
+  ('PG-PLAT-BWP', 'SALESHIER', 'WOOD-PLY-STRUCT',false),
+  ('PG-PLAT-BWP', 'IFC',       'IfcPlate.SHEET', false),
+  ('PG-PLAT-BWP', 'OMNICLASS', '23-13 23 13',    false),
+  ('PG-PLAT-BWP', 'UNICLASS',  'Pr_25_71_92_64', false),
+  ('PG-710-MAR',  'ETIM',      'EC002620',       true),
+  ('PG-710-MAR',  'UNSPSC',    '30103603',       false),
+  ('PG-710-MAR',  'SALESHIER', 'WOOD-PLY-MARINE',false),
+  ('PG-710-MAR',  'IFC',       'IfcPlate.SHEET', false),
+  ('PG-710-MAR',  'OMNICLASS', '23-13 23 13',    false),
+  ('PG-710-MAR',  'UNICLASS',  'Pr_25_71_92_64', false),
+  ('PG-GOLD-BWP', 'ETIM',      'EC002620',       true),
+  ('PG-GOLD-BWP', 'UNSPSC',    '30103603',       false),
+  ('PG-GOLD-BWP', 'SALESHIER', 'WOOD-PLY-COMM',  false),
+  ('PG-GOLD-BWP', 'IFC',       'IfcPlate.SHEET', false),
+  ('PG-GOLD-BWP', 'OMNICLASS', '23-13 23 13',    false),
+  ('PG-GOLD-BWP', 'UNICLASS',  'Pr_25_71_92_64', false)
 ) AS v(p_code, scheme, class_code, is_primary)
 JOIN product p ON p.product_code = v.p_code
 JOIN classification_scheme s ON s.code = v.scheme
@@ -213,7 +213,7 @@ JOIN (VALUES
   ('EF_PLY_BORR', NULL,                        NULL,          true),
   ('EF_PLY_CALI', NULL,                        NULL,          true)
 ) AS v(f_code, t, n, b) ON v.f_code = f.code
-WHERE p.product_code = 'GP-CLUB-700'
+WHERE p.product_code = 'PG-CLUB-700'
 ON CONFLICT (product_id, feature_id) DO UPDATE
 SET value_text = EXCLUDED.value_text,
     value_number = EXCLUDED.value_number,
@@ -223,27 +223,27 @@ SET value_text = EXCLUDED.value_text,
 -- Assets for Green Club 700 & Green Platinum
 INSERT INTO asset (storage_provider, storage_key, file_name, mime_type, file_size, asset_type, width, height, status)
 VALUES
-  ('s3', 'https://assets.greenply.com/products/green_club_700_sheet_hero.jpg',
+  ('s3', 'https://assets.plygallery.com/products/green_club_700_sheet_hero.jpg',
    'green_club_700_sheet_hero.jpg', 'image/jpeg', 2450000, 'IMAGE', 2400, 1600, 'active'),
-  ('s3', 'https://assets.greenply.com/products/green_club_700_cross_section_layers.jpg',
+  ('s3', 'https://assets.plygallery.com/products/green_club_700_cross_section_layers.jpg',
    'green_club_700_cross_section_layers.jpg', 'image/jpeg', 1890000, 'IMAGE', 1920, 1280, 'active'),
-  ('s3', 'https://assets.greenply.com/products/green_club_700_application_kitchen.jpg',
+  ('s3', 'https://assets.plygallery.com/products/green_club_700_application_kitchen.jpg',
    'green_club_700_application_kitchen.jpg', 'image/jpeg', 2150000, 'IMAGE', 1920, 1280, 'active'),
-  ('s3', 'https://www.greenply.com/datasheets/Green_Club_700_Technical_Datasheet_2026.pdf',
+  ('s3', 'https://www.plygallery.com/datasheets/Green_Club_700_Technical_Datasheet_2026.pdf',
    'Green_Club_700_Technical_Datasheet_2026.pdf', 'application/pdf', 1450200, 'DOCUMENT', NULL, NULL, 'active'),
-  ('s3', 'https://www.greenply.com/certifications/Greenply_IS710_72hr_Boiling_Water_Test_Report.pdf',
-   'Greenply_IS710_72hr_Boiling_Water_Test_Report.pdf', 'application/pdf', 890400, 'DOCUMENT', NULL, NULL, 'active'),
-  ('s3', 'https://www.greenply.com/certifications/Greenply_E0_Emission_CARB_P2_Certificate.pdf',
-   'Greenply_E0_Emission_CARB_P2_Certificate.pdf', 'application/pdf', 670100, 'DOCUMENT', NULL, NULL, 'active'),
-  ('s3', 'https://www.greenply.com/guides/Greenply_Architectural_Joinery_Guide.pdf',
-   'Greenply_Architectural_Joinery_Guide.pdf', 'application/pdf', 2150000, 'DOCUMENT', NULL, NULL, 'active'),
-  ('s3', 'https://bim.greenply.com/objects/green_club_700_panel_3d.ifc',
+  ('s3', 'https://www.plygallery.com/certifications/PlyGallery_IS710_72hr_Boiling_Water_Test_Report.pdf',
+   'PlyGallery_IS710_72hr_Boiling_Water_Test_Report.pdf', 'application/pdf', 890400, 'DOCUMENT', NULL, NULL, 'active'),
+  ('s3', 'https://www.plygallery.com/certifications/PlyGallery_E0_Emission_CARB_P2_Certificate.pdf',
+   'PlyGallery_E0_Emission_CARB_P2_Certificate.pdf', 'application/pdf', 670100, 'DOCUMENT', NULL, NULL, 'active'),
+  ('s3', 'https://www.plygallery.com/guides/PlyGallery_Architectural_Joinery_Guide.pdf',
+   'PlyGallery_Architectural_Joinery_Guide.pdf', 'application/pdf', 2150000, 'DOCUMENT', NULL, NULL, 'active'),
+  ('s3', 'https://bim.plygallery.com/objects/green_club_700_panel_3d.ifc',
    'green_club_700_panel_3d.ifc', 'application/x-step', 4210000, 'BIM', NULL, NULL, 'active'),
-  ('s3', 'https://bim.greenply.com/cad/green_club_700_cad_section.dwg',
+  ('s3', 'https://bim.plygallery.com/cad/green_club_700_cad_section.dwg',
    'green_club_700_cad_section.dwg', 'application/acad', 1120000, 'CAD', NULL, NULL, 'active'),
-  ('s3', 'https://assets.greenply.com/products/green_platinum_sheet_hero.jpg',
+  ('s3', 'https://assets.plygallery.com/products/green_platinum_sheet_hero.jpg',
    'green_platinum_sheet_hero.jpg', 'image/jpeg', 2280000, 'IMAGE', 2400, 1600, 'active'),
-  ('s3', 'https://www.greenply.com/datasheets/Green_Platinum_Fire_Retardant_TDS.pdf',
+  ('s3', 'https://www.plygallery.com/datasheets/Green_Platinum_Fire_Retardant_TDS.pdf',
    'Green_Platinum_Fire_Retardant_TDS.pdf', 'application/pdf', 1340000, 'DOCUMENT', NULL, NULL, 'active')
 ON CONFLICT (storage_provider, storage_key) DO NOTHING;
 
@@ -257,9 +257,9 @@ FROM (VALUES
   ('green_club_700_cross_section_layers.jpg', 'de-DE', 'Penta-Tech Schichtaufbau', 'Querschnitt des Hartholz-Mehrschichtaufbaus', 'Präzisionskalibrierte Hartholzfurniere mit ungestrecktem Kunstharz'),
   ('green_club_700_application_kitchen.jpg', 'en-GB', 'Modular Kitchen Cabinetry Installation', 'Club 700 used in premium kitchen carcass', 'Waterproof BWP carcass cabinetry fabricated with Club 700'),
   ('Green_Club_700_Technical_Datasheet_2026.pdf', 'en-GB', 'Technical Data Sheet (2026)', 'Club 700 Product TDS PDF', 'Complete engineering, physical, and chemical properties'),
-  ('Greenply_IS710_72hr_Boiling_Water_Test_Report.pdf', 'en-GB', 'IS:710 72-Hour Boiling Water Test Report', 'Laboratory test report proving zero delamination', 'Independent testing per Indian Standard IS:710'),
-  ('Greenply_E0_Emission_CARB_P2_Certificate.pdf', 'en-GB', 'CARB Phase 2 / E0 Emission Certificate', 'Formaldehyde emission test certificate', 'Zero emission certification (less than 3mg/100g)'),
-  ('Greenply_Architectural_Joinery_Guide.pdf', 'en-GB', 'Architectural Joinery & Fabrication Guide', 'Installation manual for carpenters and contractors', 'Screw holding, edge banding, and veneer pressing guidelines'),
+  ('PlyGallery_IS710_72hr_Boiling_Water_Test_Report.pdf', 'en-GB', 'IS:710 72-Hour Boiling Water Test Report', 'Laboratory test report proving zero delamination', 'Independent testing per Indian Standard IS:710'),
+  ('PlyGallery_E0_Emission_CARB_P2_Certificate.pdf', 'en-GB', 'CARB Phase 2 / E0 Emission Certificate', 'Formaldehyde emission test certificate', 'Zero emission certification (less than 3mg/100g)'),
+  ('PlyGallery_Architectural_Joinery_Guide.pdf', 'en-GB', 'Architectural Joinery & Fabrication Guide', 'Installation manual for carpenters and contractors', 'Screw holding, edge banding, and veneer pressing guidelines'),
   ('green_club_700_panel_3d.ifc', 'en-GB', '3D BIM Object (IFC 4.3)', 'BIM model of Club 700 panel', 'Parametric sheet object for Revit, ArchiCAD, and BIM 360'),
   ('green_club_700_cad_section.dwg', 'en-GB', 'CAD Section & Joinery Detail (DWG)', '2D CAD joinery drawing', 'Detailed edge profiles, tongue-and-groove and joint details')
 ) AS v(fname, locale, title, alt, cap)
@@ -278,17 +278,17 @@ ON CONFLICT (asset_id, role) DO NOTHING;
 INSERT INTO asset_link (product_id, sku_id, asset_id, role, is_primary, sort_order)
 SELECT p.id, NULL, a.id, v.role, v.is_pri, v.sort_order
 FROM (VALUES
-  ('GP-CLUB-700', 'green_club_700_sheet_hero.jpg',                          'MAIN',      true,  1),
-  ('GP-CLUB-700', 'green_club_700_cross_section_layers.jpg',                'GALLERY',   false, 2),
-  ('GP-CLUB-700', 'green_club_700_application_kitchen.jpg',                'GALLERY',   false, 3),
-  ('GP-CLUB-700', 'Green_Club_700_Technical_Datasheet_2026.pdf',            'DATASHEET', false, 4),
-  ('GP-CLUB-700', 'Greenply_IS710_72hr_Boiling_Water_Test_Report.pdf',      'DATASHEET', false, 5),
-  ('GP-CLUB-700', 'Greenply_E0_Emission_CARB_P2_Certificate.pdf',          'DATASHEET', false, 6),
-  ('GP-CLUB-700', 'Greenply_Architectural_Joinery_Guide.pdf',              'INSTALL',   false, 7),
-  ('GP-CLUB-700', 'green_club_700_panel_3d.ifc',                            'BIM',       false, 8),
-  ('GP-CLUB-700', 'green_club_700_cad_section.dwg',                         'DRAWING',   false, 9),
-  ('GP-PLAT-BWP', 'green_platinum_sheet_hero.jpg',                          'MAIN',      true,  1),
-  ('GP-PLAT-BWP', 'Green_Platinum_Fire_Retardant_TDS.pdf',                  'DATASHEET', false, 2)
+  ('PG-CLUB-700', 'green_club_700_sheet_hero.jpg',                          'MAIN',      true,  1),
+  ('PG-CLUB-700', 'green_club_700_cross_section_layers.jpg',                'GALLERY',   false, 2),
+  ('PG-CLUB-700', 'green_club_700_application_kitchen.jpg',                'GALLERY',   false, 3),
+  ('PG-CLUB-700', 'Green_Club_700_Technical_Datasheet_2026.pdf',            'DATASHEET', false, 4),
+  ('PG-CLUB-700', 'PlyGallery_IS710_72hr_Boiling_Water_Test_Report.pdf',      'DATASHEET', false, 5),
+  ('PG-CLUB-700', 'PlyGallery_E0_Emission_CARB_P2_Certificate.pdf',          'DATASHEET', false, 6),
+  ('PG-CLUB-700', 'PlyGallery_Architectural_Joinery_Guide.pdf',              'INSTALL',   false, 7),
+  ('PG-CLUB-700', 'green_club_700_panel_3d.ifc',                            'BIM',       false, 8),
+  ('PG-CLUB-700', 'green_club_700_cad_section.dwg',                         'DRAWING',   false, 9),
+  ('PG-PLAT-BWP', 'green_platinum_sheet_hero.jpg',                          'MAIN',      true,  1),
+  ('PG-PLAT-BWP', 'Green_Platinum_Fire_Retardant_TDS.pdf',                  'DATASHEET', false, 2)
 ) AS v(p_code, fname, role, is_pri, sort_order)
 JOIN product p ON p.product_code = v.p_code
 JOIN asset a ON a.file_name = v.fname

@@ -1,9 +1,9 @@
 -- =============================================================================
--- MODULE · PLYWOOD DOMAIN SEED (Greenply Industries Model)
+-- MODULE · PLYWOOD DOMAIN SEED (Ply Gallery Model)
 --
 -- Transitions the PIM catalogue to the Engineered Wood & Plywood domain.
 -- Seeds:
---   1. Brand: Greenply Industries
+--   1. Brand: Ply Gallery
 --   2. Units: area (sqft, sqm), density (g/cm³), force (N), pressure (MPa), time (hours)
 --   3. Taxonomy: Wood Panels > Plywood & Blockboards, Flush Doors, Veneers, PVC/WPC
 --   4. Attribute Groups: Dimensions, Technical, Protection, Health/Air Quality, Commercial
@@ -29,16 +29,16 @@ END $$;
 
 -- 1. BRAND --------------------------------------------------------------------
 INSERT INTO brand (code, legal_entity, website, country_code, status)
-VALUES ('greenply', 'Greenply Industries Limited', 'https://www.greenply.com', 'IN', 'active')
+VALUES ('plygallery', 'Ply Gallery Industries Limited', 'https://www.plygallery.com', 'IN', 'active')
 ON CONFLICT (code) DO NOTHING;
 
 INSERT INTO brand_tr (brand_id, locale_code, name, description, tagline)
 SELECT b.id, v.locale, v.name, v.descr, v.tagline
 FROM (VALUES
-  ('en-GB', 'Greenply', 'India''s premier manufacturer of zero-emission plywood, blockboards, decorative veneers and PVC boards.', 'Zero Emission (E0) Pioneer'),
-  ('de-DE', 'Greenply', 'Führender Hersteller von emissionsfreiem Sperrholz, Tischlerplatten, Furnieren und Verbundwerkstoffen.', 'Pionier für emissionsfreies E0-Sperrholz')
+  ('en-GB', 'Ply Gallery', 'India''s premier manufacturer of zero-emission plywood, blockboards, decorative veneers and PVC boards.', 'Zero Emission (E0) Pioneer'),
+  ('de-DE', 'Ply Gallery', 'Führender Hersteller von emissionsfreiem Sperrholz, Tischlerplatten, Furnieren und Verbundwerkstoffen.', 'Pionier für emissionsfreies E0-Sperrholz')
 ) AS v(locale, name, descr, tagline)
-CROSS JOIN (SELECT id FROM brand WHERE code = 'greenply') b
+CROSS JOIN (SELECT id FROM brand WHERE code = 'plygallery') b
 ON CONFLICT (brand_id, locale_code) DO NOTHING;
 
 -- 2. MEASUREMENT UNITS --------------------------------------------------------
@@ -72,13 +72,13 @@ ON CONFLICT (unit_id, locale_code) DO NOTHING;
 -- 3. TAXONOMY NODES -----------------------------------------------------------
 -- Root Family Node
 INSERT INTO taxonomy_node (code, node_type, parent_id, path, depth, brand_id)
-SELECT 'greenply', 'FAMILY', NULL, 'greenply'::ltree, 0, b.id
-FROM brand b WHERE b.code = 'greenply'
+SELECT 'plygallery', 'FAMILY', NULL, 'plygallery'::ltree, 0, b.id
+FROM brand b WHERE b.code = 'plygallery'
 ON CONFLICT (code) DO NOTHING;
 
--- Category Nodes under greenply
+-- Category Nodes under plygallery
 INSERT INTO taxonomy_node (code, node_type, parent_id, path, depth, brand_id)
-SELECT c.code, 'CATEGORY', r.id, ('greenply.' || c.code)::ltree, 1, r.brand_id
+SELECT c.code, 'CATEGORY', r.id, ('plygallery.' || c.code)::ltree, 1, r.brand_id
 FROM (VALUES
   ('plywood_blockboard'),
   ('flush_doors'),
@@ -86,12 +86,12 @@ FROM (VALUES
   ('pvc_wpc'),
   ('mdf_boards')
 ) AS c(code)
-CROSS JOIN (SELECT id, brand_id FROM taxonomy_node WHERE code = 'greenply') r
+CROSS JOIN (SELECT id, brand_id FROM taxonomy_node WHERE code = 'plygallery') r
 ON CONFLICT (code) DO NOTHING;
 
 -- Subcategory / Series under plywood_blockboard
 INSERT INTO taxonomy_node (code, node_type, parent_id, path, depth, brand_id)
-SELECT s.code, 'SERIES', p.id, ('greenply.plywood_blockboard.' || s.code)::ltree, 2, p.brand_id
+SELECT s.code, 'SERIES', p.id, ('plygallery.plywood_blockboard.' || s.code)::ltree, 2, p.brand_id
 FROM (VALUES
   ('green_club'),
   ('green_platinum'),
@@ -106,8 +106,8 @@ ON CONFLICT (code) DO NOTHING;
 INSERT INTO taxonomy_node_tr (node_id, locale_code, name, description, translation_status)
 SELECT n.id, v.locale, v.name, v.descr, 'approved'
 FROM (VALUES
-  ('greenply',           'en-GB', 'Greenply Collection', 'All Greenply product lines and materials'),
-  ('greenply',           'de-DE', 'Greenply Kollektion', 'Alle Greenply Produktlinien und Materialien'),
+  ('plygallery',         'en-GB', 'Ply Gallery Collection', 'All Ply Gallery product lines and materials'),
+  ('plygallery',         'de-DE', 'Ply Gallery Kollektion', 'Alle Ply Gallery Produktlinien und Materialien'),
   ('plywood_blockboard', 'en-GB', 'Plywood & Blockboards', 'Structural, Marine, Fire Retardant and Commercial panels'),
   ('plywood_blockboard', 'de-DE', 'Sperrholz & Tischlerplatten', 'Struktur-, Marine- und feuerhemmende Platten'),
   ('flush_doors',        'en-GB', 'Doors', 'High dimensional stability Flush & Decorative Doors'),
@@ -429,7 +429,7 @@ ON CONFLICT (set_id, attribute_id) DO NOTHING;
 -- Bind the attribute set to the plywood taxonomy subtree
 UPDATE taxonomy_node
 SET attribute_set_id = (SELECT id FROM attribute_set WHERE code = 'plywood_core')
-WHERE path <@ 'greenply.plywood_blockboard';
+WHERE path <@ 'plygallery.plywood_blockboard';
 
 -- 8. APPLICATIONS -------------------------------------------------------------
 INSERT INTO application (group_code, code, sort_order) VALUES
@@ -474,15 +474,15 @@ SELECT a.id, v.locale, v.label FROM (VALUES
 JOIN application a ON a.group_code = v.gcode AND a.code = v.code
 ON CONFLICT (application_id, locale_code) DO NOTHING;
 
--- 9. SHOWCASE PRODUCTS (GREENPLY FLAGSHIP SUITE) -----------------------------
+-- 9. SHOWCASE PRODUCTS (PLY GALLERY FLAGSHIP SUITE) ---------------------------
 -- Product 1: Green Club 700 (Structural E0 Plywood)
 INSERT INTO product (product_code, primary_node_id, brand_id, attribute_set_id, base_locale,
                      lifecycle_state, workflow_state, owner_display_name, gtin, sap_material_no, row_version)
-SELECT 'GP-CLUB-700', n.id, b.id, s.id, 'en-GB', 'ACTIVE', 'Published', 'Markus Klein', '8901234500700', 'SAP-GP-700', 1
+SELECT 'PG-CLUB-700', n.id, b.id, s.id, 'en-GB', 'ACTIVE', 'Published', 'Markus Klein', '8901234500700', 'SAP-PG-700', 1
 FROM taxonomy_node n
 CROSS JOIN brand b
 CROSS JOIN attribute_set s
-WHERE n.code = 'green_club' AND b.code = 'greenply' AND s.code = 'plywood_core'
+WHERE n.code = 'green_club' AND b.code = 'plygallery' AND s.code = 'plywood_core'
 ON CONFLICT (product_code) DO NOTHING;
 
 INSERT INTO product_tr (product_id, locale_code, name, short_desc, long_desc, marketing, slug, translation_status)
@@ -499,17 +499,17 @@ FROM (VALUES
    'Emissionsfrei E0 • 2X Brandschutz • Lebenslange Garantie • Penta-5-Technologie',
    'green-club-700-sperrholz')
 ) AS v(locale, name, short_desc, long_desc, marketing, slug)
-CROSS JOIN (SELECT id FROM product WHERE product_code = 'GP-CLUB-700') p
+CROSS JOIN (SELECT id FROM product WHERE product_code = 'PG-CLUB-700') p
 ON CONFLICT (product_id, locale_code) DO NOTHING;
 
 -- Product 2: Green Platinum (2X Fire Retardant BWP)
 INSERT INTO product (product_code, primary_node_id, brand_id, attribute_set_id, base_locale,
                      lifecycle_state, workflow_state, owner_display_name, gtin, sap_material_no, row_version)
-SELECT 'GP-PLAT-BWP', n.id, b.id, s.id, 'en-GB', 'ACTIVE', 'Approval', 'Anna Becker', '8901234500701', 'SAP-GP-PLAT', 1
+SELECT 'PG-PLAT-BWP', n.id, b.id, s.id, 'en-GB', 'ACTIVE', 'Approval', 'Anna Becker', '8901234500701', 'SAP-PG-PLAT', 1
 FROM taxonomy_node n
 CROSS JOIN brand b
 CROSS JOIN attribute_set s
-WHERE n.code = 'green_platinum' AND b.code = 'greenply' AND s.code = 'plywood_core'
+WHERE n.code = 'green_platinum' AND b.code = 'plygallery' AND s.code = 'plywood_core'
 ON CONFLICT (product_code) DO NOTHING;
 
 INSERT INTO product_tr (product_id, locale_code, name, short_desc, long_desc, marketing, slug, translation_status)
@@ -526,17 +526,17 @@ FROM (VALUES
    '100% BWP Kochwasserfest • 30 Jahre Garantie • E0 Emissionsarm',
    'green-platinum-bwp-sperrholz')
 ) AS v(locale, name, short_desc, long_desc, marketing, slug)
-CROSS JOIN (SELECT id FROM product WHERE product_code = 'GP-PLAT-BWP') p
+CROSS JOIN (SELECT id FROM product WHERE product_code = 'PG-PLAT-BWP') p
 ON CONFLICT (product_id, locale_code) DO NOTHING;
 
 -- Product 3: Green 710 Marine
 INSERT INTO product (product_code, primary_node_id, brand_id, attribute_set_id, base_locale,
                      lifecycle_state, workflow_state, owner_display_name, gtin, sap_material_no, row_version)
-SELECT 'GP-710-MAR', n.id, b.id, s.id, 'en-GB', 'ACTIVE', 'Review', 'Lena Vogt', '8901234500710', 'SAP-GP-710', 1
+SELECT 'PG-710-MAR', n.id, b.id, s.id, 'en-GB', 'ACTIVE', 'Review', 'Lena Vogt', '8901234500710', 'SAP-PG-710', 1
 FROM taxonomy_node n
 CROSS JOIN brand b
 CROSS JOIN attribute_set s
-WHERE n.code = 'green_710' AND b.code = 'greenply' AND s.code = 'plywood_core'
+WHERE n.code = 'green_710' AND b.code = 'plygallery' AND s.code = 'plywood_core'
 ON CONFLICT (product_code) DO NOTHING;
 
 INSERT INTO product_tr (product_id, locale_code, name, short_desc, long_desc, marketing, slug, translation_status)
@@ -553,17 +553,17 @@ FROM (VALUES
    'IS:710 Marinesperrholz • 25 Jahre Garantie • 100% Hartholz',
    'green-710-marine-sperrholz')
 ) AS v(locale, name, short_desc, long_desc, marketing, slug)
-CROSS JOIN (SELECT id FROM product WHERE product_code = 'GP-710-MAR') p
+CROSS JOIN (SELECT id FROM product WHERE product_code = 'PG-710-MAR') p
 ON CONFLICT (product_id, locale_code) DO NOTHING;
 
 -- Product 4: Green Gold (Commercial BWP)
 INSERT INTO product (product_code, primary_node_id, brand_id, attribute_set_id, base_locale,
                      lifecycle_state, workflow_state, owner_display_name, gtin, sap_material_no, row_version)
-SELECT 'GP-GOLD-BWP', n.id, b.id, s.id, 'en-GB', 'ACTIVE', 'Draft', 'Sophie Adler', '8901234500720', 'SAP-GP-GOLD', 1
+SELECT 'PG-GOLD-BWP', n.id, b.id, s.id, 'en-GB', 'ACTIVE', 'Draft', 'Sophie Adler', '8901234500720', 'SAP-PG-GOLD', 1
 FROM taxonomy_node n
 CROSS JOIN brand b
 CROSS JOIN attribute_set s
-WHERE n.code = 'green_gold' AND b.code = 'greenply' AND s.code = 'plywood_core'
+WHERE n.code = 'green_gold' AND b.code = 'plygallery' AND s.code = 'plywood_core'
 ON CONFLICT (product_code) DO NOTHING;
 
 INSERT INTO product_tr (product_id, locale_code, name, short_desc, long_desc, marketing, slug, translation_status)
@@ -580,24 +580,24 @@ FROM (VALUES
    '30 Jahre Garantie • 11 Jahre Rundumschutz • 4-Stufen Kalibriert',
    'green-gold-bwp-sperrholz')
 ) AS v(locale, name, short_desc, long_desc, marketing, slug)
-CROSS JOIN (SELECT id FROM product WHERE product_code = 'GP-GOLD-BWP') p
+CROSS JOIN (SELECT id FROM product WHERE product_code = 'PG-GOLD-BWP') p
 ON CONFLICT (product_id, locale_code) DO NOTHING;
 
 -- 10. PRODUCT SKUs (VARIANTS) -------------------------------------------------
 INSERT INTO sku (product_id, sku_code, gtin, erp_material_no, status, sort_order)
 SELECT p.id, v.sku_code, v.gtin, v.erp, 'active', v.sort_order
 FROM (VALUES
-  ('GP-CLUB-700', 'GP-C700-8X4-19MM', '8901234519700', 'ERP-GC700-19', 1),
-  ('GP-CLUB-700', 'GP-C700-8X4-16MM', '8901234516700', 'ERP-GC700-16', 2),
-  ('GP-CLUB-700', 'GP-C700-8X4-12MM', '8901234512700', 'ERP-GC700-12', 3),
-  ('GP-CLUB-700', 'GP-C700-8X4-6MM',  '8901234506700', 'ERP-GC700-06', 4),
-  ('GP-PLAT-BWP', 'GP-PLAT-8X4-19MM', '8901234519701', 'ERP-PLAT-19',  1),
-  ('GP-PLAT-BWP', 'GP-PLAT-8X4-16MM', '8901234516701', 'ERP-PLAT-16',  2),
-  ('GP-PLAT-BWP', 'GP-PLAT-8X4-12MM', '8901234512701', 'ERP-PLAT-12',  3),
-  ('GP-710-MAR',  'GP-710-8X4-19MM',  '8901234519710', 'ERP-M710-19',  1),
-  ('GP-710-MAR',  'GP-710-8X4-12MM',  '8901234512710', 'ERP-M710-12',  2),
-  ('GP-GOLD-BWP', 'GP-GOLD-8X4-19MM', '8901234519720', 'ERP-GOLD-19',  1),
-  ('GP-GOLD-BWP', 'GP-GOLD-8X4-16MM', '8901234516720', 'ERP-GOLD-16',  2)
+  ('PG-CLUB-700', 'PG-C700-8X4-19MM', '8901234519700', 'ERP-GC700-19', 1),
+  ('PG-CLUB-700', 'PG-C700-8X4-16MM', '8901234516700', 'ERP-GC700-16', 2),
+  ('PG-CLUB-700', 'PG-C700-8X4-12MM', '8901234512700', 'ERP-GC700-12', 3),
+  ('PG-CLUB-700', 'PG-C700-8X4-6MM',  '8901234506700', 'ERP-GC700-06', 4),
+  ('PG-PLAT-BWP', 'PG-PLAT-8X4-19MM', '8901234519701', 'ERP-PLAT-19',  1),
+  ('PG-PLAT-BWP', 'PG-PLAT-8X4-16MM', '8901234516701', 'ERP-PLAT-16',  2),
+  ('PG-PLAT-BWP', 'PG-PLAT-8X4-12MM', '8901234512701', 'ERP-PLAT-12',  3),
+  ('PG-710-MAR',  'PG-710-8X4-19MM',  '8901234519710', 'ERP-M710-19',  1),
+  ('PG-710-MAR',  'PG-710-8X4-12MM',  '8901234512710', 'ERP-M710-12',  2),
+  ('PG-GOLD-BWP', 'PG-GOLD-8X4-19MM', '8901234519720', 'ERP-GOLD-19',  1),
+  ('PG-GOLD-BWP', 'PG-GOLD-8X4-16MM', '8901234516720', 'ERP-GOLD-16',  2)
 ) AS v(p_code, sku_code, gtin, erp, sort_order)
 JOIN product p ON p.product_code = v.p_code
 ON CONFLICT (sku_code) DO NOTHING;
@@ -610,13 +610,13 @@ UPDATE sku SET status = 'active' WHERE status = 'Active';
 INSERT INTO attribute_value (product_id, attribute_id, value_option_id, data_state)
 SELECT p.id, a.id, o.id, 'approved'
 FROM (VALUES
-  ('GP-CLUB-700', 'water_resistance_grade', 'STRUCTURAL'),
-  ('GP-CLUB-700', 'emission_standard',      'E0'),
-  ('GP-CLUB-700', 'core_species',           'GURJAN'),
-  ('GP-CLUB-700', 'resin_type',             'UNEXTENDED_PF'),
-  ('GP-CLUB-700', 'calibration_technology', 'PENTA_TECH'),
-  ('GP-CLUB-700', 'sheet_dimension',        '2440X1220'),
-  ('GP-CLUB-700', 'money_back_multiple',    '7X')
+  ('PG-CLUB-700', 'water_resistance_grade', 'STRUCTURAL'),
+  ('PG-CLUB-700', 'emission_standard',      'E0'),
+  ('PG-CLUB-700', 'core_species',           'GURJAN'),
+  ('PG-CLUB-700', 'resin_type',             'UNEXTENDED_PF'),
+  ('PG-CLUB-700', 'calibration_technology', 'PENTA_TECH'),
+  ('PG-CLUB-700', 'sheet_dimension',        '2440X1220'),
+  ('PG-CLUB-700', 'money_back_multiple',    '7X')
 ) AS v(p_code, a_code, o_code)
 JOIN product p ON p.product_code = v.p_code
 JOIN attribute a ON a.code = v.a_code
@@ -626,9 +626,9 @@ ON CONFLICT DO NOTHING;
 INSERT INTO attribute_value (product_id, attribute_id, value_boolean, data_state)
 SELECT p.id, a.id, v.val, 'approved'
 FROM (VALUES
-  ('GP-CLUB-700', 'borer_fungus_proof', true),
-  ('GP-CLUB-700', 'fire_retardant',     true),
-  ('GP-CLUB-700', 'fully_covered_plan', false)
+  ('PG-CLUB-700', 'borer_fungus_proof', true),
+  ('PG-CLUB-700', 'fire_retardant',     true),
+  ('PG-CLUB-700', 'fully_covered_plan', false)
 ) AS v(p_code, a_code, val)
 JOIN product p ON p.product_code = v.p_code
 JOIN attribute a ON a.code = v.a_code
@@ -637,11 +637,11 @@ ON CONFLICT DO NOTHING;
 INSERT INTO attribute_value (product_id, attribute_id, value_number, data_state)
 SELECT p.id, a.id, v.val, 'approved'
 FROM (VALUES
-  ('GP-CLUB-700', 'thickness_mm',         19.0),
-  ('GP-CLUB-700', 'density_g_cm3',        0.82),
-  ('GP-CLUB-700', 'moisture_content_pct', 9.5),
-  ('GP-CLUB-700', 'fire_delay_mins',      45),
-  ('GP-CLUB-700', 'warranty_years',       99)
+  ('PG-CLUB-700', 'thickness_mm',         19.0),
+  ('PG-CLUB-700', 'density_g_cm3',        0.82),
+  ('PG-CLUB-700', 'moisture_content_pct', 9.5),
+  ('PG-CLUB-700', 'fire_delay_mins',      45),
+  ('PG-CLUB-700', 'warranty_years',       99)
 ) AS v(p_code, a_code, val)
 JOIN product p ON p.product_code = v.p_code
 JOIN attribute a ON a.code = v.a_code
@@ -651,13 +651,13 @@ ON CONFLICT DO NOTHING;
 INSERT INTO attribute_value (product_id, attribute_id, value_option_id, data_state)
 SELECT p.id, a.id, o.id, 'approved'
 FROM (VALUES
-  ('GP-PLAT-BWP', 'water_resistance_grade', 'BWP'),
-  ('GP-PLAT-BWP', 'emission_standard',      'E0'),
-  ('GP-PLAT-BWP', 'core_species',           'HARDWOOD'),
-  ('GP-PLAT-BWP', 'resin_type',             'UNEXTENDED_PF'),
-  ('GP-PLAT-BWP', 'calibration_technology', 'FOUR_PRESS'),
-  ('GP-PLAT-BWP', 'sheet_dimension',        '2440X1220'),
-  ('GP-PLAT-BWP', 'money_back_multiple',    '2X')
+  ('PG-PLAT-BWP', 'water_resistance_grade', 'BWP'),
+  ('PG-PLAT-BWP', 'emission_standard',      'E0'),
+  ('PG-PLAT-BWP', 'core_species',           'HARDWOOD'),
+  ('PG-PLAT-BWP', 'resin_type',             'UNEXTENDED_PF'),
+  ('PG-PLAT-BWP', 'calibration_technology', 'FOUR_PRESS'),
+  ('PG-PLAT-BWP', 'sheet_dimension',        '2440X1220'),
+  ('PG-PLAT-BWP', 'money_back_multiple',    '2X')
 ) AS v(p_code, a_code, o_code)
 JOIN product p ON p.product_code = v.p_code
 JOIN attribute a ON a.code = v.a_code
@@ -667,9 +667,9 @@ ON CONFLICT DO NOTHING;
 INSERT INTO attribute_value (product_id, attribute_id, value_boolean, data_state)
 SELECT p.id, a.id, v.val, 'approved'
 FROM (VALUES
-  ('GP-PLAT-BWP', 'borer_fungus_proof', true),
-  ('GP-PLAT-BWP', 'fire_retardant',     true),
-  ('GP-PLAT-BWP', 'fully_covered_plan', false)
+  ('PG-PLAT-BWP', 'borer_fungus_proof', true),
+  ('PG-PLAT-BWP', 'fire_retardant',     true),
+  ('PG-PLAT-BWP', 'fully_covered_plan', false)
 ) AS v(p_code, a_code, val)
 JOIN product p ON p.product_code = v.p_code
 JOIN attribute a ON a.code = v.a_code
@@ -678,8 +678,8 @@ ON CONFLICT DO NOTHING;
 INSERT INTO attribute_value (product_id, attribute_id, value_number, data_state)
 SELECT p.id, a.id, v.val, 'approved'
 FROM (VALUES
-  ('GP-PLAT-BWP', 'thickness_mm',   19.0),
-  ('GP-PLAT-BWP', 'warranty_years', 30)
+  ('PG-PLAT-BWP', 'thickness_mm',   19.0),
+  ('PG-PLAT-BWP', 'warranty_years', 30)
 ) AS v(p_code, a_code, val)
 JOIN product p ON p.product_code = v.p_code
 JOIN attribute a ON a.code = v.a_code
@@ -690,27 +690,27 @@ ON CONFLICT DO NOTHING;
 INSERT INTO packaging_unit (sku_id, parent_id, level, contains_qty, gtin, gross_weight, net_weight, length_mm, width_mm, height_mm, is_base_unit)
 SELECT s.id, NULL, 'EACH', 1, s.gtin, 38.5, 37.8, 2440, 1220, 19, true
 FROM sku s
-WHERE s.sku_code = 'GP-C700-8X4-19MM'
+WHERE s.sku_code = 'PG-C700-8X4-19MM'
 ON CONFLICT (sku_id, level) DO NOTHING;
 
 INSERT INTO packaging_unit (sku_id, parent_id, level, contains_qty, gtin, gross_weight, net_weight, length_mm, width_mm, height_mm, is_base_unit)
 SELECT s.id, p_each.id, 'CARTON', 25, '8901234599700', 980.0, 945.0, 2460, 1240, 520, false
 FROM sku s
 JOIN packaging_unit p_each ON p_each.sku_id = s.id AND p_each.level = 'EACH'
-WHERE s.sku_code = 'GP-C700-8X4-19MM'
+WHERE s.sku_code = 'PG-C700-8X4-19MM'
 ON CONFLICT (sku_id, level) DO NOTHING;
 
 -- 13. COMPLIANCE DOCUMENTS ----------------------------------------------------
 INSERT INTO compliance_document (product_id, doc_type, reference, standard, authority, valid_from, valid_to, status)
 SELECT p.id, v.doc_type, v.ref, v.std, v.auth, v.v_from::date, v.v_to::date, 'valid'
 FROM (VALUES
-  ('GP-CLUB-700', 'ISI',  'BIS-CM/L-10701-700', 'IS:10701', 'Bureau of Indian Standards', '2025-01-01', '2030-12-31'),
-  ('GP-CLUB-700', 'ISI',  'BIS-CM/L-0710-700',  'IS:710',   'Bureau of Indian Standards', '2025-01-01', '2030-12-31'),
-  ('GP-CLUB-700', 'CARB', 'CARB-E0-GP-700',     'CARB P2',  'California Air Resources',   '2024-06-01', '2029-05-31'),
-  ('GP-CLUB-700', 'FSC',  'FSC-C123456-GP',     'FSC-STD',  'Forest Stewardship Council', '2023-01-01', '2028-12-31'),
-  ('GP-PLAT-BWP', 'ISI',  'BIS-CM/L-5509-PLAT', 'IS:5509',  'Bureau of Indian Standards', '2025-01-01', '2030-12-31'),
-  ('GP-PLAT-BWP', 'ISI',  'BIS-CM/L-0710-PLAT', 'IS:710',   'Bureau of Indian Standards', '2025-01-01', '2030-12-31'),
-  ('GP-710-MAR',  'ISI',  'BIS-CM/L-0710-M710', 'IS:710',   'Bureau of Indian Standards', '2024-01-01', '2029-12-31')
+  ('PG-CLUB-700', 'ISI',  'BIS-CM/L-10701-700', 'IS:10701', 'Bureau of Indian Standards', '2025-01-01', '2030-12-31'),
+  ('PG-CLUB-700', 'ISI',  'BIS-CM/L-0710-700',  'IS:710',   'Bureau of Indian Standards', '2025-01-01', '2030-12-31'),
+  ('PG-CLUB-700', 'CARB', 'CARB-E0-PG-700',     'CARB P2',  'California Air Resources',   '2024-06-01', '2029-05-31'),
+  ('PG-CLUB-700', 'FSC',  'FSC-C123456-GP',     'FSC-STD',  'Forest Stewardship Council', '2023-01-01', '2028-12-31'),
+  ('PG-PLAT-BWP', 'ISI',  'BIS-CM/L-5509-PLAT', 'IS:5509',  'Bureau of Indian Standards', '2025-01-01', '2030-12-31'),
+  ('PG-PLAT-BWP', 'ISI',  'BIS-CM/L-0710-PLAT', 'IS:710',   'Bureau of Indian Standards', '2025-01-01', '2030-12-31'),
+  ('PG-710-MAR',  'ISI',  'BIS-CM/L-0710-M710', 'IS:710',   'Bureau of Indian Standards', '2024-01-01', '2029-12-31')
 ) AS v(p_code, doc_type, ref, std, auth, v_from, v_to)
 JOIN product p ON p.product_code = v.p_code
 WHERE NOT EXISTS (
@@ -721,18 +721,18 @@ WHERE NOT EXISTS (
 INSERT INTO product_application (product_id, application_id)
 SELECT p.id, a.id
 FROM (VALUES
-  ('GP-CLUB-700', 'modular_kitchen'),
-  ('GP-CLUB-700', 'wardrobe_cabinetry'),
-  ('GP-CLUB-700', 'bed_structural'),
-  ('GP-CLUB-700', 'wet_moisture_prone'),
-  ('GP-CLUB-700', 'fire_exit_corridors'),
-  ('GP-PLAT-BWP', 'modular_kitchen'),
-  ('GP-PLAT-BWP', 'wet_moisture_prone'),
-  ('GP-PLAT-BWP', 'fire_exit_corridors'),
-  ('GP-710-MAR',  'marine_boat_building'),
-  ('GP-710-MAR',  'wet_moisture_prone'),
-  ('GP-GOLD-BWP', 'wardrobe_cabinetry'),
-  ('GP-GOLD-BWP', 'dry_interior')
+  ('PG-CLUB-700', 'modular_kitchen'),
+  ('PG-CLUB-700', 'wardrobe_cabinetry'),
+  ('PG-CLUB-700', 'bed_structural'),
+  ('PG-CLUB-700', 'wet_moisture_prone'),
+  ('PG-CLUB-700', 'fire_exit_corridors'),
+  ('PG-PLAT-BWP', 'modular_kitchen'),
+  ('PG-PLAT-BWP', 'wet_moisture_prone'),
+  ('PG-PLAT-BWP', 'fire_exit_corridors'),
+  ('PG-710-MAR',  'marine_boat_building'),
+  ('PG-710-MAR',  'wet_moisture_prone'),
+  ('PG-GOLD-BWP', 'wardrobe_cabinetry'),
+  ('PG-GOLD-BWP', 'dry_interior')
 ) AS v(p_code, app_code)
 JOIN product p ON p.product_code = v.p_code
 JOIN application a ON a.code = v.app_code
@@ -743,10 +743,10 @@ ON CONFLICT DO NOTHING;
 INSERT INTO product_relationship (from_product_id, to_product_id, relation_type, priority)
 SELECT p_from.id, p_to.id, v.rel_type, v.priority
 FROM (VALUES
-  ('GP-GOLD-BWP', 'GP-PLAT-BWP', 'UP_SELL', 1),
-  ('GP-PLAT-BWP', 'GP-CLUB-700', 'UP_SELL', 1),
-  ('GP-710-MAR',  'GP-CLUB-700', 'UP_SELL', 2),
-  ('GP-CLUB-700', 'GP-PLAT-BWP', 'COMPATIBLE', 1)
+  ('PG-GOLD-BWP', 'PG-PLAT-BWP', 'UP_SELL', 1),
+  ('PG-PLAT-BWP', 'PG-CLUB-700', 'UP_SELL', 1),
+  ('PG-710-MAR',  'PG-CLUB-700', 'UP_SELL', 2),
+  ('PG-CLUB-700', 'PG-PLAT-BWP', 'COMPATIBLE', 1)
 ) AS v(from_code, to_code, rel_type, priority)
 JOIN product p_from ON p_from.product_code = v.from_code
 JOIN product p_to   ON p_to.product_code = v.to_code
@@ -755,4 +755,4 @@ ON CONFLICT DO NOTHING;
 -- Ensure full-text search document is freshly generated for new products
 UPDATE catalog.product
 SET search_vector = catalog.product_search_document(id)
-WHERE product_code LIKE 'GP-%';
+WHERE product_code LIKE 'PG-%';

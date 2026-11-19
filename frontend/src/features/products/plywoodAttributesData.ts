@@ -39,7 +39,7 @@ export interface PlywoodAttributeValues {
  * Values mapped 1:1 from the supplied dataset.
  */
 export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
-  'GP-CALIB-25': {
+  'PG-CALIB-25': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'true',
@@ -65,7 +65,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1230',
     thermal_conductivity_w_mk: '0.165',
   },
-  'GP-JANSATHI': {
+  'PG-JANSATHI': {
     warranty_years: '10',
     money_back_multiple: 'STANDARD',
     fully_covered_plan: 'false',
@@ -91,7 +91,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '940',
     thermal_conductivity_w_mk: '0.152',
   },
-  'GP-SHUTTER-BWP': {
+  'PG-SHUTTER-BWP': {
     warranty_years: '15',
     money_back_multiple: '2X',
     fully_covered_plan: 'false',
@@ -117,7 +117,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1150',
     thermal_conductivity_w_mk: '0.161',
   },
-  'GP-BHAROSA': {
+  'PG-BHAROSA': {
     warranty_years: '10',
     money_back_multiple: 'STANDARD',
     fully_covered_plan: 'false',
@@ -143,7 +143,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '900',
     thermal_conductivity_w_mk: '0.156',
   },
-  'GP-OPTIMA-G': {
+  'PG-OPTIMA-G': {
     warranty_years: '15',
     money_back_multiple: '2X',
     fully_covered_plan: 'false',
@@ -169,7 +169,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '920',
     thermal_conductivity_w_mk: '0.155',
   },
-  'GP-ECO-MR': {
+  'PG-ECO-MR': {
     warranty_years: '15',
     money_back_multiple: '2X',
     fully_covered_plan: 'true',
@@ -195,7 +195,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '960',
     thermal_conductivity_w_mk: '0.155',
   },
-  'GP-ECO-710': {
+  'PG-ECO-710': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'true',
@@ -221,7 +221,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1130',
     thermal_conductivity_w_mk: '0.167',
   },
-  'GP-ECO-PLAT': {
+  'PG-ECO-PLAT': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'true',
@@ -247,7 +247,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1090',
     thermal_conductivity_w_mk: '0.169',
   },
-  'GP-FLEX-PLY': {
+  'PG-FLEX-PLY': {
     warranty_years: '15',
     money_back_multiple: '2X',
     fully_covered_plan: 'false',
@@ -273,7 +273,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1030',
     thermal_conductivity_w_mk: '0.161',
   },
-  'GP-303-MR': {
+  'PG-303-MR': {
     warranty_years: '10',
     money_back_multiple: 'STANDARD',
     fully_covered_plan: 'false',
@@ -299,7 +299,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1050',
     thermal_conductivity_w_mk: '0.157',
   },
-  'GP-ECO-TMR': {
+  'PG-ECO-TMR': {
     warranty_years: '10',
     money_back_multiple: 'STANDARD',
     fully_covered_plan: 'false',
@@ -325,7 +325,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '870',
     thermal_conductivity_w_mk: '0.147',
   },
-  'GP-FIRE-RET': {
+  'PG-FIRE-RET': {
     warranty_years: '20',
     money_back_multiple: '2X',
     fully_covered_plan: 'true',
@@ -351,7 +351,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1150',
     thermal_conductivity_w_mk: '0.17',
   },
-  'GP-CLUB-500': {
+  'PG-CLUB-500': {
     warranty_years: '20',
     money_back_multiple: '2X',
     fully_covered_plan: 'true',
@@ -377,7 +377,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1060',
     thermal_conductivity_w_mk: '0.158',
   },
-  'GP-CALIB-19': {
+  'PG-CALIB-19': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'true',
@@ -403,7 +403,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1210',
     thermal_conductivity_w_mk: '0.168',
   },
-  'GP-CALIB-16': {
+  'PG-CALIB-16': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'true',
@@ -429,7 +429,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1150',
     thermal_conductivity_w_mk: '0.166',
   },
-  'GP-CALIB-12': {
+  'PG-CALIB-12': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'true',
@@ -455,7 +455,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1090',
     thermal_conductivity_w_mk: '0.166',
   },
-  'GP-CALIB-9': {
+  'PG-CALIB-9': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'false',
@@ -481,7 +481,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1140',
     thermal_conductivity_w_mk: '0.167',
   },
-  'GP-CALIB-6': {
+  'PG-CALIB-6': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'false',
@@ -507,7 +507,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1230',
     thermal_conductivity_w_mk: '0.17',
   },
-  'GP-BLOCK-25': {
+  'PG-BLOCK-25': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'true',
@@ -533,7 +533,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '870',
     thermal_conductivity_w_mk: '0.146',
   },
-  'GP-BLOCK-19': {
+  'PG-BLOCK-19': {
     warranty_years: '15',
     money_back_multiple: '2X',
     fully_covered_plan: 'false',
@@ -559,7 +559,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '850',
     thermal_conductivity_w_mk: '0.145',
   },
-  'GP-DOOR-FLUSH': {
+  'PG-DOOR-FLUSH': {
     warranty_years: '15',
     money_back_multiple: '2X',
     fully_covered_plan: 'false',
@@ -585,7 +585,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '810',
     thermal_conductivity_w_mk: '0.145',
   },
-  'GP-VENEER-TEAK': {
+  'PG-VENEER-TEAK': {
     warranty_years: '10',
     money_back_multiple: 'STANDARD',
     fully_covered_plan: 'false',
@@ -611,7 +611,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1010',
     thermal_conductivity_w_mk: '0.156',
   },
-  'GP-VENEER-WALNUT': {
+  'PG-VENEER-WALNUT': {
     warranty_years: '10',
     money_back_multiple: 'STANDARD',
     fully_covered_plan: 'false',
@@ -637,7 +637,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1020',
     thermal_conductivity_w_mk: '0.164',
   },
-  'GP-VENEER-OAK': {
+  'PG-VENEER-OAK': {
     warranty_years: '10',
     money_back_multiple: 'STANDARD',
     fully_covered_plan: 'false',
@@ -663,7 +663,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1100',
     thermal_conductivity_w_mk: '0.164',
   },
-  'GP-CLUB-700': {
+  'PG-CLUB-700': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'true',
@@ -690,7 +690,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     thermal_conductivity_w_mk: '0.173',
   },
   // Suite additions:
-  'GP-PLAT-BWP': {
+  'PG-PLAT-BWP': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'true',
@@ -716,7 +716,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1180',
     thermal_conductivity_w_mk: '0.170',
   },
-  'GP-710-MAR': {
+  'PG-710-MAR': {
     warranty_years: '25',
     money_back_multiple: '7X',
     fully_covered_plan: 'true',
@@ -742,7 +742,7 @@ export const PLYWOOD_EXCEL_DATA: Record<string, PlywoodAttributeValues> = {
     screw_holding_edge_n: '1140',
     thermal_conductivity_w_mk: '0.168',
   },
-  'GP-GOLD-BWP': {
+  'PG-GOLD-BWP': {
     warranty_years: '20',
     money_back_multiple: '2X',
     fully_covered_plan: 'true',
@@ -808,7 +808,9 @@ export function saveCustomAttributes(
  */
 export function buildExcelPlywoodAttributes(code: string): ProductAttributes {
   const normCode = code.toUpperCase();
-  const baseData: PlywoodAttributeValues = PLYWOOD_EXCEL_DATA[normCode] || PLYWOOD_EXCEL_DATA['GP-CLUB-700'];
+  const normalized = normCode.replace(/^GP-/, 'PG-');
+  const baseData: PlywoodAttributeValues =
+    PLYWOOD_EXCEL_DATA[normalized] || PLYWOOD_EXCEL_DATA[normCode] || PLYWOOD_EXCEL_DATA['PG-CLUB-700'];
   const userOverrides = loadSavedAttributes(code);
 
   const getVal = (attrCode: keyof PlywoodAttributeValues): string => {

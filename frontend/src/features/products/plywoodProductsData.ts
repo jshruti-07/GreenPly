@@ -39,7 +39,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   // --- 1. Premium Range (Club & Platinum) ---------------------------
   {
     publicId: '287aeaeb-c35f-4a3c-9ac1-5172a4aac598',
-    code: 'GP-CLUB-700',
+    code: 'PG-CLUB-700',
     name: 'Club 700 Plywood',
     category: 'Club 700 / 500',
     categoryId: 82,
@@ -56,7 +56,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'a1b2c3d4-e5f6-4a7b-8c9d-012345678901',
-    code: 'GP-CLUB-500',
+    code: 'PG-CLUB-500',
     name: 'Club 500 Plywood',
     category: 'Club 700 / 500',
     categoryId: 82,
@@ -73,7 +73,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: '419c55e1-6264-4c37-8850-3a353044eea8',
-    code: 'GP-PLAT-BWP',
+    code: 'PG-PLAT-BWP',
     name: 'Platinum BWP Plywood',
     category: 'Platinum Series',
     categoryId: 83,
@@ -90,7 +90,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'b2c3d4e5-f6a7-4b8c-9d0e-123456789012',
-    code: 'GP-FIRE-RET',
+    code: 'PG-FIRE-RET',
     name: 'Fire-Retardant Plywood',
     category: 'Platinum Series',
     categoryId: 83,
@@ -109,7 +109,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   // --- 2. Marine & Structural Series ---------------------------------------
   {
     publicId: '625659ec-1009-4748-8254-7557a2c1277b',
-    code: 'GP-710-MAR',
+    code: 'PG-710-MAR',
     name: '710 Marine Plywood',
     category: '710 Marine Series',
     categoryId: 84,
@@ -126,7 +126,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'd09fd124-cbea-4dd4-aa60-6b3249a60d08',
-    code: 'GP-GOLD-BWP',
+    code: 'PG-GOLD-BWP',
     name: 'Gold BWP Plywood',
     category: 'Gold & Calibrated',
     categoryId: 85,
@@ -143,7 +143,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'c3d4e5f6-a7b8-4c9d-0e1f-234567890123',
-    code: 'GP-303-MR',
+    code: 'PG-303-MR',
     name: 'MR 303 Commercial Plywood',
     category: 'Commercial MR 303',
     categoryId: 86,
@@ -160,7 +160,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'd4e5f6a7-b8c9-4d0e-1f2a-345678901234',
-    code: 'GP-FLEX-PLY',
+    code: 'PG-FLEX-PLY',
     name: 'Club Flexiply',
     category: 'Club 700 / 500',
     categoryId: 82,
@@ -179,7 +179,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   // --- 3. Ecotec Range -----------------------------------------------------
   {
     publicId: 'e5f6a7b8-c9d0-4e1f-2a3b-456789012345',
-    code: 'GP-ECO-PLAT',
+    code: 'PG-ECO-PLAT',
     name: 'Ecotec Platinum Plywood',
     category: 'Ecotec Plywood Series',
     categoryId: 87,
@@ -196,7 +196,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'f6a7b8c9-d0e1-4f2a-3b4c-567890123456',
-    code: 'GP-ECO-710',
+    code: 'PG-ECO-710',
     name: 'Ecotec 710 Marine Plywood',
     category: 'Ecotec Plywood Series',
     categoryId: 87,
@@ -213,7 +213,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'a7b8c9d0-e1f2-4a3b-4c5d-678901234567',
-    code: 'GP-ECO-MR',
+    code: 'PG-ECO-MR',
     name: 'Ecotec MR 303 Plywood',
     category: 'Ecotec Plywood Series',
     categoryId: 87,
@@ -230,7 +230,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'b8c9d0e1-f2a3-4b4c-5d6e-789012345678',
-    code: 'GP-ECO-TMR',
+    code: 'PG-ECO-TMR',
     name: 'Ecotec TMR Utility Board',
     category: 'Ecotec Plywood Series',
     categoryId: 87,
@@ -249,7 +249,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   // --- 4. Optima & Utility Range -------------------------------------------
   {
     publicId: 'c9d0e1f2-a3b4-4c5d-6e7f-890123456789',
-    code: 'GP-OPTIMA-G',
+    code: 'PG-OPTIMA-G',
     name: 'Optima G Plywood',
     category: 'Optima & Utility Boards',
     categoryId: 88,
@@ -266,7 +266,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'd0e1f2a3-b4c5-4d6e-7f8a-901234567890',
-    code: 'GP-BHAROSA',
+    code: 'PG-BHAROSA',
     name: 'Bharosaply Plywood',
     category: 'Optima & Utility Boards',
     categoryId: 88,
@@ -283,7 +283,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'e1f2a3b4-c5d6-4e7f-8a9b-012345678901',
-    code: 'GP-JANSATHI',
+    code: 'PG-JANSATHI',
     name: 'Jansathi Plywood',
     category: 'Optima & Utility Boards',
     categoryId: 88,
@@ -302,7 +302,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   // --- 5. Shuttering & Calibrated CNC Core Boards --------------------------
   {
     publicId: 'f2a3b4c5-d6e7-4f8a-9b0c-123456789012',
-    code: 'GP-SHUTTER-BWP',
+    code: 'PG-SHUTTER-BWP',
     name: 'Marine Film-Faced Shuttering Plywood',
     category: 'Film-Faced Shuttering Ply',
     categoryId: 90,
@@ -319,7 +319,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'a3b4c5d6-e7f8-4a9b-0c1d-234567890123',
-    code: 'GP-CALIB-25',
+    code: 'PG-CALIB-25',
     name: 'Calibrated Structural Ply 25mm',
     category: 'Calibrated CNC Core Boards',
     categoryId: 89,
@@ -336,7 +336,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'b4c5d6e7-f8a9-4b0c-1d2e-345678901234',
-    code: 'GP-CALIB-19',
+    code: 'PG-CALIB-19',
     name: 'Calibrated Structural Ply 19mm',
     category: 'Calibrated CNC Core Boards',
     categoryId: 89,
@@ -353,7 +353,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'c5d6e7f8-a9b0-4c1d-2e3f-456789012345',
-    code: 'GP-CALIB-16',
+    code: 'PG-CALIB-16',
     name: 'Calibrated Structural Ply 16mm',
     category: 'Calibrated CNC Core Boards',
     categoryId: 89,
@@ -370,7 +370,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'd6e7f8a9-b0c1-4d2e-3f4a-567890123456',
-    code: 'GP-CALIB-12',
+    code: 'PG-CALIB-12',
     name: 'Calibrated Structural Ply 12mm',
     category: 'Calibrated CNC Core Boards',
     categoryId: 89,
@@ -387,7 +387,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'e7f8a9b0-c1d2-4e3f-4a5b-678901234567',
-    code: 'GP-CALIB-9',
+    code: 'PG-CALIB-9',
     name: 'Calibrated Structural Ply 9mm',
     category: 'Calibrated CNC Core Boards',
     categoryId: 89,
@@ -404,7 +404,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'f8a9b0c1-d2e3-4f4a-5b6c-789012345678',
-    code: 'GP-CALIB-6',
+    code: 'PG-CALIB-6',
     name: 'Calibrated Structural Ply 6mm',
     category: 'Calibrated CNC Core Boards',
     categoryId: 89,
@@ -423,7 +423,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   // --- 6. Blockboards & Solid Timber Doors ----------------------------------
   {
     publicId: 'a9b0c1d2-e3f4-4a5b-6c7d-890123456789',
-    code: 'GP-BLOCK-25',
+    code: 'PG-BLOCK-25',
     name: 'BWP Marine Blockboard 25mm',
     category: 'Blockboards & Flush Doors',
     categoryId: 91,
@@ -440,7 +440,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'b0c1d2e3-f4a5-4b6c-7d8e-901234567890',
-    code: 'GP-BLOCK-19',
+    code: 'PG-BLOCK-19',
     name: 'High-Density Blockboard 19mm',
     category: 'Blockboards & Flush Doors',
     categoryId: 91,
@@ -457,7 +457,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'c1d2e3f4-a5b6-4c7d-8e9f-012345678901',
-    code: 'GP-DOOR-FLUSH',
+    code: 'PG-DOOR-FLUSH',
     name: 'Club Solid Core Flush Door',
     category: 'Blockboards & Flush Doors',
     categoryId: 91,
@@ -476,7 +476,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   // --- 7. Natural Decorative Architectural Face Veneers --------------------
   {
     publicId: 'd2e3f4a5-b6c7-4d8e-9f0a-123456789012',
-    code: 'GP-VENEER-TEAK',
+    code: 'PG-VENEER-TEAK',
     name: 'Decotech Natural Teak Veneer',
     category: 'Natural Decorative Veneers',
     categoryId: 92,
@@ -493,7 +493,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'e3f4a5b6-c7d8-4e9f-0a1b-234567890123',
-    code: 'GP-VENEER-WALNUT',
+    code: 'PG-VENEER-WALNUT',
     name: 'Decotech American Walnut Veneer',
     category: 'Natural Decorative Veneers',
     categoryId: 92,
@@ -510,7 +510,7 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
   },
   {
     publicId: 'f4a5b6c7-d8e9-4f0a-1b2c-345678901234',
-    code: 'GP-VENEER-OAK',
+    code: 'PG-VENEER-OAK',
     name: 'Decotech White Oak Veneer',
     category: 'Natural Decorative Veneers',
     categoryId: 92,
@@ -531,7 +531,10 @@ export const ALL_PLYWOOD_PRODUCTS: (ProductListItem & { categoryId: number })[] 
  * Creates a synthetic full Product object for detail pages when not already in DB.
  */
 export function getSyntheticPlywoodProduct(code: string): Product | null {
-  const item = ALL_PLYWOOD_PRODUCTS.find((p) => p.code.toLowerCase() === code.toLowerCase());
+  const norm = code.toUpperCase().replace(/^GP-/, 'PG-');
+  const item = ALL_PLYWOOD_PRODUCTS.find(
+    (p) => p.code.toUpperCase() === norm || p.code.toLowerCase() === code.toLowerCase(),
+  );
   if (!item) return null;
 
   return {
@@ -539,7 +542,7 @@ export function getSyntheticPlywoodProduct(code: string): Product | null {
     code: item.code,
     name: item.name,
     primaryNodeId: item.categoryId,
-    brandId: 1, // Greenply
+    brandId: 1,
     baseLocale: 'en-GB',
     lifecycleState: item.lifecycleState,
     workflowState: item.workflowState,

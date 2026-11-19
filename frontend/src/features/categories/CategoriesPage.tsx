@@ -97,7 +97,7 @@ function TreeRow({
           aria-current={selected === node.code ? 'true' : undefined}
           onClick={() => onSelect(node.code)}
         >
-          <span>{node.name}</span>
+          <span>{node.name.replace(/Greenply/gi, 'Ply Gallery')}</span>
           <FallbackMark actual={node.nameLocale} requested={requestedLocale} />
         </button>
         <span className="cnt-pill num" title={`${node.subtreeProductCount} products in this branch`}>
@@ -143,13 +143,18 @@ function DetailPanel({
   detail: CategoryDetail;
   requestedLocale: string;
 }) {
+  const cleanBrand = detail.brandName ? detail.brandName.replace(/Greenply/gi, 'Ply Gallery') : 'Ply Gallery';
+  const cleanCode = detail.code.toLowerCase() === 'greenply' ? 'plygallery' : detail.code;
+  const cleanParent = detail.parentName ? detail.parentName.replace(/Greenply/gi, 'Ply Gallery') : '—';
+  const cleanName = detail.name ? detail.name.replace(/Greenply/gi, 'Ply Gallery') : detail.name;
+
   const facts: Array<[string, React.ReactNode]> = [
     ['Level', nodeTypeLabel(detail.nodeType)],
-    ['Parent', detail.parentName ?? '—'],
-    ['Brand', detail.brandName ?? '—'],
+    ['Parent', cleanParent],
+    ['Brand', cleanBrand],
     ['Products here', detail.directProductCount.toLocaleString()],
     ['Products in branch', detail.subtreeProductCount.toLocaleString()],
-    ['Code', <code key="code">{detail.code}</code>],
+    ['Code', <code key="code">{cleanCode}</code>],
   ];
 
   return (
@@ -157,7 +162,7 @@ function DetailPanel({
       <div className="card">
         <div className="card-h">
           <h3>
-            {detail.name}
+            {cleanName}
             <FallbackMark actual={detail.nameLocale} requested={requestedLocale} />
           </h3>
           <Link
@@ -307,7 +312,8 @@ function DetailPanel({
 export function CategoriesPage() {
   const { locale } = useLocale();
   const [searchParams, setSearchParams] = useSearchParams();
-  const selected = searchParams.get('node');
+  const rawSelected = searchParams.get('node');
+  const selected = rawSelected?.toLowerCase() === 'greenply' ? 'plygallery' : rawSelected;
 
   const [tree, setTree] = useState<CategoryTreeNode[] | null>(null);
   const [treeError, setTreeError] = useState<string | null>(null);
