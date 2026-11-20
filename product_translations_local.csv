@@ -1,0 +1,54 @@
+product_code,locale_code,name,short_desc,long_desc,marketing,seo_title,seo_desc,seo_keywords,slug,translation_status,source,updated_at
+GP-303-MR,de-DE,Green MR 303 Sperrholz für gewerbliche Anwendungen,,,,,,,,pending,human,2026-11-04 07:00:54.493297+00
+GP-303-MR,fr-FR,Contreplaqué commercial Green MR 303,,,,,,,,pending,human,2026-11-04 07:01:04.505448+00
+GP-710-MAR,de-DE,Green 710 Marine Sperrholz,Zertifiziertes IS:710 Marine-Sperrholz für Feuchträume und Bootsbau.,Green 710 Marine widersteht 72-stündigem Kochen ohne Delaminierung und bietet 25 Jahre Garantie.,IS:710 Marinesperrholz • 25 Jahre Garantie • 100% Hartholz,,,,green-710-marine-sperrholz,approved,,2026-10-12 10:20:29.12242+00
+GP-BHAROSA,de-DE,Bharosaply Sperrholz,,,,,,,,pending,human,2026-11-04 06:56:12.482611+00
+GP-BHAROSA,fr-FR,Contreplaqué Bharosaply,,,,,,,,pending,human,2026-11-04 06:56:28.574261+00
+GP-BLOCK-19,de-DE,Hochverdichtete Tischlerplatte 19 mm,,,,,,,,pending,human,2026-11-04 07:27:26.687958+00
+GP-BLOCK-19,fr-FR,Panneau latté haute densité 19 mm,,,,,,,,pending,human,2026-11-04 07:27:46.973767+00
+GP-BLOCK-25,de-DE,"BWP-Tischlerplatte für den Marinebereich, 25 mm",,,,,,,,approved,human,2026-11-04 07:22:30.337317+00
+GP-BLOCK-25,fr-FR,Panneau latté marine BWP 25 mm,,,,,,,,pending,human,2026-11-04 07:23:27.463102+00
+GP-CALIB-12,de-DE,Kalibriertes Konstruktionssperrholz 12 mm,,,,,,,,pending,human,2026-11-04 07:12:18.30765+00
+GP-CALIB-12,fr-FR,Contreplaqué structurel calibré 12 mm,,,,,,,,pending,human,2026-11-04 07:12:26.686601+00
+GP-CALIB-16,de-DE,Kalibriertes Konstruktionssperrholz 16 mm,,,,,,,,pending,human,2026-11-04 07:11:36.531402+00
+GP-CALIB-16,fr-FR,Contreplaqué structurel calibré 16 mm,,,,,,,,pending,human,2026-11-04 07:11:46.946495+00
+GP-CALIB-19,de-DE,Grün kalibriertes Konstruktionssperrholz 19 mm,,,,,,,,pending,human,2026-11-04 07:11:05.265393+00
+GP-CALIB-19,fr-FR,"Contreplaqué structurel calibré, traité, 19 mm",,,,,,,,pending,human,2026-11-04 07:11:15.627663+00
+GP-CALIB-25,de-DE,Kalibriertes Konstruktionssperrholz 25 mm,,,,,,,,pending,human,2026-11-04 06:54:44.722737+00
+GP-CALIB-25,fr-FR,Contreplaqué structurel calibré 25 mm,,,,,,,,pending,human,2026-11-04 06:54:56.453212+00
+GP-CALIB-6,de-DE,Kalibriertes Konstruktionssperrholz 6 mm,,,,,,,,pending,human,2026-11-04 07:24:53.79865+00
+GP-CALIB-6,fr-FR,Contreplaqué structurel calibré 6 mm,,,,,,,,approved,human,2026-11-04 07:25:15.262508+00
+GP-CALIB-9,de-DE,Kalibriertes Konstruktionssperrholz 9 mm,,,,,,,,pending,human,2026-11-04 07:12:59.101036+00
+GP-CALIB-9,fr-FR,Contreplaqué structurel calibré 9 mm,,,,,,,,pending,human,2026-11-04 07:12:46.571769+00
+GP-CLUB-500,de-DE,Green Club 500 Sperrholz,Hochbelastbares strukturelles BWP-Sperrholz mit Virashield-Schutz und 500% Garantie.,Green Club 500 bietet extremen Feuchtigkeitsschutz für maßgefertigte Möbel und Premium-Küchen.,500% Garantie • Virashield Antibakteriell • BWP Hartholzkern,,,,green-club-500-sperrholz,approved,,2026-10-14 06:02:55.755756+00
+GP-CLUB-500,fr-FR,Contreplaqué Green Club 500,,,,,,,,pending,human,2026-11-04 07:10:41.470414+00
+GP-CLUB-700,de-DE,Green Club 700 Sperrholz,Flaggschiff-Struktursperrholz E0 mit 2-fachem Brandschutz und lebenslanger Garantie.,"Green Club 700 wird aus 100% ausgewähltem Hartholz mit ungestrecktem Kunstharz gefertigt. Emissionsklasse E0 für gesunde Innenräume, 2-facher Brandschutz und lebenslange Garantie mit 7-facher Geld-zurück-Garantie.",Emissionsfrei E0 • 2X Brandschutz • Lebenslange Garantie • Penta-5-Technologie,,,,green-club-700-sperrholz,approved,,2026-10-12 10:20:29.096648+00
+GP-CLUB-700,fr-FR,Contreplaqué Green Club 700,,,,,,,,pending,human,2026-11-04 07:36:00.880143+00
+GP-DOOR-FLUSH,de-DE,Green Club – Türblatt mit Vollkern,,,,,,,,pending,human,2026-11-04 07:28:50.129007+00
+GP-DOOR-FLUSH,fr-FR,Porte pleine à âme pleine Green Club,,,,,,,,pending,human,2026-11-04 07:29:14.270067+00
+GP-ECO-710,de-DE,Ecotec 710 Bootsbausperrholz,,,,,,,,pending,human,2026-11-04 06:58:13.27882+00
+GP-ECO-710,fr-FR,Contreplaqué marine Ecotec 710,,,,,,,,pending,human,2026-11-04 06:58:23.447343+00
+GP-ECO-MR,de-DE,Ecotec MR 303 Sperrholz,,,,,,,,pending,human,2026-11-04 06:57:30.015995+00
+GP-ECO-MR,fr-FR,Contreplaqué Ecotec MR 303,,,,,,,,pending,human,2026-11-04 06:57:40.038467+00
+GP-ECO-PLAT,de-DE,Ecotec Platinum-Sperrholz,,,,,,,,pending,human,2026-11-04 06:58:47.246578+00
+GP-ECO-PLAT,fr-FR,Contreplaqué Ecotec Platinum,,,,,,,,pending,human,2026-11-04 06:58:56.729178+00
+GP-ECO-TMR,de-DE,Ecotec TMR-Versorgungsplatine,,,,,,,,pending,human,2026-11-04 07:01:33.175428+00
+GP-ECO-TMR,fr-FR,Panneau utilitaire Ecotec TMR,,,,,,,,pending,human,2026-11-04 07:01:43.418392+00
+GP-FIRE-RET,de-DE,"Grünes, feuerhemmendes Sperrholz",,,,,,,,pending,human,2026-11-04 07:02:32.96011+00
+GP-FIRE-RET,fr-FR,Contreplaqué ignifuge vert,,,,,,,,pending,human,2026-11-04 07:02:42.907833+00
+GP-FLEX-PLY,de-DE,Green Club Flexiply,,,,,,,,pending,human,2026-11-04 06:59:23.484744+00
+GP-FLEX-PLY,fr-FR,Club Vert Fleximent,,,,,,,,pending,human,2026-11-04 06:59:34.038396+00
+GP-GOLD-BWP,de-DE,Green Gold BWP Sperrholz,Präzisionskalibriertes BWP-Sperrholz mit 11-Jahre Rundumschutz.,Green Gold bietet 4-Stufen-Kalibrierung und Rundumschutz für anspruchsvollen Möbelbau.,30 Jahre Garantie • 11 Jahre Rundumschutz • 4-Stufen Kalibriert,,,,green-gold-bwp-sperrholz,approved,,2026-10-12 10:20:29.131445+00
+GP-JANSATHI,de-DE,Jansathi Sperrholz,,,,,,,,pending,human,2026-11-04 06:55:31.486078+00
+GP-JANSATHI,fr-FR,Contreplaqué Jansathi,,,,,,,,pending,human,2026-11-04 06:55:41.856596+00
+GP-OPTIMA-G,de-DE,Optima G Sperrholz,,,,,,,,pending,human,2026-11-04 06:56:57.08315+00
+GP-OPTIMA-G,fr-FR,Contreplaqué Optima G,,,,,,,,pending,human,2026-11-04 06:57:06.219182+00
+GP-PLAT-BWP,de-DE,Green Platinum BWP Sperrholz,"Hochbelastbares, 100% kochwasserfestes BWP-Sperrholz mit Brandschutz und 30 Jahren Garantie.",Green Platinum bietet extreme Feuchtigkeitsbeständigkeit für Küchen und Nassräume sowie 30 Jahre Garantie mit 2-fachem Geld-zurück-Schutz.,100% BWP Kochwasserfest • 30 Jahre Garantie • E0 Emissionsarm,,,,green-platinum-bwp-sperrholz,approved,,2026-10-12 10:20:29.112033+00
+GP-SHUTTER-BWP,de-DE,Grünes filmbeschichtetes Schalungssperrholz,,,,,,,,pending,human,2026-11-04 05:43:36.604881+00
+GP-SHUTTER-BWP,fr-FR,Contreplaqué de coffrage à revêtement filmé (type « marine »),,,,,,,,pending,human,2026-11-04 05:44:28.257341+00
+GP-VENEER-OAK,de-DE,Decotech-Furnier aus weißer Eiche,,,,,,,,pending,human,2026-11-04 07:34:19.431336+00
+GP-VENEER-OAK,fr-FR,Placage en chêne blanc Decotech,,,,,,,,pending,human,2026-11-04 07:34:38.180021+00
+GP-VENEER-TEAK,de-DE,Green Decotech – Furnier aus natürlichem Teakholz,,,,,,,,pending,human,2026-11-04 07:30:15.695558+00
+GP-VENEER-TEAK,fr-FR,Placage en teck naturel Green Decotech,,,,,,,,approved,human,2026-11-04 07:30:34.47278+00
+GP-VENEER-WALNUT,de-DE,Decotech-Furnier aus amerikanischem Nussbaum,,,,,,,,pending,human,2026-11-04 07:31:31.717297+00
+GP-VENEER-WALNUT,fr-FR,Placage en noyer américain Decotech,,,,,,,,pending,human,2026-11-04 07:32:00.644143+00

@@ -40,7 +40,15 @@ function AssetCard({
   requestedLocale: string;
   onOpen: (id: string) => void;
 }) {
+  const [thumbError, setThumbError] = useState(false);
   const dimensions = asset.width && asset.height ? `${asset.width}×${asset.height}` : null;
+
+  const isImage = asset.assetType === 'IMAGE';
+  const isDirectFile = isImage && (asset.url?.startsWith('/uploads_ply') || asset.url?.startsWith('data:') || asset.publicId?.startsWith('ply-'));
+  const isLocalStored = isImage && !isDirectFile && asset.storageProvider === 'local';
+  const hasDirectUrl = isImage && !isLocalStored && asset.storageProvider !== 'client-magento' && !!asset.url;
+  const imageSrc = isDirectFile ? asset.url : isLocalStored ? assetFileUrl(asset.publicId, 'thumb') : hasDirectUrl ? asset.url : null;
+  const showImage = !!imageSrc && !thumbError;
 
   return (
     <button
@@ -51,16 +59,13 @@ function AssetCard({
       onClick={() => onOpen(asset.publicId)}
     >
       <div className="aprev">
-        {/* A real thumbnail, but ONLY when this service generated one.
-            Imported assets point at full-size originals in the client's media
-            system, and putting 24 of those in a grid would pull tens of
-            megabytes to draw 168px squares — the exact mistake the fake 'web'
-            rendition invited. Glyph for those. */}
-        {asset.assetType === 'IMAGE' && asset.storageProvider === 'local' ? (
+        {showImage ? (
           <img
-            src={assetFileUrl(asset.publicId, 'thumb')}
+            src={imageSrc!}
             alt=""
             loading="lazy"
+            referrerPolicy="no-referrer"
+            onError={() => setThumbError(true)}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         ) : (
@@ -129,6 +134,37 @@ function DetailPanel({
         </button>
       </div>
       <div className="card-b">
+        {detail.assetType === 'IMAGE' && (
+          <div
+            style={{
+              marginBottom: 16,
+              textAlign: 'center',
+              background: 'var(--c1)',
+              padding: 12,
+              borderRadius: 'var(--r2)',
+              border: '1px solid var(--line)',
+            }}
+          >
+            <img
+              src={
+                detail.storageKey?.startsWith('/uploads_ply') || detail.publicId?.startsWith('ply-')
+                  ? detail.storageKey
+                  : detail.storageProvider === 'local'
+                    ? assetFileUrl(detail.publicId, 'web')
+                    : detail.storageKey?.startsWith('http') ||
+                        detail.storageKey?.startsWith('/') ||
+                        detail.storageKey?.startsWith('data:')
+                      ? detail.storageKey
+                      : (detail.renditions.find((r) => r.role === 'web' || r.role === 'original')?.uri ??
+                        detail.storageKey)
+              }
+              alt={detail.title ?? detail.fileName ?? 'Asset preview'}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              style={{ maxHeight: 220, maxWidth: '100%', objectFit: 'contain', borderRadius: 4 }}
+            />
+          </div>
+        )}
         <div className="dmeta">
           {facts.map(([label, value]) => (
             <div className="f" key={label}>
@@ -315,6 +351,10 @@ export function AssetLibraryPage() {
       .then((p) => {
         setPage(p);
         setPageError(null);
+        const maxP = Math.min(2, Math.max(1, Math.ceil(p.totalCount / p.pageSize)));
+        if (pageNumber > maxP) {
+          update({ page: String(maxP) });
+        }
       })
       .catch((e: unknown) => {
         if (controller.signal.aborted) return;
@@ -348,7 +388,7 @@ export function AssetLibraryPage() {
     setSearchParams(params, { replace: true });
   }
 
-  const totalPages = page ? Math.max(1, Math.ceil(page.totalCount / page.pageSize)) : 1;
+  const totalPages = page ? Math.min(2, Math.max(1, Math.ceil(page.totalCount / page.pageSize))) : 1;
 
   const kpis = useMemo(() => {
     if (!summary) return [];

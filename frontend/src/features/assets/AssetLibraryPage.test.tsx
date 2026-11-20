@@ -20,7 +20,7 @@ const LOCAL_IMAGE = {
   storageProvider: 'local',
   status: 'active',
   servedRendition: 'web',
-  url: 'ab/abcdef/web.jpg',
+  url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdF2OC_VL3cXreQ5sMIhJQttCjFvYjr57dqM57vTeCObdzaTHFUlkwhls&s=10',
   linkCount: 0,
   usageRights: null,
   rightsExpiry: null,

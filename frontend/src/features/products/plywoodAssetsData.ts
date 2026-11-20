@@ -11,6 +11,126 @@ import {
 } from './plywoodSvgImages';
 
 /**
+ * Authentic product images from uploads_ply directory.
+ * Maps product codes to local served image paths.
+ */
+export const UPLOADS_PLY_MAP: Record<string, string> = {
+  'PG-CLUB-700': '/uploads_ply/ply-club-700.jpeg',
+  'PG-CLUB-500': '/uploads_ply/CLUB500.jpg',
+  'PG-PLAT-BWP': '/uploads_ply/Platinum_Fire_retardant_BWP_Grade_Plywood_Thickness_18_mm_Plywood_79ebc4f8-850f-4dfc-a901-e31a17f91707.webp',
+  'PG-FIRE-RET': '/uploads_ply/fire plywood.jpg',
+  'PG-710-MAR': '/uploads_ply/marine plywood.jpg',
+  'PG-GOLD-BWP': '/uploads_ply/Greenply Gold 710 BWP Plywood.png',
+  'PG-303-MR': '/uploads_ply/images (1) (1).jpg',
+  'PG-FLEX-PLY': '/uploads_ply/images (2)a.jpg',
+  'PG-ECO-PLAT': '/uploads_ply/Platinum_Fire_retardant_BWP_Grade_Plywood_Thickness_18_mm_Plywood_79ebc4f8-850f-4dfc-a901-e31a17f91707.webp',
+  'PG-ECO-710': '/uploads_ply/marine plywood.jpg',
+  'PG-ECO-MR': '/uploads_ply/images (3).jpg',
+  'PG-ECO-TMR': '/uploads_ply/images (4).jpg',
+  'PG-OPTIMA-G': '/uploads_ply/images (3)a.jpg',
+  'PG-BHAROSA': '/uploads_ply/gold plywood.jpg',
+  'PG-JANSATHI': '/uploads_ply/fire plywood.jpg',
+  'PG-SHUTTER-BWP': '/uploads_ply/Film faced plywood shuttering plywood for construction _ TT PLYWOOD.png',
+  'PG-CALIB-25': '/uploads_ply/Structural Grade Plywood in India_ Prices & Guide.png',
+  'PG-CALIB-19': '/uploads_ply/Promaxx Plus Ply 19 mm (8x4).png',
+  'PG-CALIB-16': '/uploads_ply/Frikly Club BWP Red Core Calibrated Plywood _ 6 MM _ 8 x 4 Feet.png',
+  'PG-CALIB-12': '/uploads_ply/9mm BWP Calibrated Plywood at ₹ 34_sq ft _ Plywood Board in New Delhi _ ID_ 2856762006391.png',
+  'PG-CALIB-9': '/uploads_ply/9mm BWP Calibrated Plywood at ₹ 34_sq ft _ Plywood Board in New Delhi _ ID_ 2856762006391.png',
+  'PG-CALIB-6': '/uploads_ply/Frikly Club BWP Red Core Calibrated Plywood _ 6 MM _ 8 x 4 Feet.png',
+  'PG-BLOCK-25': '/uploads_ply/Buy Online Navkar Premium Blockboard ( Pure Pine ) 25mm.png',
+  'PG-BLOCK-19': '/uploads_ply/Premium Pinewood Block Board Online _ Best Price Deals.png',
+  'PG-DOOR-FLUSH': '/uploads_ply/Flush Doors_ Design, Benefits, and Uses.png',
+  'PG-VENEER-TEAK': '/uploads_ply/What Makes Teak Veneers an Ideal Pick for Your Home – Duroply Latest Blogs & Information.png',
+  'PG-VENEER-WALNUT': '/uploads_ply/What is Walnut Veneer.png',
+  'PG-VENEER-OAK': '/uploads_ply/images (2)a.jpg',
+};
+
+/**
+ * Returns the matching photo URL from uploads_ply for a given product code.
+ */
+export function getUploadsPlyImageForProduct(code: string, _role = 'MAIN'): string | null {
+  const norm = code.toUpperCase().replace(/^GP-/, 'PG-');
+  const direct = UPLOADS_PLY_MAP[norm];
+  if (direct) {
+    return direct;
+  }
+
+  // Keyword-based fallback
+  if (norm.includes('700')) return '/uploads_ply/ply-club-700.jpeg';
+  if (norm.includes('500')) return '/uploads_ply/CLUB500.jpg';
+  if (norm.includes('FIRE')) return '/uploads_ply/fire plywood.jpg';
+  if (norm.includes('GOLD')) return '/uploads_ply/gold plywood.jpg';
+  if (norm.includes('MARINE') || norm.includes('710')) return '/uploads_ply/marine plywood.jpg';
+  if (norm.includes('CALIB') && norm.includes('9')) return '/uploads_ply/9mm BWP Calibrated Plywood at ₹ 34_sq ft _ Plywood Board in New Delhi _ ID_ 2856762006391.png';
+  if (norm.includes('CALIB') && norm.includes('6')) return '/uploads_ply/Frikly Club BWP Red Core Calibrated Plywood _ 6 MM _ 8 x 4 Feet.png';
+  if (norm.includes('CALIB') || norm.includes('PROMAXX')) return '/uploads_ply/Promaxx Plus Ply 19 mm (8x4).png';
+  if (norm.includes('SHUTTER') || norm.includes('STRUCTURAL')) return '/uploads_ply/Structural Grade Plywood in India_ Prices & Guide.png';
+
+  return null;
+}
+
+/**
+ * Resolves any filename, title, or dead seed URL to a working image URL from uploads_ply or SVG.
+ */
+export function resolveAssetImageUrl(
+  fileName: string | null,
+  title: string | null,
+  currentUrl: string | null,
+): string | null {
+  if (currentUrl && (currentUrl.startsWith('/uploads_ply') || currentUrl.startsWith('data:'))) {
+    return currentUrl;
+  }
+
+  // Preserve user-supplied external images and custom uploads
+  if (
+    currentUrl &&
+    currentUrl.startsWith('http') &&
+    !currentUrl.includes('plygallery.com') &&
+    !currentUrl.includes('greenply.com') &&
+    currentUrl !== 'broken'
+  ) {
+    return currentUrl;
+  }
+
+  const str = `${fileName ?? ''} ${title ?? ''} ${currentUrl ?? ''}`.toLowerCase();
+
+  // Authentic product images from uploads_ply
+  if (str.includes('700') || str.includes('club-700')) return '/uploads_ply/ply-club-700.jpeg';
+  if (str.includes('500') || str.includes('club-500')) return '/uploads_ply/CLUB500.jpg';
+  if (str.includes('platinum')) return '/uploads_ply/Platinum_Fire_retardant_BWP_Grade_Plywood_Thickness_18_mm_Plywood_79ebc4f8-850f-4dfc-a901-e31a17f91707.webp';
+  if (str.includes('fire') || str.includes('flammab')) return '/uploads_ply/fire plywood.jpg';
+  if (str.includes('710') || str.includes('marine')) return '/uploads_ply/marine plywood.jpg';
+  if (str.includes('gold')) return '/uploads_ply/Greenply Gold 710 BWP Plywood.png';
+  if (str.includes('303') || str.includes('mr_303') || str.includes('mr 303')) return '/uploads_ply/images (1) (1).jpg';
+  if (str.includes('flexi')) return '/uploads_ply/images (2)a.jpg';
+  if (str.includes('optima')) return '/uploads_ply/images (3)a.jpg';
+  if (str.includes('bharosa')) return '/uploads_ply/gold plywood.jpg';
+  if (str.includes('jansathi')) return '/uploads_ply/fire plywood.jpg';
+  if (str.includes('shuttering')) return '/uploads_ply/Film faced plywood shuttering plywood for construction _ TT PLYWOOD.png';
+  if (str.includes('calibrated') && (str.includes('25') || str.includes('structur'))) return '/uploads_ply/Structural Grade Plywood in India_ Prices & Guide.png';
+  if (str.includes('calibrated') && str.includes('19')) return '/uploads_ply/Promaxx Plus Ply 19 mm (8x4).png';
+  if (str.includes('calibrated') && str.includes('16')) return '/uploads_ply/Frikly Club BWP Red Core Calibrated Plywood _ 6 MM _ 8 x 4 Feet.png';
+  if (str.includes('calibrated') && str.includes('12')) return '/uploads_ply/9mm BWP Calibrated Plywood at ₹ 34_sq ft _ Plywood Board in New Delhi _ ID_ 2856762006391.png';
+  if (str.includes('calibrated') && str.includes('9')) return '/uploads_ply/9mm BWP Calibrated Plywood at ₹ 34_sq ft _ Plywood Board in New Delhi _ ID_ 2856762006391.png';
+  if (str.includes('calibrated') && str.includes('6')) return '/uploads_ply/Frikly Club BWP Red Core Calibrated Plywood _ 6 MM _ 8 x 4 Feet.png';
+  if (str.includes('blockboard') && str.includes('25')) return '/uploads_ply/Buy Online Navkar Premium Blockboard ( Pure Pine ) 25mm.png';
+  if (str.includes('blockboard')) return '/uploads_ply/Premium Pinewood Block Board Online _ Best Price Deals.png';
+  if (str.includes('flush') || str.includes('door')) return '/uploads_ply/Flush Doors_ Design, Benefits, and Uses.png';
+  if (str.includes('teak')) return '/uploads_ply/What Makes Teak Veneers an Ideal Pick for Your Home – Duroply Latest Blogs & Information.png';
+  if (str.includes('walnut')) return '/uploads_ply/What is Walnut Veneer.png';
+  if (str.includes('oak')) return '/uploads_ply/images (2)a.jpg';
+  if (str.includes('truemr') || str.includes('tmr')) return '/uploads_ply/images (4).jpg';
+  if (str.includes('cross_section')) return PLYWOOD_CROSS_SECTION_SVG;
+  if (str.includes('kitchen') || str.includes('application') || str.includes('joinery')) return PLYWOOD_APPLICATION_KITCHEN_SVG;
+  if (str.includes('stack')) return PLYWOOD_STACK_SVG;
+
+  if (currentUrl && !currentUrl.includes('plygallery.com') && !currentUrl.includes('greenply.com') && currentUrl !== 'broken') {
+    return currentUrl;
+  }
+  return null;
+}
+
+/**
  * Strips brand name 'Green' from any product or asset string.
  */
 export function stripGreen(str: string): string {
@@ -111,11 +231,12 @@ export function getSyntheticPlywoodAssets(productCode: string): ProductAssets {
   const isShutter = code.includes('SHUTTER');
 
   // 1. Media: 4 photo views matching the reference layout
-  const heroUrl = isVeneer
+  const uploadImg = getUploadsPlyImageForProduct(code, 'MAIN');
+  const heroUrl = uploadImg || (isVeneer
     ? PLYWOOD_TEAK_VENEER_SVG
     : isShutter
       ? PLYWOOD_SHUTTERING_SVG
-      : PLYWOOD_FACE_SHEET_SVG;
+      : PLYWOOD_FACE_SHEET_SVG);
 
   const media: ProductAsset[] = [
     {
@@ -123,8 +244,8 @@ export function getSyntheticPlywoodAssets(productCode: string): ProductAssets {
       assetId: 201,
       role: 'MAIN',
       assetType: 'IMAGE',
-      storageProvider: 's3',
-      fileName: `${filePrefix}_sheet_hero.jpg`,
+      storageProvider: 'local',
+      fileName: uploadImg ? uploadImg.split('/').pop()! : `${filePrefix}_sheet_hero.jpg`,
       mimeType: 'image/jpeg',
       fileSize: 2450000,
       url: heroUrl,
@@ -132,14 +253,14 @@ export function getSyntheticPlywoodAssets(productCode: string): ProductAssets {
       altText: `${cleanName} calibrated face veneer`,
       isPrimary: true,
       sortOrder: 1,
-      isExternal: true,
+      isExternal: false,
     },
     {
       linkId: 102,
       assetId: 202,
       role: 'GALLERY',
       assetType: 'IMAGE',
-      storageProvider: 's3',
+      storageProvider: 'local',
       fileName: `${filePrefix}_cross_section_layers.jpg`,
       mimeType: 'image/jpeg',
       fileSize: 1890000,
@@ -148,14 +269,14 @@ export function getSyntheticPlywoodAssets(productCode: string): ProductAssets {
       altText: 'Cross section showing multi-ply hardwood veneer construction',
       isPrimary: false,
       sortOrder: 2,
-      isExternal: true,
+      isExternal: false,
     },
     {
       linkId: 103,
       assetId: 203,
       role: 'GALLERY',
       assetType: 'IMAGE',
-      storageProvider: 's3',
+      storageProvider: 'local',
       fileName: `${filePrefix}_application_joinery.jpg`,
       mimeType: 'image/jpeg',
       fileSize: 2150000,
@@ -164,14 +285,14 @@ export function getSyntheticPlywoodAssets(productCode: string): ProductAssets {
       altText: `${cleanName} installed in custom cabinetry and carcass joinery`,
       isPrimary: false,
       sortOrder: 3,
-      isExternal: true,
+      isExternal: false,
     },
     {
       linkId: 104,
       assetId: 204,
       role: 'GALLERY',
       assetType: 'IMAGE',
-      storageProvider: 's3',
+      storageProvider: 'local',
       fileName: `${filePrefix}_panels_stack.jpg`,
       mimeType: 'image/jpeg',
       fileSize: 2310000,
@@ -180,7 +301,7 @@ export function getSyntheticPlywoodAssets(productCode: string): ProductAssets {
       altText: 'Calibrated plywood panels stacked in workshop',
       isPrimary: false,
       sortOrder: 4,
-      isExternal: true,
+      isExternal: false,
     },
   ];
 
@@ -191,7 +312,7 @@ export function getSyntheticPlywoodAssets(productCode: string): ProductAssets {
       assetId: 205,
       role: 'DATASHEET',
       assetType: 'DOCUMENT',
-      storageProvider: 's3',
+      storageProvider: 'local',
       fileName: `${code}-datasheet.pdf`,
       mimeType: 'application/pdf',
       fileSize: null,
@@ -207,7 +328,7 @@ export function getSyntheticPlywoodAssets(productCode: string): ProductAssets {
       assetId: 206,
       role: 'INSTALL',
       assetType: 'DOCUMENT',
-      storageProvider: 's3',
+      storageProvider: 'local',
       fileName: `${code}-install.pdf`,
       mimeType: 'application/pdf',
       fileSize: null,
@@ -223,7 +344,7 @@ export function getSyntheticPlywoodAssets(productCode: string): ProductAssets {
       assetId: 207,
       role: 'BIM',
       assetType: 'BIM',
-      storageProvider: 's3',
+      storageProvider: 'local',
       fileName: `${code}-bim.ifc`,
       mimeType: 'application/x-step',
       fileSize: null,
@@ -239,7 +360,7 @@ export function getSyntheticPlywoodAssets(productCode: string): ProductAssets {
       assetId: 208,
       role: 'DRAWING',
       assetType: 'CAD',
-      storageProvider: 's3',
+      storageProvider: 'local',
       fileName: `${code}-drawing.dxf`,
       mimeType: 'application/acad',
       fileSize: null,
@@ -278,13 +399,23 @@ export function enhanceLiveAssets(productCode: string, live: ProductAssets): Pro
 
     // Only substitute dead sample mock URLs from old demo seeds, never a user-supplied link
     let finalUrl = m.url;
-    if (
+    const isMockSeedUrl =
       !finalUrl ||
       finalUrl.startsWith('https://assets.plygallery.com/products/') ||
-      finalUrl === 'broken'
-    ) {
-      finalUrl = getPlywoodImageForRole(m.role, idx, code);
+      finalUrl.startsWith('https://assets.greenply.com/products/') ||
+      finalUrl === 'broken';
+
+    if (isMockSeedUrl) {
+      finalUrl = getUploadsPlyImageForProduct(code, m.role) ?? getPlywoodImageForRole(m.role, idx, code);
     }
+
+    const isExternal = isMockSeedUrl
+      ? false
+      : finalUrl.startsWith('/uploads_ply') || finalUrl.startsWith('data:') || finalUrl.includes('plygallery.com') || finalUrl.includes('greenply.com')
+        ? false
+        : typeof m.isExternal === 'boolean'
+          ? m.isExternal
+          : (!finalUrl.startsWith('/') && !finalUrl.startsWith('data:'));
 
     return {
       ...m,
@@ -292,18 +423,34 @@ export function enhanceLiveAssets(productCode: string, live: ProductAssets): Pro
       title: cleanTitle,
       altText: cleanAlt,
       url: finalUrl,
-      isExternal: typeof m.isExternal === 'boolean' ? m.isExternal : (!finalUrl.startsWith('/') && !finalUrl.startsWith('data:')),
+      storageProvider: !isExternal ? 'local' : (m.storageProvider ?? 'local'),
+      isExternal,
     };
   });
 
   const finalMedia = Array.isArray(live.media) ? cleanMedia : synth.media;
 
-  const cleanDocs = (live.documents || []).map((d) => ({
-    ...d,
-    fileName: stripGreen(d.fileName ?? ''),
-    title: stripGreen(d.title ?? d.fileName ?? 'Document'),
-    altText: stripGreen(d.altText ?? ''),
-  }));
+  const cleanDocs = (live.documents || []).map((d) => {
+    const rawName = stripGreen(d.fileName ?? '');
+    const isSeedDoc =
+      !d.url ||
+      d.url.includes('plygallery.com') ||
+      d.url.includes('greenply.com') ||
+      d.url.startsWith('/documents/');
+
+    const finalUrl = isSeedDoc ? `/documents/${rawName || 'datasheet.pdf'}` : d.url;
+    const isExternal = isSeedDoc ? false : (typeof d.isExternal === 'boolean' ? d.isExternal : !finalUrl.startsWith('/'));
+
+    return {
+      ...d,
+      fileName: rawName,
+      title: stripGreen(d.title ?? d.fileName ?? 'Document'),
+      altText: stripGreen(d.altText ?? ''),
+      url: finalUrl,
+      storageProvider: !isExternal ? 'local' : (d.storageProvider ?? 'local'),
+      isExternal,
+    };
+  });
   const finalDocuments = Array.isArray(live.documents) ? cleanDocs : synth.documents;
 
   return {
@@ -322,22 +469,50 @@ export function addSyntheticAsset(productCode: string, req: AddAssetRequest): Pr
   const code = productCode.toUpperCase();
   const isImage = req.role === 'MAIN' || req.role === 'GALLERY';
 
+  const cleanKey = req.storageKey.trim().replace(/^["']|["']$/g, '');
+  let resolvedKey = cleanKey;
+  try {
+    if (cleanKey.includes('google.') && (cleanKey.includes('/imgres') || cleanKey.includes('/url') || cleanKey.includes('/search'))) {
+      const parsed = new URL(cleanKey);
+      const direct =
+        parsed.searchParams.get('imgurl') ||
+        parsed.searchParams.get('url') ||
+        parsed.searchParams.get('q');
+      if (direct && (direct.startsWith('http://') || direct.startsWith('https://'))) {
+        resolvedKey = direct;
+      }
+    }
+  } catch {
+    // not a valid URL structure
+  }
+
+  let finalFileName = 'image.jpg';
+  if (resolvedKey.startsWith('data:')) {
+    finalFileName = req.title ? `${req.title.toLowerCase().replace(/[^a-z0-9_-]/g, '_')}.jpg` : 'custom_plywood_image.jpg';
+  } else {
+    const withoutQuery = resolvedKey.split('?')[0];
+    const segment = withoutQuery.split('/').pop() || '';
+    if (segment.includes('.')) {
+      finalFileName = segment;
+    } else {
+      finalFileName = isImage ? 'google_image.jpg' : 'document.pdf';
+    }
+  }
+
   const newAsset: ProductAsset = {
     linkId: Date.now(),
     assetId: Date.now() + 1,
     role: (req.role as any) || (isImage ? 'GALLERY' : 'DATASHEET'),
     assetType: isImage ? 'IMAGE' : req.role === 'BIM' ? 'BIM' : req.role === 'DRAWING' ? 'CAD' : 'DOCUMENT',
     storageProvider: 's3',
-    fileName: req.storageKey.startsWith('data:')
-      ? (req.title ? `${req.title.toLowerCase().replace(/[^a-z0-9_-]/g, '_')}.jpg` : 'custom_plywood_image.jpg')
-      : req.storageKey.split('/').pop() || (isImage ? 'new_plywood_image.jpg' : 'new_document.pdf'),
+    fileName: finalFileName,
     mimeType: isImage ? 'image/jpeg' : 'application/pdf',
     fileSize: 1500000,
     url: isImage
-      ? (req.storageKey.startsWith('http') || req.storageKey.startsWith('data:') || req.storageKey.startsWith('/')
-          ? req.storageKey
+      ? (resolvedKey.startsWith('http') || resolvedKey.startsWith('data:') || resolvedKey.startsWith('/')
+          ? resolvedKey
           : getPlywoodImageForRole(req.role, current.media.length, code))
-      : req.storageKey,
+      : resolvedKey,
     title: req.title || (isImage ? 'Plywood Media Asset' : 'Technical Document'),
     altText: req.altText || null,
     isPrimary: req.role === 'MAIN',
@@ -403,4 +578,85 @@ export function removeSyntheticAsset(productCode: string, linkId: number): Produ
 
   saveAssetsToStorage(code, updated);
   return updated;
+}
+
+export interface LinkedProductAssetSummary {
+  publicId: string;
+  fileName: string;
+  title: string;
+  assetType: string;
+  mimeType: string;
+  fileSizeBytes: number;
+  width: number;
+  height: number;
+  storageProvider: string;
+  status: string;
+  url: string;
+  role: string;
+  isPrimary: boolean;
+  productCode: string;
+  productName: string;
+  usedBy: Array<{
+    productCode: string;
+    productName: string;
+    productNameLocale: string | null;
+    role: string;
+    isPrimary: boolean;
+  }>;
+}
+
+/**
+ * Returns all assets that are linked to any product across the catalog.
+ * Used by the Digital Assets library to ensure every linked media/document
+ * is visible, searchable, and displays all product references.
+ */
+export function getAllLinkedPlywoodAssets(): LinkedProductAssetSummary[] {
+  const mapByUrl = new Map<string, LinkedProductAssetSummary>();
+
+  for (const p of ALL_PLYWOOD_PRODUCTS) {
+    const custom = loadAssetsFromStorage(p.code);
+    const assets = custom ?? getSyntheticPlywoodAssets(p.code);
+
+    const allItems = [...assets.media, ...assets.documents];
+    for (const m of allItems) {
+      if (!m.url) continue;
+
+      const usage = {
+        productCode: p.code,
+        productName: p.name,
+        productNameLocale: 'en-GB',
+        role: m.role,
+        isPrimary: m.isPrimary,
+      };
+
+      const existing = mapByUrl.get(m.url);
+      if (existing) {
+        if (!existing.usedBy.some((u) => u.productCode === p.code && u.role === m.role)) {
+          existing.usedBy.push(usage);
+        }
+      } else {
+        const isUploadsPly = m.url.startsWith('/uploads_ply');
+        mapByUrl.set(m.url, {
+          publicId: `ply-${p.code.toLowerCase()}-${m.linkId}`,
+          fileName: m.fileName ?? (isUploadsPly ? m.url.split('/').pop()! : `${p.code.toLowerCase()}_asset.jpg`),
+          title: m.title ?? `${p.name} ${m.assetType === 'DOCUMENT' ? 'Document' : 'Photo'}`,
+          assetType: m.assetType ?? 'IMAGE',
+          mimeType: m.mimeType ?? (m.assetType === 'DOCUMENT' ? 'application/pdf' : 'image/jpeg'),
+          fileSizeBytes: m.fileSize ?? 2450000,
+          width: 2400,
+          height: 1600,
+          storageProvider: isUploadsPly ? 'local' : (m.storageProvider ?? 'local'),
+          status: 'active',
+          url: m.url,
+          role: m.role,
+          isPrimary: m.isPrimary,
+          productCode: p.code,
+          productName: p.name,
+          usedBy: [usage],
+        });
+      }
+    }
+  }
+
+  return Array.from(mapByUrl.values());
 }

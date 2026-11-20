@@ -43,7 +43,39 @@ public sealed class ProductAssetStore(CatalogDbContext dbContext) : IProductAsse
                 var key = command.StorageKey.Trim();
                 var provider = AssetRules.InferProvider(key);
                 var fileName = AssetRules.FileNameFrom(key);
-                var assetType = command.AssetType ?? AssetRules.InferType(fileName);
+
+                long? existingAssetId = null;
+                string? existingAssetType = null;
+                string? existingFileName = null;
+
+                if (TryExtractPublicId(key, out var publicId))
+                {
+                    const string findSql = """
+                        SELECT id, asset_type, file_name
+                        FROM catalog.asset
+                        WHERE public_id = @publicId
+                        LIMIT 1
+                        """;
+
+                    await using var findCmd = new NpgsqlCommand(findSql, scope.Connection, scope.Transaction);
+                    findCmd.Parameters.AddWithValue("publicId", publicId);
+                    await using var reader = await findCmd.ExecuteReaderAsync(cancellationToken);
+                    if (await reader.ReadAsync(cancellationToken))
+                    {
+                        existingAssetId = reader.GetInt64(0);
+                        existingAssetType = reader.GetString(1);
+                        existingFileName = reader.IsDBNull(2) ? null : reader.GetString(2);
+                    }
+                }
+
+                var assetType = command.AssetType
+                    ?? existingAssetType
+                    ?? AssetRules.InferType(fileName, command.Role);
+
+                if (existingFileName is not null)
+                {
+                    fileName = existingFileName;
+                }
 
                 var pairing = AssetRules.Validate(assetType, command.Role);
                 if (pairing.IsFailure)
@@ -67,7 +99,7 @@ public sealed class ProductAssetStore(CatalogDbContext dbContext) : IProductAsse
                 // Re-registering a key reuses the asset. The same photo is
                 // routinely shared across a series, and a second row for the
                 // same binary would fragment rights and versioning.
-                var assetId = await UpsertAssetAsync(
+                var assetId = existingAssetId ?? await UpsertAssetAsync(
                     scope.Connection, scope.Transaction, provider, key, fileName,
                     assetType, cancellationToken);
 
@@ -304,10 +336,42 @@ public sealed class ProductAssetStore(CatalogDbContext dbContext) : IProductAsse
         command.Parameters.AddWithValue("key", key);
         command.Parameters.AddWithValue("fileName", fileName);
         command.Parameters.AddWithValue(
-            "mimeType", (object?)AssetRules.InferMimeType(fileName) ?? DBNull.Value);
+            "mimeType", (object?)AssetRules.InferMimeType(fileName, assetType) ?? DBNull.Value);
         command.Parameters.AddWithValue("assetType", assetType);
 
         return (long)(await command.ExecuteScalarAsync(cancellationToken))!;
+    }
+
+    private static bool TryExtractPublicId(string key, out Guid publicId)
+    {
+        publicId = Guid.Empty;
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            return false;
+        }
+
+        if (Guid.TryParse(key, out publicId))
+        {
+            return true;
+        }
+
+        const string prefix = "/assets/";
+        var idx = key.IndexOf(prefix, StringComparison.OrdinalIgnoreCase);
+        if (idx >= 0)
+        {
+            var rest = key[(idx + prefix.Length)..];
+            var slashIdx = rest.IndexOf('/');
+            var candidate = slashIdx >= 0 ? rest[..slashIdx] : rest;
+            var queryIdx = candidate.IndexOf('?');
+            if (queryIdx >= 0)
+            {
+                candidate = candidate[..queryIdx];
+            }
+
+            return Guid.TryParse(candidate, out publicId);
+        }
+
+        return false;
     }
 
     private static async Task WriteTranslationsAsync(

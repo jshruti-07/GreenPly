@@ -133,16 +133,19 @@ public static class AssetRules
     /// Guesses the asset type from a file name so a steward pasting a URL does
     /// not also have to classify it. Only a default — the caller may override.
     /// </summary>
-    public static string InferType(string fileNameOrKey)
+    public static string InferType(string fileNameOrKey, string? role = null)
     {
         var value = fileNameOrKey.ToUpperInvariant();
 
-        if (EndsWithAny(value, ".JPG", ".JPEG", ".PNG", ".WEBP", ".GIF", ".TIF", ".TIFF"))
+        if (EndsWithAny(value, ".JPG", ".JPEG", ".PNG", ".WEBP", ".GIF", ".TIF", ".TIFF", ".SVG", ".AVIF", ".BMP", ".ICO")
+            || value.StartsWith("DATA:IMAGE/", StringComparison.Ordinal)
+            || ContainsAny(value, ".JPG?", ".JPEG?", ".PNG?", ".WEBP?", ".GIF?", ".SVG?"))
         {
             return AssetType.Image;
         }
 
-        if (EndsWithAny(value, ".PDF", ".DOC", ".DOCX", ".XLS", ".XLSX", ".TXT"))
+        if (EndsWithAny(value, ".PDF", ".DOC", ".DOCX", ".XLS", ".XLSX", ".TXT")
+            || ContainsAny(value, ".PDF?", ".DOC?", ".DOCX?"))
         {
             return AssetType.Document;
         }
@@ -157,21 +160,71 @@ public static class AssetRules
             return AssetType.Cad;
         }
 
-        return EndsWithAny(value, ".MP4", ".MOV", ".WEBM") ? AssetType.Video : AssetType.Document;
+        if (EndsWithAny(value, ".MP4", ".MOV", ".WEBM")
+            || ContainsAny(value, ".MP4?", ".MOV?", ".WEBM?"))
+        {
+            return AssetType.Video;
+        }
+
+        // When the file name/URL does not have a recognizable file extension,
+        // use the intended role to infer the type.
+        // A MAIN or GALLERY role is visual (IMAGE).
+        if (!string.IsNullOrWhiteSpace(role))
+        {
+            if (role is AssetRole.Main or AssetRole.Gallery)
+            {
+                return AssetType.Image;
+            }
+
+            if (role is AssetRole.Video)
+            {
+                return AssetType.Video;
+            }
+
+            if (role is AssetRole.Spin)
+            {
+                return AssetType.Spin360;
+            }
+
+            if (role is AssetRole.Drawing)
+            {
+                return AssetType.Cad;
+            }
+
+            if (role is AssetRole.Bim)
+            {
+                return AssetType.Bim;
+            }
+
+            if (role is AssetRole.Datasheet or AssetRole.Install)
+            {
+                return AssetType.Document;
+            }
+        }
+
+        return AssetType.Document;
     }
 
     /// <summary>Best-effort MIME from the extension; null when unrecognised.</summary>
-    public static string? InferMimeType(string fileNameOrKey)
+    public static string? InferMimeType(string fileNameOrKey, string? assetType = null)
     {
         var value = fileNameOrKey.ToUpperInvariant();
 
-        if (EndsWithAny(value, ".JPG", ".JPEG")) return "image/jpeg";
-        if (EndsWithAny(value, ".PNG")) return "image/png";
-        if (EndsWithAny(value, ".WEBP")) return "image/webp";
-        if (EndsWithAny(value, ".PDF")) return "application/pdf";
-        if (EndsWithAny(value, ".DXF")) return "image/vnd.dxf";
-        if (EndsWithAny(value, ".IFC")) return "application/octet-stream";
-        return EndsWithAny(value, ".MP4") ? "video/mp4" : null;
+        if (EndsWithAny(value, ".JPG", ".JPEG") || ContainsAny(value, ".JPG?", ".JPEG?")) return "image/jpeg";
+        if (EndsWithAny(value, ".PNG") || ContainsAny(value, ".PNG?")) return "image/png";
+        if (EndsWithAny(value, ".WEBP") || ContainsAny(value, ".WEBP?")) return "image/webp";
+        if (EndsWithAny(value, ".GIF") || ContainsAny(value, ".GIF?")) return "image/gif";
+        if (EndsWithAny(value, ".SVG") || ContainsAny(value, ".SVG?")) return "image/svg+xml";
+        if (EndsWithAny(value, ".PDF") || ContainsAny(value, ".PDF?")) return "application/pdf";
+        if (EndsWithAny(value, ".DXF") || ContainsAny(value, ".DXF?")) return "image/vnd.dxf";
+        if (EndsWithAny(value, ".IFC") || ContainsAny(value, ".IFC?")) return "application/octet-stream";
+        if (EndsWithAny(value, ".MP4") || ContainsAny(value, ".MP4?")) return "video/mp4";
+
+        if (string.Equals(assetType, AssetType.Image, StringComparison.Ordinal)) return "image/jpeg";
+        if (string.Equals(assetType, AssetType.Document, StringComparison.Ordinal)) return "application/pdf";
+        if (string.Equals(assetType, AssetType.Video, StringComparison.Ordinal)) return "video/mp4";
+
+        return null;
     }
 
     /// <summary>
@@ -196,4 +249,7 @@ public static class AssetRules
 
     private static bool EndsWithAny(string value, params string[] suffixes) =>
         Array.Exists(suffixes, s => value.EndsWith(s, StringComparison.Ordinal));
+
+    private static bool ContainsAny(string value, params string[] substrings) =>
+        Array.Exists(substrings, s => value.Contains(s, StringComparison.Ordinal));
 }

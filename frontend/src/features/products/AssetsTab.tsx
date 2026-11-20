@@ -67,6 +67,26 @@ function formatSize(bytes: number | null): string {
 
 
 
+export function normalizeGoogleImageUrl(inputUrl: string): string {
+  if (!inputUrl) return '';
+  const trimmed = inputUrl.trim().replace(/^["']|["']$/g, '');
+  try {
+    if (trimmed.includes('google.') && (trimmed.includes('/imgres') || trimmed.includes('/url') || trimmed.includes('/search'))) {
+      const parsed = new URL(trimmed);
+      const direct =
+        parsed.searchParams.get('imgurl') ||
+        parsed.searchParams.get('url') ||
+        parsed.searchParams.get('q');
+      if (direct && (direct.startsWith('http://') || direct.startsWith('https://'))) {
+        return direct;
+      }
+    }
+  } catch {
+    // not a valid URL structure
+  }
+  return trimmed;
+}
+
 /**
  * One image tile.
  *
@@ -102,6 +122,7 @@ function AssetThumbnail({ asset }: { asset: ProductAsset }) {
       src={asset.url || fallbackUrl}
       alt={asset.altText ?? asset.title ?? asset.fileName ?? 'Product image'}
       loading="lazy"
+      referrerPolicy="no-referrer"
       onError={() => {
         setFailed(true);
       }}
@@ -172,7 +193,7 @@ export function AssetsTab({ code, onChanged }: AssetsTabProps) {
 
     const form = new FormData(event.currentTarget);
     const rawKey = String(form.get('storageKey') ?? '').trim();
-    let finalStorageKey = rawKey;
+    let finalStorageKey = normalizeGoogleImageUrl(rawKey);
 
     setBusy(true);
     setFormError(null);
@@ -191,6 +212,8 @@ export function AssetsTab({ code, onChanged }: AssetsTabProps) {
         } catch (uploadErr) {
           if (rawKey) {
             finalStorageKey = rawKey;
+          } else if (fileDataUrl) {
+            finalStorageKey = fileDataUrl;
           } else {
             throw uploadErr;
           }
@@ -203,10 +226,14 @@ export function AssetsTab({ code, onChanged }: AssetsTabProps) {
         return;
       }
 
+      const role = String(form.get('role') ?? (adding === 'media' ? 'GALLERY' : 'DATASHEET'));
+      const isVisual = adding === 'media' || role === 'MAIN' || role === 'GALLERY';
+      const hasRecognizedExtension = /\.(jpe?g|png|webp|gif|svg|avif|bmp|ico|pdf|doc|docx|xls|xlsx|ifc|rvt|dwg|dxf|mp4|mov|webm)($|\?)/i.test(finalStorageKey);
+
       const updated = await addProductAsset(code, {
         storageKey: finalStorageKey,
-        role: String(form.get('role') ?? (adding === 'media' ? 'GALLERY' : 'DATASHEET')),
-        assetType: null,
+        role,
+        assetType: hasRecognizedExtension ? null : (isVisual ? 'IMAGE' : null),
         title: String(form.get('title') ?? '').trim() || uploadedFileName || null,
         altText: String(form.get('altText') ?? '').trim() || null,
         rowVersion: state.data.rowVersion,
