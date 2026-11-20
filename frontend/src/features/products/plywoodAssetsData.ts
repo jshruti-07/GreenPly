@@ -10,39 +10,45 @@ import {
   PLYWOOD_TEAK_VENEER_SVG,
 } from './plywoodSvgImages';
 
+const APP_BASE_URL = import.meta.env.BASE_URL;
+
+function uploadsPlyUrl(path: string): string {
+  return `${APP_BASE_URL.replace(/\/?$/, '/')}${path.replace(/^\/+/, '')}`;
+}
+
 /**
  * Authentic product images from uploads_ply directory.
  * Maps product codes to local served image paths.
  */
 export const UPLOADS_PLY_MAP: Record<string, string> = {
-  'PG-CLUB-700': '/uploads_ply/ply-club-700.jpeg',
-  'PG-CLUB-500': '/uploads_ply/CLUB500.jpg',
-  'PG-PLAT-BWP': '/uploads_ply/Platinum_Fire_retardant_BWP_Grade_Plywood_Thickness_18_mm_Plywood_79ebc4f8-850f-4dfc-a901-e31a17f91707.webp',
-  'PG-FIRE-RET': '/uploads_ply/fire plywood.jpg',
-  'PG-710-MAR': '/uploads_ply/marine plywood.jpg',
-  'PG-GOLD-BWP': '/uploads_ply/Greenply Gold 710 BWP Plywood.png',
-  'PG-303-MR': '/uploads_ply/images (1) (1).jpg',
-  'PG-FLEX-PLY': '/uploads_ply/images (2)a.jpg',
-  'PG-ECO-PLAT': '/uploads_ply/Platinum_Fire_retardant_BWP_Grade_Plywood_Thickness_18_mm_Plywood_79ebc4f8-850f-4dfc-a901-e31a17f91707.webp',
-  'PG-ECO-710': '/uploads_ply/marine plywood.jpg',
-  'PG-ECO-MR': '/uploads_ply/images (3).jpg',
-  'PG-ECO-TMR': '/uploads_ply/images (4).jpg',
-  'PG-OPTIMA-G': '/uploads_ply/images (3)a.jpg',
-  'PG-BHAROSA': '/uploads_ply/gold plywood.jpg',
-  'PG-JANSATHI': '/uploads_ply/fire plywood.jpg',
-  'PG-SHUTTER-BWP': '/uploads_ply/Film faced plywood shuttering plywood for construction _ TT PLYWOOD.png',
-  'PG-CALIB-25': '/uploads_ply/Structural Grade Plywood in India_ Prices & Guide.png',
-  'PG-CALIB-19': '/uploads_ply/Promaxx Plus Ply 19 mm (8x4).png',
-  'PG-CALIB-16': '/uploads_ply/Frikly Club BWP Red Core Calibrated Plywood _ 6 MM _ 8 x 4 Feet.png',
-  'PG-CALIB-12': '/uploads_ply/9mm BWP Calibrated Plywood at ₹ 34_sq ft _ Plywood Board in New Delhi _ ID_ 2856762006391.png',
-  'PG-CALIB-9': '/uploads_ply/9mm BWP Calibrated Plywood at ₹ 34_sq ft _ Plywood Board in New Delhi _ ID_ 2856762006391.png',
-  'PG-CALIB-6': '/uploads_ply/Frikly Club BWP Red Core Calibrated Plywood _ 6 MM _ 8 x 4 Feet.png',
-  'PG-BLOCK-25': '/uploads_ply/Buy Online Navkar Premium Blockboard ( Pure Pine ) 25mm.png',
-  'PG-BLOCK-19': '/uploads_ply/Premium Pinewood Block Board Online _ Best Price Deals.png',
-  'PG-DOOR-FLUSH': '/uploads_ply/Flush Doors_ Design, Benefits, and Uses.png',
-  'PG-VENEER-TEAK': '/uploads_ply/What Makes Teak Veneers an Ideal Pick for Your Home – Duroply Latest Blogs & Information.png',
-  'PG-VENEER-WALNUT': '/uploads_ply/What is Walnut Veneer.png',
-  'PG-VENEER-OAK': '/uploads_ply/images (2)a.jpg',
+  'PG-CLUB-700': uploadsPlyUrl('/uploads_ply/ply-club-700.jpeg'),
+  'PG-CLUB-500': uploadsPlyUrl('/uploads_ply/CLUB500.jpg'),
+  'PG-PLAT-BWP': uploadsPlyUrl('/uploads_ply/Platinum_Fire_retardant_BWP_Grade_Plywood_Thickness_18_mm_Plywood_79ebc4f8-850f-4dfc-a901-e31a17f91707.webp'),
+  'PG-FIRE-RET': uploadsPlyUrl('/uploads_ply/fire plywood.jpg'),
+  'PG-710-MAR': uploadsPlyUrl('/uploads_ply/marine plywood.jpg'),
+  'PG-GOLD-BWP': uploadsPlyUrl('/uploads_ply/Greenply Gold 710 BWP Plywood.png'),
+  'PG-303-MR': uploadsPlyUrl('/uploads_ply/images (1) (1).jpg'),
+  'PG-FLEX-PLY': uploadsPlyUrl('/uploads_ply/images (2)a.jpg'),
+  'PG-ECO-PLAT': uploadsPlyUrl('/uploads_ply/Platinum_Fire_retardant_BWP_Grade_Plywood_Thickness_18_mm_Plywood_79ebc4f8-850f-4dfc-a901-e31a17f91707.webp'),
+  'PG-ECO-710': uploadsPlyUrl('/uploads_ply/marine plywood.jpg'),
+  'PG-ECO-MR': uploadsPlyUrl('/uploads_ply/images (3).jpg'),
+  'PG-ECO-TMR': uploadsPlyUrl('/uploads_ply/images (4).jpg'),
+  'PG-OPTIMA-G': uploadsPlyUrl('/uploads_ply/images (3)a.jpg'),
+  'PG-BHAROSA': uploadsPlyUrl('/uploads_ply/gold plywood.jpg'),
+  'PG-JANSATHI': uploadsPlyUrl('/uploads_ply/fire plywood.jpg'),
+  'PG-SHUTTER-BWP': uploadsPlyUrl('/uploads_ply/Film faced plywood shuttering plywood for construction _ TT PLYWOOD.png'),
+  'PG-CALIB-25': uploadsPlyUrl('/uploads_ply/Structural Grade Plywood in India_ Prices & Guide.png'),
+  'PG-CALIB-19': uploadsPlyUrl('/uploads_ply/Promaxx Plus Ply 19 mm (8x4).png'),
+  'PG-CALIB-16': uploadsPlyUrl('/uploads_ply/Frikly Club BWP Red Core Calibrated Plywood _ 6 MM _ 8 x 4 Feet.png'),
+  'PG-CALIB-12': uploadsPlyUrl('/uploads_ply/9mm BWP Calibrated Plywood at ₹ 34_sq ft _ Plywood Board in New Delhi _ ID_ 2856762006391.png'),
+  'PG-CALIB-9': uploadsPlyUrl('/uploads_ply/9mm BWP Calibrated Plywood at ₹ 34_sq ft _ Plywood Board in New Delhi _ ID_ 2856762006391.png'),
+  'PG-CALIB-6': uploadsPlyUrl('/uploads_ply/Frikly Club BWP Red Core Calibrated Plywood _ 6 MM _ 8 x 4 Feet.png'),
+  'PG-BLOCK-25': uploadsPlyUrl('/uploads_ply/Buy Online Navkar Premium Blockboard ( Pure Pine ) 25mm.png'),
+  'PG-BLOCK-19': uploadsPlyUrl('/uploads_ply/Premium Pinewood Block Board Online _ Best Price Deals.png'),
+  'PG-DOOR-FLUSH': uploadsPlyUrl('/uploads_ply/Flush Doors_ Design, Benefits, and Uses.png'),
+  'PG-VENEER-TEAK': uploadsPlyUrl('/uploads_ply/What Makes Teak Veneers an Ideal Pick for Your Home – Duroply Latest Blogs & Information.png'),
+  'PG-VENEER-WALNUT': uploadsPlyUrl('/uploads_ply/What is Walnut Veneer.png'),
+  'PG-VENEER-OAK': uploadsPlyUrl('/uploads_ply/images (2)a.jpg'),
 };
 
 /**
@@ -56,15 +62,15 @@ export function getUploadsPlyImageForProduct(code: string, _role = 'MAIN'): stri
   }
 
   // Keyword-based fallback
-  if (norm.includes('700')) return '/uploads_ply/ply-club-700.jpeg';
-  if (norm.includes('500')) return '/uploads_ply/CLUB500.jpg';
-  if (norm.includes('FIRE')) return '/uploads_ply/fire plywood.jpg';
-  if (norm.includes('GOLD')) return '/uploads_ply/gold plywood.jpg';
-  if (norm.includes('MARINE') || norm.includes('710')) return '/uploads_ply/marine plywood.jpg';
-  if (norm.includes('CALIB') && norm.includes('9')) return '/uploads_ply/9mm BWP Calibrated Plywood at ₹ 34_sq ft _ Plywood Board in New Delhi _ ID_ 2856762006391.png';
-  if (norm.includes('CALIB') && norm.includes('6')) return '/uploads_ply/Frikly Club BWP Red Core Calibrated Plywood _ 6 MM _ 8 x 4 Feet.png';
-  if (norm.includes('CALIB') || norm.includes('PROMAXX')) return '/uploads_ply/Promaxx Plus Ply 19 mm (8x4).png';
-  if (norm.includes('SHUTTER') || norm.includes('STRUCTURAL')) return '/uploads_ply/Structural Grade Plywood in India_ Prices & Guide.png';
+  if (norm.includes('700')) return uploadsPlyUrl('/uploads_ply/ply-club-700.jpeg');
+  if (norm.includes('500')) return uploadsPlyUrl('/uploads_ply/CLUB500.jpg');
+  if (norm.includes('FIRE')) return uploadsPlyUrl('/uploads_ply/fire plywood.jpg');
+  if (norm.includes('GOLD')) return uploadsPlyUrl('/uploads_ply/gold plywood.jpg');
+  if (norm.includes('MARINE') || norm.includes('710')) return uploadsPlyUrl('/uploads_ply/marine plywood.jpg');
+  if (norm.includes('CALIB') && norm.includes('9')) return uploadsPlyUrl('/uploads_ply/9mm BWP Calibrated Plywood at ₹ 34_sq ft _ Plywood Board in New Delhi _ ID_ 2856762006391.png');
+  if (norm.includes('CALIB') && norm.includes('6')) return uploadsPlyUrl('/uploads_ply/Frikly Club BWP Red Core Calibrated Plywood _ 6 MM _ 8 x 4 Feet.png');
+  if (norm.includes('CALIB') || norm.includes('PROMAXX')) return uploadsPlyUrl('/uploads_ply/Promaxx Plus Ply 19 mm (8x4).png');
+  if (norm.includes('SHUTTER') || norm.includes('STRUCTURAL')) return uploadsPlyUrl('/uploads_ply/Structural Grade Plywood in India_ Prices & Guide.png');
 
   return null;
 }

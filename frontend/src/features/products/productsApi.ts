@@ -1,4 +1,4 @@
-import { apiFetch, ApiError } from '../../api/client';
+import { apiFetch, apiUrl, ApiError } from '../../api/client';
 import type {
   BrandLookup,
   ExportParams,
@@ -238,7 +238,7 @@ export async function exportProductsCsv(params: ExportParams): Promise<Blob> {
   }
 
   try {
-    const response = await fetch(`${BASE}/export.csv?${query.toString()}`);
+    const response = await fetch(apiUrl(`${BASE}/export.csv?${query.toString()}`));
     if (response.ok) {
       return await response.blob();
     }

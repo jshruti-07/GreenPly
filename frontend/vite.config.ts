@@ -4,6 +4,7 @@ import { configDefaults, defineConfig } from 'vitest/config';
 declare const process: { env: Record<string, string | undefined> };
 
 export default defineConfig({
+  base: process.env.PIM_BASE_PATH ?? '/',
   plugins: [react()],
   server: {
     // Listen on every interface, not just loopback, so another machine on the

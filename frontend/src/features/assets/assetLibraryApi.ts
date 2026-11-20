@@ -1,4 +1,4 @@
-import { apiFetch, ApiError } from '../../api/client';
+import { apiFetch, ApiError, apiUrl } from '../../api/client';
 import { getAllLinkedPlywoodAssets, resolveAssetImageUrl } from '../products/plywoodAssetsData';
 
 export function hasWorkingImage(item: AssetListItem): boolean {
@@ -409,7 +409,7 @@ export interface UploadedAsset {
  * way, and the caller does not have to know which kind it is holding.
  */
 export function assetFileUrl(publicId: string, rendition: 'original' | 'thumb' | 'web'): string {
-  return `/api/v1/assets/${encodeURIComponent(publicId)}/file?rendition=${rendition}`;
+  return apiUrl(`/api/v1/assets/${encodeURIComponent(publicId)}/file?rendition=${rendition}`);
 }
 
 export async function uploadAsset(
@@ -427,7 +427,10 @@ export async function uploadAsset(
 
   // Deliberately not apiFetch: that helper sets a JSON content type, and a
   // multipart body must keep the boundary the browser generates.
-  const response = await fetch(`/api/v1/assets?${query}`, { method: 'POST', body });
+  const response = await fetch(apiUrl(`/api/v1/assets?${query}`), {
+    method: 'POST',
+    body,
+  });
 
   if (!response.ok) {
     const problem = await response.json().catch(() => null);
