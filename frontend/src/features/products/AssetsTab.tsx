@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useEffect, useState } from 'react';
-import { ApiError } from '../../api/client';
+import { ApiError, apiUrl } from '../../api/client';
 import { Button } from '../../components/Button';
 import { Chip } from '../../components/Chip';
 import { Drawer } from '../../components/Drawer';
@@ -208,7 +208,7 @@ export function AssetsTab({ code, onChanged }: AssetsTabProps) {
             title: String(form.get('title') ?? '').trim() || selectedFile.name,
             altText: String(form.get('altText') ?? '').trim() || undefined,
           });
-          finalStorageKey = `/api/v1/assets/${uploaded.publicId}/file`;
+          finalStorageKey = apiUrl(`/api/v1/assets/${uploaded.publicId}/file`);
         } catch (uploadErr) {
           if (rawKey) {
             finalStorageKey = rawKey;
