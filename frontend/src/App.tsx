@@ -24,9 +24,12 @@ const PLACEHOLDER_ROUTES = [
   'organisation',
 ] as const;
 
+const ROUTER_BASENAME =
+  import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
+
 export function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={ROUTER_BASENAME}>
       {/* Outside the router: the display language is a workstation preference,
           not route state, and must survive navigation without refetching. */}
       <LocaleProvider>
